@@ -1,0 +1,34 @@
+ILANG
+[TYPE:config][PROJECT:hellofresh-deals][LANG:zh]
+
+::STATE{@SITE, brand:hellofresh-deals, niche:meal delivery / meal kit deals, locale:en-US, currency:USD, domain:hellofresh-deals-promo-radar.pages.dev}
+
+::MODULE{PROVIDERS|title:抓哪几家 这里改了站就变}
+  HelloFresh | hellofresh.com | https://www.hellofresh.com/about/how-to-reactivate-a-hellofresh-account | https://www.hellofresh.com/pages/unidays | https://www.hellofresh.com/robots.txt
+  Blue Apron | blueapron.com | https://blog.blueapron.com/ | https://www.blueapron.com/robots.txt
+  Home Chef | homechef.com | https://www.homechef.com/ | https://www.homechef.com/robots.txt
+  Factor | factor75.com | https://www.factor75.com/ | https://www.factor75.com/robots.txt
+  Marley Spoon | marleyspoon.com | https://marleyspoon.com/ | https://marleyspoon.com/robots.txt
+  Hungryroot | hungryroot.com | https://www.hungryroot.com/ | https://www.hungryroot.com/robots.txt
+
+::MODULE{FIELDS|title:每条优惠提取什么}
+  title price currency offer_url valid_until source_url fetched_at status
+
+::MODULE{RENDER|title:页面渲染规则}
+  pages: index provider deal compare
+  update_cron: every_6_hours
+  language: en-US
+  affiliate_note: Links may be affiliate links. We may earn a commission at no extra cost to you. Commissions follow each network's public terms.
+
+::MODULE{AFFILIATE|title:正规联盟出口位 先放官方入口 有联盟号再替换}
+  HelloFresh | https://www.hellofresh.com/plans
+  Blue Apron | https://www.blueapron.com/
+  Home Chef | https://www.homechef.com/
+  Factor | https://www.factor75.com/
+  Marley Spoon | https://marleyspoon.com/
+  Hungryroot | https://www.hungryroot.com/
+
+::RULE{抓不到 price⇒这条不写 price 字段 也不写进结构化数据 不许拿估的填}
+::RULE{valid_until 已过⇒标记过期或下架 不许留着冒充有效}
+::RULE{运行时零推理 零API密钥 纯Python}
+::BOUNDARY{never:编优惠 编价格 编佣金|scope:permanent}

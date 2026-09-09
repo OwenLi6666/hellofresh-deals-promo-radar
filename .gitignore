@@ -1,0 +1,17 @@
+__pycache__/
+*.py[cod]
+.Python
+.env
+.env.*
+.venv/
+venv/
+site/deals/
+site/providers/
+site/index.html
+site/compare.html
+site/sitemap.xml
+site/robots.txt
+site/assets/
+.DS_Store
+.idea/
+.vscode/

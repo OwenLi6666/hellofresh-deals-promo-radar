@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>$title</title>
+  <meta name="description" content="$description" />
+  <link rel="canonical" href="$canonical" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="$og_title" />
+  <meta property="og:description" content="$description" />
+  <meta property="og:url" content="$canonical" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;700&family=Manrope:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/style.css" />
+  <script type="application/ld+json">$json_ld</script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap nav">
+      <a class="brand" href="/">$brand</a>
+      <nav class="nav-links">
+        <a href="/">Home</a>
+        <a href="/compare.html">Compare</a>
+      </nav>
+    </div>
+  </header>
+  <main class="wrap">
+    <p class="breadcrumbs"><a href="/">Home</a> / <a href="$provider_link">$provider</a> / Deal</p>
+    <article class="panel" style="margin:1rem 0 2rem;">
+      <p class="eyebrow">$provider · <span class="pill">$status</span></p>
+      <h1>$deal_title</h1>
+      $price_html
+      $valid_html
+      <p>$snippet</p>
+      <p class="meta">Fetched: $fetched_at</p>
+      <p class="tiny">Source: <a href="$source_url">$source_url</a></p>
+      <a class="btn" href="$cta_url" rel="nofollow sponsored">View offer</a>
+    </article>
+    <p class="note">$affiliate_note Missing price fields mean the public page did not expose a clear price — we do not invent one.</p>
+  </main>
+  <footer class="site-footer">
+    <div class="wrap" style="padding:1.2rem 0;color:var(--muted);font-size:0.9rem;">
+      <p>© $year $brand</p>
+    </div>
+  </footer>
+</body>
+</html>

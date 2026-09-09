@@ -1,0 +1,157 @@
+{
+  "brand": "hellofresh-deals",
+  "niche": "meal delivery / meal kit deals",
+  "locale": "en-US",
+  "currency_default": "USD",
+  "domain": "hellofresh-deals-promo-radar.pages.dev",
+  "generated_at": "2026-09-09T15:14:14+00:00",
+  "config_source": "C:\\cusor\\hellofresh-deals-promo-radar\\.ilang\\site.ilang",
+  "providers": [
+    "HelloFresh",
+    "Blue Apron",
+    "Home Chef",
+    "Factor",
+    "Marley Spoon",
+    "Hungryroot"
+  ],
+  "fetch_log": [
+    {
+      "provider": "HelloFresh",
+      "url": "https://www.hellofresh.com/about/how-to-reactivate-a-hellofresh-account",
+      "robots_allowed": true,
+      "http_status": 403,
+      "final_url": "https://www.hellofresh.com/about/how-to-reactivate-a-hellofresh-account",
+      "retried": true,
+      "status": "fetch_failed",
+      "error": "HTTP 403"
+    },
+    {
+      "provider": "HelloFresh",
+      "url": "https://www.hellofresh.com/pages/unidays",
+      "robots_allowed": true,
+      "http_status": 403,
+      "final_url": "https://www.hellofresh.com/pages/unidays",
+      "retried": true,
+      "status": "fetch_failed",
+      "error": "HTTP 403"
+    },
+    {
+      "provider": "Blue Apron",
+      "url": "https://blog.blueapron.com/",
+      "robots_allowed": true,
+      "http_status": 200,
+      "final_url": "https://blog.blueapron.com/",
+      "status": "ok",
+      "offers_extracted": 1
+    },
+    {
+      "provider": "Home Chef",
+      "url": "https://www.homechef.com/",
+      "robots_allowed": true,
+      "http_status": 200,
+      "final_url": "https://www.homechef.com/",
+      "status": "ok",
+      "offers_extracted": 2
+    },
+    {
+      "provider": "Factor",
+      "url": "https://www.factor75.com/",
+      "robots_allowed": true,
+      "http_status": 403,
+      "final_url": "https://www.factor75.com/",
+      "retried": true,
+      "status": "fetch_failed",
+      "error": "HTTP 403"
+    },
+    {
+      "provider": "Marley Spoon",
+      "url": "https://marleyspoon.com/",
+      "robots_allowed": true,
+      "http_status": 200,
+      "final_url": "https://marleyspoon.com/",
+      "status": "ok",
+      "offers_extracted": 1
+    },
+    {
+      "provider": "Hungryroot",
+      "url": "https://www.hungryroot.com/",
+      "robots_allowed": true,
+      "http_status": 200,
+      "final_url": "https://www.hungryroot.com/",
+      "status": "ok",
+      "offers_extracted": 1
+    }
+  ],
+  "offers": [
+    {
+      "provider": "HelloFresh",
+      "domain": "hellofresh.com",
+      "title": "HelloFresh: official promo page temporarily unreachable",
+      "offer_url": "https://www.hellofresh.com/about/how-to-reactivate-a-hellofresh-account",
+      "source_url": "https://www.hellofresh.com/about/how-to-reactivate-a-hellofresh-account",
+      "fetched_at": "2026-09-09T15:14:04+00:00",
+      "status": "unreachable",
+      "snippet": "Fetch failed (HTTP 403); open the official URL for current offers. No price invented."
+    },
+    {
+      "provider": "Blue Apron",
+      "domain": "blueapron.com",
+      "title": "Blue Apron: check current promotions on official page",
+      "offer_url": "https://blog.blueapron.com/",
+      "source_url": "https://blog.blueapron.com/",
+      "fetched_at": "2026-09-09T15:14:05+00:00",
+      "status": "listing",
+      "snippet": "Explore Blue Apron’s blog for delicious recipes, cooking tips, and meal prep ideas to simplify home cooking and inspire your culinary journey."
+    },
+    {
+      "provider": "Home Chef",
+      "domain": "homechef.com",
+      "title": "Code successfully applied for 18 Free Meals + Free Shipping on your First Box",
+      "offer_url": "https://www.homechef.com/",
+      "source_url": "https://www.homechef.com/",
+      "fetched_at": "2026-09-09T15:14:06+00:00",
+      "status": "active",
+      "snippet": "Code successfully applied for 18 Free Meals + Free Shipping on your First Box"
+    },
+    {
+      "provider": "Home Chef",
+      "domain": "homechef.com",
+      "title": "uccessfully applied for 18 Free Meals + Free Shipping on your First Box",
+      "offer_url": "https://www.homechef.com/",
+      "source_url": "https://www.homechef.com/",
+      "fetched_at": "2026-09-09T15:14:06+00:00",
+      "status": "active",
+      "snippet": "Code successfully applied for 18 Free Meals + Free Shipping on your First Box"
+    },
+    {
+      "provider": "Factor",
+      "domain": "factor75.com",
+      "title": "Factor: official promo page temporarily unreachable",
+      "offer_url": "https://www.factor75.com/",
+      "source_url": "https://www.factor75.com/",
+      "fetched_at": "2026-09-09T15:14:10+00:00",
+      "status": "unreachable",
+      "snippet": "Fetch failed (HTTP 403); open the official URL for current offers. No price invented."
+    },
+    {
+      "provider": "Marley Spoon",
+      "domain": "marleyspoon.com",
+      "title": "Marley Spoon: check current promotions on official page",
+      "offer_url": "https://marleyspoon.com/",
+      "source_url": "https://marleyspoon.com/",
+      "fetched_at": "2026-09-09T15:14:11+00:00",
+      "status": "listing",
+      "snippet": "Marley Spoon delivers delicious, 30-minute recipes with farm-fresh ingredients to your door. Learn cooking techniques from Martha Stewart and save time with her meal kit."
+    },
+    {
+      "provider": "Hungryroot",
+      "domain": "hungryroot.com",
+      "title": "Hungryroot: check current promotions on official page",
+      "offer_url": "https://www.hungryroot.com/",
+      "source_url": "https://www.hungryroot.com/",
+      "fetched_at": "2026-09-09T15:14:13+00:00",
+      "status": "listing",
+      "snippet": "Good-for-you groceries, simple recipes, recommended just for you. Take the quiz today."
+    }
+  ]
+}
