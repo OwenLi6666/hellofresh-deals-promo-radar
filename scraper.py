@@ -302,7 +302,10 @@ def _clean_title(title: str) -> str:
 def _looks_like_real_promo(title: str, price: str | None, code: str | None) -> bool:
     """Reject marketing fluff / fallback copy pretending to be an offer."""
     t = title.lower().strip()
-    if len(t) < 10:
+    if len(t) < 8:
+        return False
+    # Short percent headlines like "15% Off" / "Up to 20% off" are valid
+    if len(t) < 10 and not PERCENT_RE.search(title):
         return False
     if "check current promotions" in t:
         return False
@@ -341,9 +344,6 @@ def _looks_like_real_promo(title: str, price: str | None, code: str | None) -> b
         # Long nav dump without a code is almost never a clean offer title
         if re.search(r"\b(blog|shop all|gift|affiliate|support|faq)\b", t):
             return False
-    # Reject click-here CTA chrome as title (keep if still has strong promo after)
-    if t.startswith("click here"):
-        return False
     has_promo = bool(PROMO_RE.search(title))
     strong = bool(
         PERCENT_RE.search(title)
