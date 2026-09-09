@@ -55,7 +55,8 @@ def load_offers() -> dict[str, Any]:
 
 
 def is_showable(offer: dict[str, Any]) -> bool:
-    if offer.get("status") == "expired":
+    # Never surface fluff / unreachable placeholders as deals
+    if offer.get("status") in {"expired", "listing", "unreachable", "no_offer"}:
         return False
     vu = offer.get("valid_until")
     if vu:
@@ -64,6 +65,9 @@ def is_showable(offer: dict[str, Any]) -> bool:
                 return False
         except ValueError:
             pass
+    title = (offer.get("title") or "").lower()
+    if "check current promotions" in title or "temporarily unreachable" in title:
+        return False
     return True
 
 
@@ -76,8 +80,8 @@ def read_tpl(name: str) -> Template:
 
 
 def tpl_escape(value: Any) -> str:
-    """Escape $ for string.Template so JSON-LD/URLs cannot break substitution."""
-    return str(value).replace("$", "$$")
+    """Values are inserted literally by string.Template — do not double '$'."""
+    return str(value)
 
 
 def render_tpl(name: str, mapping: dict[str, Any]) -> str:
@@ -200,20 +204,23 @@ def render() -> None:
         (TPL_DIR / "style.css").read_text(encoding="utf-8"), encoding="utf-8"
     )
 
-    # Index cards
+    # Index cards — include providers with zero offers (honest empty), skip none from config
     cards = []
     for name in provider_order:
         rows = by_provider.get(name, [])
-        if not rows:
-            continue
-        top = rows[0]
+        top_title = rows[0].get("title", name) if rows else f"{name}: no public promo extracted yet"
+        snip = (
+            rows[0].get("snippet")
+            if rows
+            else "No public promo phrase/code extracted from official pages. We do not invent deals."
+        )
         provider_href = page_path("providers", slugify(name))
         cards.append(
             f"""
             <article class="card">
               <p class="eyebrow">{html.escape(name)}</p>
-              <h2><a href="{provider_href}">{html.escape(top.get('title', name))}</a></h2>
-              <p>{html.escape(top.get('snippet') or 'Official promo listing')}</p>
+              <h2><a href="{provider_href}">{html.escape(top_title)}</a></h2>
+              <p>{html.escape(snip or 'Official promo listing')}</p>
               <p class="meta">{len(rows)} live listing(s)</p>
               <a class="btn" href="{provider_href}">View {html.escape(name)}</a>
             </article>
@@ -230,7 +237,7 @@ def render() -> None:
                 "url": abs_url(domain, page_path("providers", slugify(name))),
                 "name": name,
             }
-            for i, name in enumerate([n for n in provider_order if n in by_provider])
+            for i, name in enumerate(provider_order)
         ],
     }
 
@@ -245,12 +252,12 @@ def render() -> None:
             "cards": "\n".join(cards) or "<p>No offers extracted yet. Pipeline will retry.</p>",
             "json_ld": json.dumps(item_list, ensure_ascii=False),
             "offer_count": str(len(offers)),
-            "provider_count": str(len(by_provider)),
+            "provider_count": str(len(provider_order)),
         },
     )
     write_page("/", index_html)
 
-    # Compare page
+    # Compare page — only rows with real offers
     compare_rows = []
     compare_list = []
     pos = 0
@@ -262,10 +269,12 @@ def render() -> None:
         top = rows[0]
         provider_href = page_path("providers", slugify(name))
         price_cell = f"${html.escape(str(top['price']))}" if top.get("price") else "—"
+        code_cell = html.escape(str(top["code"])) if top.get("code") else "—"
         compare_rows.append(
             f"<tr><td><a href=\"{provider_href}\">{html.escape(name)}</a></td>"
             f"<td>{html.escape(top.get('title',''))}</td>"
             f"<td>{price_cell}</td>"
+            f"<td>{code_cell}</td>"
             f"<td>{html.escape(top.get('status',''))}</td>"
             f"<td><a href=\"{html.escape(top.get('_affiliate') or top.get('offer_url',''))}\">Go</a></td></tr>"
         )
@@ -287,19 +296,17 @@ def render() -> None:
             "description": f"Side-by-side public promo listings across {len(by_provider)} meal kit brands.",
             "canonical": abs_url(domain, compare_path),
             "og_title": f"Compare meal kit deals — {month}",
-            "rows": "\n".join(compare_rows),
+            "rows": "\n".join(compare_rows) or "<tr><td colspan=\"6\">No public promo offers extracted yet.</td></tr>",
             "json_ld": json.dumps(compare_ld, ensure_ascii=False),
         },
     )
     write_page(compare_path, compare_html)
 
-    # Provider + deal pages
+    # Provider + deal pages — always emit a provider page for each config brand
     sitemap_urls: list[tuple[str, str]] = [("/", generated)]
 
     for name in provider_order:
         rows = by_provider.get(name, [])
-        if not rows:
-            continue
         pslug = slugify(name)
         provider_path = page_path("providers", pslug)
         deal_links = []
@@ -308,9 +315,10 @@ def render() -> None:
         for o in rows:
             did = o["_id"]
             deal_path = page_path("deals", did)
+            code_pill = f" code:{html.escape(str(o['code']))}" if o.get("code") else ""
             deal_links.append(
                 f"<li><a href=\"{deal_path}\">{html.escape(o.get('title',''))}</a>"
-                f" <span class=\"pill\">{html.escape(o.get('status',''))}</span></li>"
+                f" <span class=\"pill\">{html.escape(o.get('status',''))}{code_pill}</span></li>"
             )
             page_url = abs_url(domain, deal_path)
             offer_nodes.append(json_ld_offer(o, page_url))
@@ -338,6 +346,8 @@ def render() -> None:
             price_html = ""
             if o.get("price"):
                 price_html = f"<p class=\"price\">{html.escape(o.get('currency','USD'))} {html.escape(str(o['price']))}</p>"
+            if o.get("code"):
+                price_html += f"<p class=\"meta\">Promo code: <strong>{html.escape(str(o['code']))}</strong></p>"
             valid_html = f"<p class=\"meta\">Valid until {html.escape(o['valid_until'])}</p>" if o.get("valid_until") else ""
             deal_html = render_tpl(
                 "deal.html",
@@ -393,7 +403,7 @@ def render() -> None:
                     "name": f"Where do {name} promo details come from?",
                     "acceptedAnswer": {
                         "@type": "Answer",
-                        "text": f"From the public official {name} pages listed in .ilang/site.ilang. Prices are only shown when extracted; we never invent them.",
+                        "text": f"From the public official {name} pages listed in .ilang/site.ilang. Prices/codes are only shown when extracted; we never invent them.",
                     },
                 },
                 {
@@ -407,6 +417,17 @@ def render() -> None:
             ],
         }
 
+        deal_list_html = (
+            "\n".join(deal_links)
+            if deal_links
+            else (
+                "<p><strong>No public promo offer extracted yet.</strong> "
+                "We do not invent titles, prices, or codes. "
+                f"Check the <a href=\"{html.escape(affiliates.get(name, '#'))}\">official {html.escape(name)} site</a> "
+                "for live promotions.</p>"
+            )
+        )
+
         provider_html = render_tpl(
             "provider.html",
             {
@@ -416,9 +437,9 @@ def render() -> None:
                 "canonical": abs_url(domain, provider_path),
                 "og_title": f"{name} deals — {month}",
                 "provider": html.escape(name),
-                "deal_list": "\n".join(deal_links),
+                "deal_list": deal_list_html,
                 "json_ld": json.dumps([product_ld, faq_ld], ensure_ascii=False),
-                "official": html.escape(affiliates.get(name, rows[0].get("source_url", "#"))),
+                "official": html.escape(affiliates.get(name, rows[0].get("source_url", "#") if rows else "#")),
             },
         )
         write_page(provider_path, provider_html)

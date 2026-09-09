@@ -164,15 +164,38 @@ def _walk_ld(node: Any) -> list[dict[str, Any]]:
 
 
 PROMO_RE = re.compile(
-    r"(\d{1,3}%\s*off|up to\s*\$?\d+|\$\d+\s*off|\d+\s*free meals?|free (?:breakfast|shipping|dessert|item)[^.!]{0,40})",
+    r"("
+    r"\d{1,3}%\s*off|"
+    r"up to\s*\d{1,3}%|"
+    r"\$\d+(?:\.\d{1,2})?\s*off|"
+    r"\d+\s*free meals?|"
+    r"free (?:breakfast|shipping|dessert|item|gift|trial|dozen)[^.!]{0,50}|"
+    r"(?:use|with)\s+code\s+[A-Z][A-Z0-9]{3,19}"
+    r")",
     re.I,
 )
 PRICE_RE = re.compile(r"\$\s?(\d+(?:\.\d{1,2})?)")
 PERCENT_RE = re.compile(r"(\d{1,3})\s*%\s*off", re.I)
+CODE_RE = re.compile(
+    r"(?:(?:use|with|promo)\s+)?code\s*[:\s]+([A-Z][A-Z0-9]{3,19})\b",
+    re.I,
+)
 DATE_RE = re.compile(
     r"(expires?|valid through|until|ends?)\s*:?\s*([A-Za-z]+\s+\d{1,2},?\s+\d{4}|\d{1,2}/\d{1,2}/\d{2,4}|\d{4}-\d{2}-\d{2})",
     re.I,
 )
+# Words that are not promo codes even if CODE_RE matches
+CODE_STOP = {
+    "HERE", "THIS", "THAT", "YOUR", "FROM", "WITH", "WHEN", "WILL", "SHOULD",
+    "COULD", "WOULD", "HAVE", "BEEN", "THEY", "THEM", "FREE", "SHIP", "MEAL",
+    "ENTER", "APPLIED", "SUCCESSFULLY", "REDEEM", "ORDER", "ORDERS", "FIRST",
+    "BOX", "BOXES", "WEEK", "WEEKS", "LIFE", "SHIPPING", "OFFER", "PROMO",
+    "DISCOUNT", "COUPON", "CODES", "PAGE", "HOME", "MENU", "PLAN", "PLANS",
+    "SAVE", "SAVING", "GET", "NOW", "TODAY", "MORE", "LESS", "THAN", "THEN",
+    "ALSO", "ONLY", "JUST", "NEXT", "LAST", "BEST", "DEAL", "SALE", "LIMITED",
+    "TIME", "ITEM", "ITEMS", "GIFT", "TRIAL", "BREAKFAST", "DESSERT", "DOZEN",
+    "REQUIRED", "OPTIONAL", "ZIP", "POSTAL",
+}
 
 
 def _parse_date(raw: str) -> str | None:
@@ -194,6 +217,136 @@ def _expired(valid_until: str | None) -> bool:
         return False
 
 
+def _extract_code(text: str) -> str | None:
+    for m in CODE_RE.finditer(text):
+        code = (m.group(1) or "").upper()
+        if not code or code in CODE_STOP or code.isdigit():
+            continue
+        if len(code) < 4 or len(code) > 16:
+            continue
+        if code.isalpha() and code.lower() in {
+            "successfully", "required", "optional", "shipping", "breakfast",
+            "discount", "limited", "current", "official", "subscription",
+        }:
+            continue
+        return code
+    return None
+
+
+def _clean_title(title: str) -> str:
+    from html import unescape
+
+    title = unescape(title)
+    title = re.sub(r"\s+", " ", title).strip(" -–|:;,.")
+    title = re.sub(r"^[^A-Za-z0-9$]+", "", title)
+    title = re.sub(r"^(?:and|or|the|a|an|of|to|for|on|in|with|your|our|so|now)\s+", "", title, flags=re.I)
+    # Normalize "use code X …" into a readable offer title
+    um = re.match(
+        r"(?i)use\s+code\s+([A-Z0-9]{3,19})\s+(?:on\s+)?(?:an\s+)?upcoming\s+order\s+for\s+(.+)$",
+        title,
+    )
+    if um:
+        title = f"{um.group(2).strip().rstrip('.*')} (code {um.group(1).upper()})"
+        if title and title[0].islower():
+            title = title[0].upper() + title[1:]
+    # Prefer short canonical percent headlines when present
+    short = re.search(r"(?i)\b((?:up to\s+)?\d{1,3}%\s*off)\b", title)
+    if short and len(title) > 50 and "code" not in title.lower():
+        # Keep longer title if it adds first-order / free item context
+        if not re.search(r"(?i)first (?:order|week|box)|free (?:item|gift|shipping|meals?)", title):
+            title = short.group(1)
+            if title.islower() or title[0].islower():
+                title = title[0].upper() + title[1:]
+    # If nav chrome precedes the promo phrase, keep from the promo phrase onward
+    m = PROMO_RE.search(title)
+    if m and m.start() > 40:
+        # rewind to nearest sentence/capital start before promo
+        cut = title.rfind(". ", 0, m.start())
+        if cut == -1:
+            cut = max(0, m.start() - 30)
+            while cut < m.start() and not (title[cut].isupper() or title[cut].isdigit()):
+                cut += 1
+        else:
+            cut = cut + 2
+        title = title[cut:].strip()
+    if title and title[0].islower() and not title.startswith("use "):
+        # Capitalize leading letter for display only when we already validated promo
+        pass
+    return title.strip()
+
+
+def _looks_like_real_promo(title: str, price: str | None, code: str | None) -> bool:
+    """Reject marketing fluff / fallback copy pretending to be an offer."""
+    t = title.lower().strip()
+    if len(t) < 10:
+        return False
+    if "check current promotions" in t:
+        return False
+    if "temporarily unreachable" in t:
+        return False
+    if "no structured promo" in t:
+        return False
+    # Reject legalese / mid-sentence fragments (allow "use code …" and digit-led "% off")
+    if title and title[0].islower() and not re.match(r"(?i)use\s+code\b", title):
+        if not code:
+            return False
+    if t.startswith(("of ", "er ", "se ", "nt ", "life'", "life’")):
+        return False
+    if re.search(r"will receive (more|less) than|based on (a limit|total discount)|if subscription", t):
+        return False
+    if "how to redeem" in t and not code:
+        return False
+    # Reject windows that are mostly form chrome
+    if "zip code" in t and "off" not in t and "free" not in t:
+        return False
+    # Reject truncated crumb titles
+    if t.endswith(" reg") or t in {"18 free meals", "45% off reg", "30% off reg"}:
+        return False
+    if re.search(r"\bwho you are\b", t):
+        # Keep only if short specialty discount headline
+        if len(t) > 60:
+            return False
+    has_promo = bool(PROMO_RE.search(title))
+    if code and has_promo:
+        return True
+    if code and re.search(r"off|free|discount|save|\$\d+", t):
+        return True
+    if price and has_promo:
+        return True
+    # Use original title casing — lowercased `t` always starts lowercase
+    if has_promo and title and (not title[0].islower() or title[0].isdigit()):
+        return True
+    if has_promo and re.match(r"(?i)use\s+code\b", title):
+        return True
+    return False
+
+
+def _score_offer(title: str, price: str | None, code: str | None) -> int:
+    score = 0
+    if code:
+        score += 40
+    if price:
+        score += 15
+    if PERCENT_RE.search(title):
+        score += 25
+    if re.search(r"\$\d+\s*off", title, re.I):
+        score += 25
+    if re.search(r"\d+\s*free meals?", title, re.I):
+        score += 25
+    if re.search(r"free (?:breakfast|shipping|item|gift|dozen)", title, re.I):
+        score += 15
+    if re.fullmatch(r"(?i)(?:get\s+)?(?:up to\s+)?\d{1,3}%\s*off!?", title.strip()):
+        score += 20
+    # Prefer concise titles
+    if 20 <= len(title) <= 120:
+        score += 10
+    if len(title) > 160:
+        score -= 10
+    if title and title[0].islower():
+        score -= 20
+    return score
+
+
 def extract_offers(provider: dict[str, str], html: str, final_url: str) -> list[dict[str, Any]]:
     parser = _MetaParser()
     try:
@@ -202,14 +355,33 @@ def extract_offers(provider: dict[str, str], html: str, final_url: str) -> list[
         pass
 
     now = datetime.now(timezone.utc).replace(microsecond=0).isoformat()
-    offers: list[dict[str, Any]] = []
+    candidates: list[dict[str, Any]] = []
     seen: set[str] = set()
 
-    def add(title: str, offer_url: str, price: str | None = None, currency: str | None = None, valid_until: str | None = None, extra: str = "") -> None:
-        title = re.sub(r"\s+", " ", title).strip()
-        if len(title) < 8:
+    def add(
+        title: str,
+        offer_url: str,
+        price: str | None = None,
+        currency: str | None = None,
+        valid_until: str | None = None,
+        extra: str = "",
+        code: str | None = None,
+    ) -> None:
+        title = _clean_title(title)
+        if len(title) < 10:
             return
-        key = title.lower()[:120]
+        if code:
+            code = code.upper()
+            if code in CODE_STOP:
+                code = None
+        if not _looks_like_real_promo(title, price, code):
+            return
+        # Dedupe by code + core promo token when possible
+        promo_token = ""
+        pm = PERCENT_RE.search(title) or re.search(r"\$\d+\s*off|\d+\s*free meals?", title, re.I)
+        if pm:
+            promo_token = pm.group(0).lower()
+        key = f"{(code or '').lower()}|{promo_token}|{title.lower()[:80]}"
         if key in seen:
             return
         seen.add(key)
@@ -221,16 +393,21 @@ def extract_offers(provider: dict[str, str], html: str, final_url: str) -> list[
             "source_url": final_url,
             "fetched_at": now,
             "status": "active",
-            "snippet": extra[:280] if extra else "",
+            "snippet": _clean_title(extra)[:280] if extra else "",
+            "_score": _score_offer(title, price, code),
         }
         if price:
             item["price"] = price
             item["currency"] = currency or "USD"
+        if code:
+            item["code"] = code
+            if code.upper() not in title.upper():
+                item["title"] = f"{item['title']} (code {code})"[:200]
         if valid_until:
             item["valid_until"] = valid_until
             if _expired(valid_until):
                 item["status"] = "expired"
-        offers.append(item)
+        candidates.append(item)
 
     # JSON-LD Offer nodes (real structured data only)
     for block in parser.json_ld:
@@ -240,8 +417,10 @@ def extract_offers(provider: dict[str, str], html: str, final_url: str) -> list[
                 or offer.get("description")
                 or parser.metas.get("og:title")
                 or parser.title
-                or f"{provider['name']} offer"
+                or ""
             )
+            if not title:
+                continue
             price = None
             currency = None
             if "price" in offer and offer["price"] not in (None, ""):
@@ -258,50 +437,102 @@ def extract_offers(provider: dict[str, str], html: str, final_url: str) -> list[
             url = offer.get("url") or final_url
             if isinstance(url, list):
                 url = url[0]
-            add(str(title), str(url), price, currency, valid_until)
+            code = _extract_code(str(title))
+            add(str(title), str(url), price, currency, valid_until, code=code)
 
-    # Heading / paragraph promo phrases
-    corpus = parser.headings + parser.texts[:30]
+    # Prefer title / headings / short paragraphs before noisy body windows
+    corpus: list[str] = []
+    if parser.title:
+        corpus.append(parser.title.strip())
     og = parser.metas.get("og:description") or parser.metas.get("description") or ""
     if og:
-        corpus.insert(0, og)
-    if parser.title:
-        corpus.insert(0, parser.title.strip())
+        corpus.append(og)
+    corpus.extend(parser.headings)
+    corpus.extend(parser.texts[:30])
+
+    # Promo+code pairs often live in JSON/script blobs that tag parsers miss
+    for m in re.finditer(
+        r"(?i)((?:get\s+)?\$\d+(?:\.\d{1,2})?\s*off[^<\"\\]{0,100}(?:with\s+|use\s+)?code\s+[A-Z0-9]{4,20}"
+        r"|(?:use\s+|with\s+)?code\s+[A-Z0-9]{4,20}[^<\"\\]{0,80}(?:free\s+(?:dozen|shipping|meals?|item|gift)|\$\d+\s*off|\d+%\s*off))",
+        html,
+    ):
+        chunk = re.sub(r"[\\\"]+", " ", m.group(0))
+        chunk = re.sub(r"\s+", " ", chunk).strip()
+        if chunk:
+            corpus.append(chunk)
+
+    # Strip scripts/styles then scan for promo sentences (not random 80-char windows)
+    stripped = re.sub(r"(?is)<script[^>]*>.*?</script>", " ", html)
+    stripped = re.sub(r"(?is)<style[^>]*>.*?</style>", " ", stripped)
+    stripped = re.sub(r"(?s)<[^>]+>", " ", stripped)
+    stripped = re.sub(r"\s+", " ", stripped)
+    for chunk in re.findall(
+        r"[^.!?]{0,120}(?:\d{1,3}%\s*off|\$\d+\s*off|\d+\s*free meals?|free breakfast|free shipping|use code\s+[A-Z0-9]{4,}|with code\s+[A-Z0-9]{4,})[^.!?]{0,120}",
+        stripped[:150000],
+        flags=re.I,
+    ):
+        corpus.append(chunk.strip())
 
     for text in corpus:
+        code_in_text = _extract_code(text)
         for m in PROMO_RE.finditer(text):
-            start = max(0, m.start() - 40)
-            end = min(len(text), m.end() + 60)
-            window = text[start:end].strip(" -–|:;,.")
+            # Prefer a sentence-ish window around the match
+            start = max(0, m.start() - 50)
+            end = min(len(text), m.end() + 80)
+            window = text[start:end]
+            # If a full short sentence exists in text, prefer it
+            for sent in re.split(r"[.!?\n]", text):
+                if m.group(0).lower() in sent.lower() and 15 <= len(sent.strip()) <= 180:
+                    window = sent
+                    break
+            window = window.strip(" -–|:;,.")
             price = None
             currency = None
-            # Only record absolute $ amounts as price, never invent percent as price
-            pm = PRICE_RE.search(m.group(0))
-            if pm and "free" not in m.group(0).lower():
-                # Prefer not treating "% off" windows as price; only clear $N
-                if "%" not in m.group(0):
+            # Never treat "$N off" discount amounts as a product price
+            matched = m.group(0)
+            if not re.search(r"off|%|free", matched, re.I):
+                pm = PRICE_RE.search(matched)
+                if pm:
                     price = pm.group(1)
                     currency = "USD"
             valid_until = None
             dm = DATE_RE.search(text)
             if dm:
                 valid_until = _parse_date(dm.group(2))
-            add(window, final_url, price, currency, valid_until, text)
+            code = code_in_text or _extract_code(window)
+            add(window, final_url, price, currency, valid_until, text, code=code)
 
-    if not offers:
-        # Honest fallback: page reachable but no extractable promo phrase
-        title = parser.metas.get("og:title") or parser.title.strip() or f"{provider['name']} official page"
-        add(
-            f"{provider['name']}: check current promotions on official page",
-            final_url,
-            None,
-            None,
-            None,
-            og or "No structured promo phrase extracted; visit official page for live offers.",
-        )
-        offers[-1]["status"] = "listing"
+        # Standalone promo-code mentions with nearby discount language
+        if code_in_text and not PROMO_RE.search(text):
+            if re.search(r"off|discount|save|free|promo", text, re.I):
+                add(text[:180], final_url, None, None, None, text, code=code_in_text)
 
-    # Drop expired from active listing later in build; keep them marked
+    # Keep best few offers only — no fluff padding
+    candidates.sort(key=lambda o: int(o.get("_score") or 0), reverse=True)
+    offers: list[dict[str, Any]] = []
+    kept_codes: set[str] = set()
+    kept_tokens: set[str] = set()
+    for item in candidates:
+        score = int(item.pop("_score", 0) or 0)
+        code = (item.get("code") or "").upper()
+        title = item.get("title") or ""
+        token_m = PERCENT_RE.search(title) or re.search(r"\$\d+\s*off|\d+\s*free meals?", title, re.I)
+        token = (token_m.group(0).lower() if token_m else title.lower()[:40])
+        if code and code in kept_codes:
+            continue
+        if not code and token in kept_tokens:
+            continue
+        # Drop low-quality leftovers once we already have solid offers
+        if offers and score < 20:
+            continue
+        if re.search(r"^\d+-?\d*\s*free meals?\)?$", title, re.I):
+            continue
+        if code:
+            kept_codes.add(code)
+        kept_tokens.add(token)
+        offers.append(item)
+        if len(offers) >= 3:
+            break
     return offers
 
 
@@ -314,7 +545,7 @@ def scrape_all() -> dict[str, Any]:
     for provider in cfg["providers"]:
         urls = provider.get("promo_urls") or [provider["promo_url"]]
         robots_url = provider.get("robots_url") or f"https://{provider['domain']}/robots.txt"
-        got_any = False
+        got_page = False
         last_error = ""
         for url in urls:
             allowed = robots_allows(robots_url, url)
@@ -345,29 +576,28 @@ def scrape_all() -> dict[str, Any]:
                 time.sleep(0.8)
                 continue
             offers = extract_offers(provider, body, final_url)
-            entry["status"] = "ok"
+            entry["status"] = "ok" if offers else "ok_no_promo"
             entry["offers_extracted"] = len(offers)
             fetch_log.append(entry)
             all_offers.extend(offers)
-            got_any = True
+            got_page = True
             time.sleep(1.0)
-            break
-        if not got_any:
-            all_offers.append(
+            # Keep trying next URL if this page had zero real promos
+            if offers:
+                break
+        if not got_page:
+            # Record failure in log only — do not invent a fake offer row.
+            fetch_log.append(
                 {
                     "provider": provider["name"],
-                    "domain": provider["domain"],
-                    "title": f"{provider['name']}: official promo page temporarily unreachable",
-                    "offer_url": urls[0],
-                    "source_url": urls[0],
-                    "fetched_at": datetime.now(timezone.utc).replace(microsecond=0).isoformat(),
-                    "status": "unreachable",
-                    "snippet": f"Fetch failed ({last_error or 'unknown'}); open the official URL for current offers. No price invented.",
+                    "url": urls[0],
+                    "status": "all_urls_failed",
+                    "error": last_error or "unknown",
                 }
             )
 
     payload = {
-        "brand": site.get("brand", "hellofresh-deals"),
+        "brand": site.get("brand", "mealkitdeals"),
         "niche": site.get("niche", ""),
         "locale": site.get("locale", "en-US"),
         "currency_default": site.get("currency", "USD"),
