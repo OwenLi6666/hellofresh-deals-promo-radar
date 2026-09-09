@@ -195,6 +195,7 @@ CODE_STOP = {
     "ALSO", "ONLY", "JUST", "NEXT", "LAST", "BEST", "DEAL", "SALE", "LIMITED",
     "TIME", "ITEM", "ITEMS", "GIFT", "TRIAL", "BREAKFAST", "DESSERT", "DOZEN",
     "REQUIRED", "OPTIONAL", "ZIP", "POSTAL",
+    "GIVE", "GIVES", "TAKE", "TAKES", "MAKE", "MAKES", "COME", "COMES",
 }
 
 
