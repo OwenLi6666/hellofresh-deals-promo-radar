@@ -3,7 +3,13 @@
 # ::OBJECTIVE{render_static_site}
 #   target: 读 site.ilang + data/offers.json 渲染 site/ 含 JSON-LD sitemap robots
 # ::BOUNDARY{never:编 price 或缺字段时伪造结构化数据}
-"""Render static coupon site from offers.json. Stdlib only."""
+"""Render static coupon site from offers.json. Stdlib only.
+
+URL scheme: extensionless paths via directory index files
+  /compare           -> site/compare/index.html
+  /providers/{slug}  -> site/providers/{slug}/index.html
+  /deals/{id}        -> site/deals/{id}/index.html
+"""
 
 from __future__ import annotations
 
@@ -11,12 +17,12 @@ import hashlib
 import html
 import json
 import re
+import shutil
 from collections import defaultdict
 from datetime import date, datetime, timezone
 from pathlib import Path
 from string import Template
 from typing import Any
-from urllib.parse import quote
 
 from ilang_config import ROOT, load_site_config
 
@@ -85,7 +91,27 @@ def abs_url(domain: str, path: str) -> str:
         domain = "https://" + domain
     if not path.startswith("/"):
         path = "/" + path
+    # Keep bare "/" ; strip trailing slash on other paths for canonical consistency
+    if path != "/" and path.endswith("/"):
+        path = path.rstrip("/")
     return domain + path
+
+
+def page_path(*parts: str) -> str:
+    """Extensionless public path, e.g. ('providers','hellofresh') -> /providers/hellofresh."""
+    clean = [p.strip("/") for p in parts if p and p.strip("/")]
+    return "/" + "/".join(clean) if clean else "/"
+
+
+def write_page(rel_path: str, content: str) -> None:
+    """Write HTML as directory index so /path serves without .html or redirect."""
+    rel = rel_path.strip("/")
+    if not rel or rel == "index":
+        out = SITE_DIR / "index.html"
+    else:
+        out = SITE_DIR / rel / "index.html"
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(content, encoding="utf-8")
 
 
 def json_ld_offer(offer: dict[str, Any], page_url: str) -> dict[str, Any]:
@@ -108,6 +134,18 @@ def json_ld_offer(offer: dict[str, Any], page_url: str) -> dict[str, Any]:
         seller["url"] = f"https://{offer['domain']}"
     node["seller"] = seller
     return node
+
+
+def clean_output_dirs() -> None:
+    """Remove prior page trees so leftover .html files cannot leak old URLs."""
+    for name in ("providers", "deals", "compare"):
+        target = SITE_DIR / name
+        if target.exists():
+            shutil.rmtree(target)
+    for stale in ("compare.html",):
+        p = SITE_DIR / stale
+        if p.exists():
+            p.unlink()
 
 
 def render() -> None:
@@ -136,9 +174,8 @@ def render() -> None:
             provider_order.append(name)
 
     SITE_DIR.mkdir(parents=True, exist_ok=True)
-    (SITE_DIR / "providers").mkdir(exist_ok=True)
-    (SITE_DIR / "deals").mkdir(exist_ok=True)
     (SITE_DIR / "assets").mkdir(exist_ok=True)
+    clean_output_dirs()
 
     month = month_label()
     generated = data.get("generated_at") or datetime.now(timezone.utc).isoformat()
@@ -164,14 +201,15 @@ def render() -> None:
         if not rows:
             continue
         top = rows[0]
+        provider_href = page_path("providers", slugify(name))
         cards.append(
             f"""
             <article class="card">
               <p class="eyebrow">{html.escape(name)}</p>
-              <h2><a href="/providers/{slugify(name)}.html">{html.escape(top.get('title', name))}</a></h2>
+              <h2><a href="{provider_href}">{html.escape(top.get('title', name))}</a></h2>
               <p>{html.escape(top.get('snippet') or 'Official promo listing')}</p>
               <p class="meta">{len(rows)} live listing(s)</p>
-              <a class="btn" href="/providers/{slugify(name)}.html">View {html.escape(name)}</a>
+              <a class="btn" href="{provider_href}">View {html.escape(name)}</a>
             </article>
             """
         )
@@ -183,7 +221,7 @@ def render() -> None:
             {
                 "@type": "ListItem",
                 "position": i + 1,
-                "url": abs_url(domain, f"/providers/{slugify(name)}.html"),
+                "url": abs_url(domain, page_path("providers", slugify(name))),
                 "name": name,
             }
             for i, name in enumerate([n for n in provider_order if n in by_provider])
@@ -204,7 +242,7 @@ def render() -> None:
             "provider_count": str(len(by_provider)),
         },
     )
-    (SITE_DIR / "index.html").write_text(index_html, encoding="utf-8")
+    write_page("/", index_html)
 
     # Compare page
     compare_rows = []
@@ -216,9 +254,10 @@ def render() -> None:
             continue
         pos += 1
         top = rows[0]
+        provider_href = page_path("providers", slugify(name))
         price_cell = f"${html.escape(str(top['price']))}" if top.get("price") else "—"
         compare_rows.append(
-            f"<tr><td><a href=\"/providers/{slugify(name)}.html\">{html.escape(name)}</a></td>"
+            f"<tr><td><a href=\"{provider_href}\">{html.escape(name)}</a></td>"
             f"<td>{html.escape(top.get('title',''))}</td>"
             f"<td>{price_cell}</td>"
             f"<td>{html.escape(top.get('status',''))}</td>"
@@ -228,10 +267,11 @@ def render() -> None:
             {
                 "@type": "ListItem",
                 "position": pos,
-                "url": abs_url(domain, f"/providers/{slugify(name)}.html"),
+                "url": abs_url(domain, provider_href),
                 "name": name,
             }
         )
+    compare_path = page_path("compare")
     compare_ld = {"@context": "https://schema.org", "@type": "ItemList", "itemListElement": compare_list}
     compare_html = render_tpl(
         "compare.html",
@@ -239,13 +279,13 @@ def render() -> None:
             **base_vars,
             "title": f"Compare meal kit promos — {brand} ({month})",
             "description": f"Side-by-side public promo listings across {len(by_provider)} meal kit brands.",
-            "canonical": abs_url(domain, "/compare.html"),
+            "canonical": abs_url(domain, compare_path),
             "og_title": f"Compare meal kit deals — {month}",
             "rows": "\n".join(compare_rows),
             "json_ld": json.dumps(compare_ld, ensure_ascii=False),
         },
     )
-    (SITE_DIR / "compare.html").write_text(compare_html, encoding="utf-8")
+    write_page(compare_path, compare_html)
 
     # Provider + deal pages
     sitemap_urls: list[tuple[str, str]] = [("/", generated)]
@@ -255,12 +295,13 @@ def render() -> None:
         if not rows:
             continue
         pslug = slugify(name)
+        provider_path = page_path("providers", pslug)
         deal_links = []
         offer_nodes = []
         prices = []
         for o in rows:
             did = o["_id"]
-            deal_path = f"/deals/{did}.html"
+            deal_path = page_path("deals", did)
             deal_links.append(
                 f"<li><a href=\"{deal_path}\">{html.escape(o.get('title',''))}</a>"
                 f" <span class=\"pill\">{html.escape(o.get('status',''))}</span></li>"
@@ -282,7 +323,7 @@ def render() -> None:
                         "@type": "ListItem",
                         "position": 2,
                         "name": name,
-                        "item": abs_url(domain, f"/providers/{pslug}.html"),
+                        "item": abs_url(domain, provider_path),
                     },
                     {"@type": "ListItem", "position": 3, "name": o.get("title"), "item": page_url},
                 ],
@@ -301,7 +342,7 @@ def render() -> None:
                     "canonical": page_url,
                     "og_title": html.escape(str(o.get("title"))),
                     "provider": html.escape(name),
-                    "provider_link": f"/providers/{pslug}.html",
+                    "provider_link": provider_path,
                     "deal_title": html.escape(str(o.get("title"))),
                     "snippet": html.escape(o.get("snippet") or ""),
                     "price_html": price_html,
@@ -313,7 +354,7 @@ def render() -> None:
                     "status": html.escape(str(o.get("status") or "")),
                 },
             )
-            (SITE_DIR / "deals" / f"{did}.html").write_text(deal_html, encoding="utf-8")
+            write_page(deal_path, deal_html)
             sitemap_urls.append((deal_path, o.get("fetched_at") or generated))
 
         product_ld: dict[str, Any] = {
@@ -321,7 +362,7 @@ def render() -> None:
             "@type": "Service",
             "name": f"{name} meal kit promotions",
             "provider": {"@type": "Organization", "name": name},
-            "url": abs_url(domain, f"/providers/{pslug}.html"),
+            "url": abs_url(domain, provider_path),
         }
         if prices:
             product_ld["offers"] = {
@@ -332,7 +373,6 @@ def render() -> None:
                 "offerCount": str(len(prices)),
             }
         elif offer_nodes:
-            # Offers without inventing price fields
             cleaned = []
             for n in offer_nodes[:20]:
                 cleaned.append(n)
@@ -367,7 +407,7 @@ def render() -> None:
                 **base_vars,
                 "title": f"{name} promo codes & deals — {brand} ({month})",
                 "description": f"Public {name} meal kit promo listings for {month}. Source: official pages.",
-                "canonical": abs_url(domain, f"/providers/{pslug}.html"),
+                "canonical": abs_url(domain, provider_path),
                 "og_title": f"{name} deals — {month}",
                 "provider": html.escape(name),
                 "deal_list": "\n".join(deal_links),
@@ -375,10 +415,10 @@ def render() -> None:
                 "official": html.escape(affiliates.get(name, rows[0].get("source_url", "#"))),
             },
         )
-        (SITE_DIR / "providers" / f"{pslug}.html").write_text(provider_html, encoding="utf-8")
-        sitemap_urls.append((f"/providers/{pslug}.html", generated))
+        write_page(provider_path, provider_html)
+        sitemap_urls.append((provider_path, generated))
 
-    sitemap_urls.append(("/compare.html", generated))
+    sitemap_urls.append((compare_path, generated))
 
     # sitemap + robots
     sm = [
