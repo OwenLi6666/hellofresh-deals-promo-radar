@@ -10,6 +10,9 @@ ILANG
   Factor | factor75.com | https://www.factor75.com/faq | https://www.factor75.com/ | https://www.factor75.com/robots.txt
   Marley Spoon | marleyspoon.com | https://marleyspoon.com/ | https://marleyspoon.com/robots.txt
   Hungryroot | hungryroot.com | https://www.hungryroot.com/ | https://www.hungryroot.com/robots.txt
+  CookUnity | cookunity.com | https://www.cookunity.com/lp/cookunity-discount-code | https://www.cookunity.com/ | https://www.cookunity.com/robots.txt
+  Thistle | thistle.co | https://try.thistle.co/specialty_discounts/ | https://www.thistle.co/ | https://www.thistle.co/robots.txt
+  Gobble | gobble.com | https://www.gobble.com/quickmeals-menu/ | https://www.gobble.com/spring-menu4/ | https://www.gobble.com/robots.txt
 
 ::MODULE{FIELDS|title:每条优惠提取什么}
   title price currency offer_url valid_until source_url fetched_at status
@@ -27,6 +30,9 @@ ILANG
   Factor | https://www.factor75.com/
   Marley Spoon | https://marleyspoon.com/
   Hungryroot | https://www.hungryroot.com/
+  CookUnity | https://www.cookunity.com/
+  Thistle | https://www.thistle.co/
+  Gobble | https://www.gobble.com/
 
 ::RULE{抓不到 price⇒这条不写 price 字段 也不写进结构化数据 不许拿估的填}
 ::RULE{valid_until 已过⇒标记过期或下架 不许留着冒充有效}
