@@ -1,7 +1,7 @@
 ILANG
-[TYPE:config][PROJECT:hellofresh-deals][LANG:zh]
+[TYPE:config][PROJECT:mealkitdeals][LANG:zh]
 
-::STATE{@SITE, brand:hellofresh-deals, niche:meal delivery / meal kit deals, locale:en-US, currency:USD, domain:hellofresh-deals-promo-radar.pages.dev}
+::STATE{@SITE, brand:mealkitdeals, niche:meal delivery / meal kit deals, locale:en-US, currency:USD, domain:mealkitdeals.com}
 
 ::MODULE{PROVIDERS|title:抓哪几家 这里改了站就变}
   HelloFresh | hellofresh.com | https://www.hellofresh.com/eat/coupon-codes-and-promotions | https://blog.hellofresh.com/ | https://www.hellofresh.com/robots.txt

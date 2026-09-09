@@ -1,5 +1,5 @@
 ILANG
-[TYPE:agents][PROJECT:hellofresh-deals][LANG:zh]
+[TYPE:agents][PROJECT:mealkitdeals][LANG:zh]
 
 ::STATE{@PROJECT, kind:coupon-niche-static-site, runtime:python-stdlib+github-actions+cloudflare-pages}
 

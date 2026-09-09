@@ -1,3 +1,3 @@
 User-agent: *
 Allow: /
-Sitemap: https://hellofresh-deals-promo-radar.pages.dev/sitemap.xml
+Sitemap: https://mealkitdeals.com/sitemap.xml

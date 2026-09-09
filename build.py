@@ -40,7 +40,7 @@ def offer_id(offer: dict[str, Any]) -> str:
 def load_offers() -> dict[str, Any]:
     if not DATA_PATH.exists():
         return {
-            "brand": "hellofresh-deals",
+            "brand": "mealkitdeals",
             "generated_at": datetime.now(timezone.utc).isoformat(),
             "offers": [],
             "providers": [],
@@ -114,7 +114,7 @@ def render() -> None:
     cfg = load_site_config()
     data = load_offers()
     site = cfg["site"]
-    brand = site.get("brand") or data.get("brand") or "hellofresh-deals"
+    brand = site.get("brand") or data.get("brand") or "mealkitdeals"
     domain = site.get("domain") or data.get("domain") or "localhost"
     niche = site.get("niche") or data.get("niche") or "meal kit deals"
     affiliate_note = cfg["affiliate_note"]

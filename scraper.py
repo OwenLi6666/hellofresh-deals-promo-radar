@@ -24,7 +24,7 @@ from urllib.robotparser import RobotFileParser
 from ilang_config import ROOT, load_site_config
 
 DATA_PATH = ROOT / "data" / "offers.json"
-UA = "hellofresh-deals-promo-radar/1.0 (+https://github.com/; public promo indexer; respects robots.txt)"
+UA = "mealkitdeals-promo-radar/1.0 (+https://github.com/; public promo indexer; respects robots.txt)"
 TIMEOUT = 25
 
 
@@ -108,7 +108,7 @@ def fetch(url: str) -> tuple[int, str, str]:
         url,
         headers={
             "User-Agent": (
-                "Mozilla/5.0 (compatible; hellofresh-deals-promo-radar/1.0; "
+                "Mozilla/5.0 (compatible; mealkitdeals-promo-radar/1.0; "
                 "+https://github.com/; public-promo-indexer)"
             ),
             "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",

@@ -1,9 +1,9 @@
 {
-  "brand": "hellofresh-deals",
+  "brand": "mealkitdeals",
   "niche": "meal delivery / meal kit deals",
   "locale": "en-US",
   "currency_default": "USD",
-  "domain": "hellofresh-deals-promo-radar.pages.dev",
+  "domain": "mealkitdeals.com",
   "generated_at": "2026-09-09T15:33:38+00:00",
   "config_source": "/home/runner/work/hellofresh-deals-promo-radar/hellofresh-deals-promo-radar/.ilang/site.ilang",
   "providers": [
