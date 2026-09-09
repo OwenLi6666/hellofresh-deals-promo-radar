@@ -4,7 +4,7 @@
   "locale": "en-US",
   "currency_default": "USD",
   "domain": "mealkitdeals.com",
-  "generated_at": "2026-09-09T19:36:08+00:00",
+  "generated_at": "2026-09-09T19:39:30+00:00",
   "config_source": "/home/runner/work/hellofresh-deals-promo-radar/hellofresh-deals-promo-radar/.ilang/site.ilang",
   "providers": [
     "HelloFresh",
@@ -107,7 +107,7 @@
       "title": "HelloFresh Coupon Codes and Promos: Get Free Breakfast for Life + 10 Free Meals on Us",
       "offer_url": "https://www.hellofresh.com/eat/coupon-codes-and-promotions",
       "source_url": "https://www.hellofresh.com/eat/coupon-codes-and-promotions",
-      "fetched_at": "2026-09-09T19:35:53+00:00",
+      "fetched_at": "2026-09-09T19:39:16+00:00",
       "status": "active",
       "snippet": "HelloFresh Coupon Codes and Promos: Get Free Breakfast for Life + 10 Free Meals on Us!"
     },
@@ -117,7 +117,7 @@
       "title": "Get $25 off your first 2 orders + Free Shipping with code WELCOME25",
       "offer_url": "https://blog.blueapron.com/guides/eggs-your-way-introducing-everyday-essentials",
       "source_url": "https://blog.blueapron.com/guides/eggs-your-way-introducing-everyday-essentials",
-      "fetched_at": "2026-09-09T19:35:55+00:00",
+      "fetched_at": "2026-09-09T19:39:18+00:00",
       "status": "active",
       "snippet": "Get $25 off your first 2 orders + Free Shipping with code WELCOME25",
       "code": "WELCOME25"
@@ -128,7 +128,7 @@
       "title": "A free dozen organic, pasture-raised eggs (code EGGS)",
       "offer_url": "https://blog.blueapron.com/guides/eggs-your-way-introducing-everyday-essentials",
       "source_url": "https://blog.blueapron.com/guides/eggs-your-way-introducing-everyday-essentials",
-      "fetched_at": "2026-09-09T19:35:55+00:00",
+      "fetched_at": "2026-09-09T19:39:18+00:00",
       "status": "active",
       "snippet": "So use code EGGS on an upcoming order for a free dozen organic, pasture-raised eggs.*",
       "code": "EGGS"
@@ -139,7 +139,7 @@
       "title": "Code successfully applied for 18 Free Meals + Free Shipping on your First Box",
       "offer_url": "https://www.homechef.com/",
       "source_url": "https://www.homechef.com/",
-      "fetched_at": "2026-09-09T19:35:57+00:00",
+      "fetched_at": "2026-09-09T19:39:19+00:00",
       "status": "active",
       "snippet": "Code successfully applied for 18 Free Meals + Free Shipping on your First Box"
     },
@@ -149,7 +149,7 @@
       "title": "Get 50% Off + Free Breakfast for 1 Year See T&Cs",
       "offer_url": "https://www.factor75.com/",
       "source_url": "https://www.factor75.com/",
-      "fetched_at": "2026-09-09T19:35:58+00:00",
+      "fetched_at": "2026-09-09T19:39:21+00:00",
       "status": "active",
       "snippet": "Get 50% Off + Free Breakfast for 1 Year See T&Cs"
     },
@@ -159,7 +159,7 @@
       "title": "20% off your next month’ applies to boxes 2-5",
       "offer_url": "https://www.factor75.com/",
       "source_url": "https://www.factor75.com/",
-      "fetched_at": "2026-09-09T19:35:58+00:00",
+      "fetched_at": "2026-09-09T19:39:21+00:00",
       "status": "active",
       "snippet": "20% off your next month’ applies to boxes 2-5"
     },
@@ -169,7 +169,7 @@
       "title": "Up to 50% Off",
       "offer_url": "https://marleyspoon.com/offer/black-friday-rtc-50p",
       "source_url": "https://marleyspoon.com/offer/black-friday-rtc-50p",
-      "fetched_at": "2026-09-09T19:36:00+00:00",
+      "fetched_at": "2026-09-09T19:39:22+00:00",
       "status": "active",
       "snippet": "Up to 50% Off"
     },
@@ -179,7 +179,7 @@
       "title": "40% off your first order plus 1 free item for life",
       "offer_url": "https://eat.hungryroot.com/2025-save-big",
       "source_url": "https://eat.hungryroot.com/2025-save-big",
-      "fetched_at": "2026-09-09T19:36:01+00:00",
+      "fetched_at": "2026-09-09T19:39:24+00:00",
       "status": "active",
       "snippet": "40% off your first order plus 1 free item for life!!"
     },
@@ -189,7 +189,7 @@
       "title": "Get 50% off your first week of chef-made, ready-to-eat meals | CookUnity",
       "offer_url": "https://www.cookunity.com/lp/cookunity-discount-code",
       "source_url": "https://www.cookunity.com/lp/cookunity-discount-code",
-      "fetched_at": "2026-09-09T19:36:03+00:00",
+      "fetched_at": "2026-09-09T19:39:25+00:00",
       "status": "active",
       "snippet": "Get 50% off your first week of chef-made, ready-to-eat meals | CookUnity"
     },
@@ -199,7 +199,7 @@
       "title": "50% off their first week of Thistle, all year round",
       "offer_url": "https://try.thistle.co/specialty_discounts/",
       "source_url": "https://try.thistle.co/specialty_discounts/",
-      "fetched_at": "2026-09-09T19:36:05+00:00",
+      "fetched_at": "2026-09-09T19:39:27+00:00",
       "status": "active",
       "snippet": "Frontline workers get our best sale price, 50% off their first week of Thistle, all year round"
     },
@@ -209,7 +209,7 @@
       "title": "Meal Kits today and get $120 off across 4 boxes",
       "offer_url": "https://www.gobble.com/quickmeals-menu/",
       "source_url": "https://www.gobble.com/quickmeals-menu/",
-      "fetched_at": "2026-09-09T19:36:07+00:00",
+      "fetched_at": "2026-09-09T19:39:29+00:00",
       "status": "active",
       "snippet": "Meal Kits today and get $120 off across 4 boxes! Choose from a diverse menu that includes meat, fish, and vegetarian dishes. Each and every recipe is prepped by our sous chefs, and designed to be table-ready in just 15 minutes!"
     }
