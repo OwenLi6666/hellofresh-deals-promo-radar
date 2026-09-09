@@ -13,6 +13,12 @@ ILANG
   CookUnity | cookunity.com | https://www.cookunity.com/lp/cookunity-discount-code | https://www.cookunity.com/ | https://www.cookunity.com/robots.txt
   Thistle | thistle.co | https://try.thistle.co/specialty_discounts/ | https://www.thistle.co/ | https://www.thistle.co/robots.txt
   Gobble | gobble.com | https://www.gobble.com/quickmeals-menu/ | https://www.gobble.com/spring-menu4/ | https://www.gobble.com/robots.txt
+  Splendid Spoon | splendidspoon.com | https://www.splendidspoon.com/ | https://www.splendidspoon.com/robots.txt
+  Daily Harvest | daily-harvest.com | https://www.daily-harvest.com/ | https://www.daily-harvest.com/robots.txt
+  Sakara | sakara.com | https://www.sakara.com/ | https://www.sakara.com/robots.txt
+  Mosaic Foods | mosaicfoods.com | https://www.mosaicfoods.com/ | https://www.mosaicfoods.com/robots.txt
+  ModifyHealth | modifyhealth.com | https://modifyhealth.com/ | https://modifyhealth.com/robots.txt
+  Icon Meals | iconmeals.com | https://iconmeals.com/ | https://iconmeals.com/robots.txt
 
 ::MODULE{FIELDS|title:每条优惠提取什么}
   title price currency offer_url valid_until source_url fetched_at status
@@ -33,6 +39,12 @@ ILANG
   CookUnity | https://www.cookunity.com/
   Thistle | https://www.thistle.co/
   Gobble | https://www.gobble.com/
+  Splendid Spoon | https://www.splendidspoon.com/
+  Daily Harvest | https://www.daily-harvest.com/
+  Sakara | https://www.sakara.com/
+  Mosaic Foods | https://www.mosaicfoods.com/
+  ModifyHealth | https://modifyhealth.com/
+  Icon Meals | https://iconmeals.com/
 
 ::RULE{抓不到 price⇒这条不写 price 字段 也不写进结构化数据 不许拿估的填}
 ::RULE{valid_until 已过⇒标记过期或下架 不许留着冒充有效}

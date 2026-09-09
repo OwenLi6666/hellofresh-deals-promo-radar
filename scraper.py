@@ -177,7 +177,7 @@ PROMO_RE = re.compile(
 PRICE_RE = re.compile(r"\$\s?(\d+(?:\.\d{1,2})?)")
 PERCENT_RE = re.compile(r"(\d{1,3})\s*%\s*off", re.I)
 CODE_RE = re.compile(
-    r"(?:(?:use|with|promo)\s+)?code\s*[:\s]+([A-Z][A-Z0-9]{3,19})\b",
+    r"(?:(?:use|with|promo)\s+)?code\s*[:\s\"'\u201c\u201d\u00ab\u00bb]*([A-Z][A-Z0-9]{3,19})\b",
     re.I,
 )
 DATE_RE = re.compile(
@@ -240,7 +240,10 @@ def _clean_title(title: str) -> str:
     title = unescape(title)
     title = re.sub(r"\s+", " ", title).strip(" -–|:;,.")
     title = re.sub(r"^[^A-Za-z0-9$]+", "", title)
-    title = re.sub(r"^(?:and|or|the|a|an|of|to|for|on|in|with|your|our|so|now)\s+", "", title, flags=re.I)
+    title = re.sub(r"^(?:and|or|the|a|an|of|to|for|on|in|with|your|our|so|now|shop now)\s+", "", title, flags=re.I)
+    # Restore "$N" when a dollar amount was clipped at window start
+    if re.match(r"^\d{2,3}\s+on\s+your\s+first", title, re.I):
+        title = "$" + title
     # Normalize "use code X …" into a readable offer title
     um = re.match(
         r"(?i)use\s+code\s+([A-Z0-9]{3,19})\s+(?:on\s+)?(?:an\s+)?upcoming\s+order\s+for\s+(.+)$",
@@ -307,6 +310,17 @@ def _looks_like_real_promo(title: str, price: str | None, code: str | None) -> b
         # Keep only if short specialty discount headline
         if len(t) > 60:
             return False
+    # Reject nav / footer chrome mistaken for offers
+    if re.search(
+        r"gift shop|affiliate\s*&|discover our story|search shop all|shop all clear|"
+        r"more info faqs|sustainability ter|glp-1 support get",
+        t,
+    ):
+        return False
+    if len(t) > 90 and t.count(" ") > 14 and not code:
+        # Long nav dump without a code is almost never a clean offer title
+        if re.search(r"\b(blog|shop all|gift|affiliate|support|faq)\b", t):
+            return False
     has_promo = bool(PROMO_RE.search(title))
     strong = bool(
         PERCENT_RE.search(title)
@@ -316,6 +330,9 @@ def _looks_like_real_promo(title: str, price: str | None, code: str | None) -> b
         or code
         or price
     )
+    # "$65 with code" / "Save $65" without literal "off" still counts via code+save
+    if code and re.search(r"\$\d+|save\s+\$?\d+", title, re.I):
+        strong = True
     if not strong:
         return False
     if code and has_promo:
