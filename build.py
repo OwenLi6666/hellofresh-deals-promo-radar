@@ -96,8 +96,12 @@ def abs_url(domain: str, path: str) -> str:
     if not path.startswith("/"):
         path = "/" + path
     # Directory indexes on Cloudflare Pages live at trailing-slash URLs;
-    # non-slash requests 308 to slash — keep canonical/sitemap on the slash form.
-    if path != "/" and not path.endswith("/"):
+    # non-slash requests 308 to slash — keep page canonicals on the slash form.
+    # File assets (sitemap.xml, robots.txt, *.css, …) must NOT get a trailing slash.
+    is_file = bool(re.search(r"\.[A-Za-z0-9]{1,8}$", path.rstrip("/")))
+    if is_file:
+        path = path.rstrip("/")
+    elif path != "/" and not path.endswith("/"):
         path = path + "/"
     return domain + path
 
