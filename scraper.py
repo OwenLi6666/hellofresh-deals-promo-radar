@@ -177,7 +177,7 @@ PROMO_RE = re.compile(
 PRICE_RE = re.compile(r"\$\s?(\d+(?:\.\d{1,2})?)")
 PERCENT_RE = re.compile(r"(\d{1,3})\s*%\s*off", re.I)
 CODE_RE = re.compile(
-    r"(?:(?:use|with|promo)\s+)?code\s*[:\s\"'\u201c\u201d\u00ab\u00bb]*([A-Z][A-Z0-9]{3,19})\b",
+    r"(?:(?:use|with|promo)\s+)?code\s*[^\w\r\n]{0,4}([A-Z][A-Z0-9]{3,19})\b",
     re.I,
 )
 DATE_RE = re.compile(
