@@ -267,15 +267,32 @@ def _clean_title(title: str) -> str:
     # If nav chrome precedes the promo phrase, keep from the promo phrase onward
     m = PROMO_RE.search(title)
     if m and m.start() > 40:
-        # rewind to nearest sentence/capital start before promo
+        # rewind to nearest sentence/capital/$ start before promo
         cut = title.rfind(". ", 0, m.start())
         if cut == -1:
             cut = max(0, m.start() - 30)
-            while cut < m.start() and not (title[cut].isupper() or title[cut].isdigit()):
+            while cut < m.start() and not (
+                title[cut].isupper() or title[cut].isdigit() or title[cut] == "$"
+            ):
                 cut += 1
+            # If we landed on digits of a $amount, include the dollar sign
+            if cut > 0 and title[cut].isdigit() and title[cut - 1] == "$":
+                cut -= 1
         else:
             cut = cut + 2
         title = title[cut:].strip()
+    # Drop leftover leading chrome words after cut (keep Save/$ amounts)
+    title = re.sub(r"^(?:Get Started|Login|Menu|Home)\s+", "", title, flags=re.I)
+    # Normalize CTA-only titles to the promo phrase
+    cta = re.match(r"(?i)^click\s+here\s+for\s+(.+)$", title)
+    if cta:
+        title = cta.group(1).strip()
+        if title and title[0].islower():
+            title = title[0].upper() + title[1:]
+    # Prefer "Save $N …" over bare "$N …" when both appear; restore Save if clipped
+    if re.match(r"^\$\d+", title) and re.search(r"(?i)first\s+\d+\s+boxes?", title):
+        if not title.lower().startswith("save"):
+            title = "Save " + title
     if title and title[0].islower() and not title.startswith("use "):
         # Capitalize leading letter for display only when we already validated promo
         pass
@@ -324,6 +341,9 @@ def _looks_like_real_promo(title: str, price: str | None, code: str | None) -> b
         # Long nav dump without a code is almost never a clean offer title
         if re.search(r"\b(blog|shop all|gift|affiliate|support|faq)\b", t):
             return False
+    # Reject click-here CTA chrome as title (keep if still has strong promo after)
+    if t.startswith("click here"):
+        return False
     has_promo = bool(PROMO_RE.search(title))
     strong = bool(
         PERCENT_RE.search(title)
