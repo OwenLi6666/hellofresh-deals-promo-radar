@@ -4,7 +4,7 @@
   "locale": "en-US",
   "currency_default": "USD",
   "domain": "hellofresh-deals-promo-radar.pages.dev",
-  "generated_at": "2026-09-09T15:22:28+00:00",
+  "generated_at": "2026-09-09T15:33:38+00:00",
   "config_source": "/home/runner/work/hellofresh-deals-promo-radar/hellofresh-deals-promo-radar/.ilang/site.ilang",
   "providers": [
     "HelloFresh",
@@ -77,7 +77,7 @@
       "title": "HelloFresh Coupon Codes and Promos: Get Free Breakfast for Life + 10 Free Meals on Us!",
       "offer_url": "https://www.hellofresh.com/eat/coupon-codes-and-promotions",
       "source_url": "https://www.hellofresh.com/eat/coupon-codes-and-promotions",
-      "fetched_at": "2026-09-09T15:22:20+00:00",
+      "fetched_at": "2026-09-09T15:33:28+00:00",
       "status": "active",
       "snippet": "HelloFresh Coupon Codes and Promos: Get Free Breakfast for Life + 10 Free Meals on Us!"
     },
@@ -87,7 +87,7 @@
       "title": "g auto-renewing subscription purchase. ‘10 Free Meals’ offer is based on total discount given on first box for a",
       "offer_url": "https://www.hellofresh.com/eat/coupon-codes-and-promotions",
       "source_url": "https://www.hellofresh.com/eat/coupon-codes-and-promotions",
-      "fetched_at": "2026-09-09T15:22:20+00:00",
+      "fetched_at": "2026-09-09T15:33:28+00:00",
       "status": "active",
       "snippet": "*Offer only valid for new customers with qualifying auto-renewing subscription purchase. ‘10 Free Meals’ offer is based on total discount given on first box for a 4-person, 5-recipe plan, and expires 21 days after offer purchase at 11:59 PM ET. Customers who purchase a plan of gr"
     },
@@ -97,7 +97,7 @@
       "title": "of greater value will receive more than 10 free meals, while customers who purchase a plan of lesser value will r",
       "offer_url": "https://www.hellofresh.com/eat/coupon-codes-and-promotions",
       "source_url": "https://www.hellofresh.com/eat/coupon-codes-and-promotions",
-      "fetched_at": "2026-09-09T15:22:20+00:00",
+      "fetched_at": "2026-09-09T15:33:28+00:00",
       "status": "active",
       "snippet": "*Offer only valid for new customers with qualifying auto-renewing subscription purchase. ‘10 Free Meals’ offer is based on total discount given on first box for a 4-person, 5-recipe plan, and expires 21 days after offer purchase at 11:59 PM ET. Customers who purchase a plan of gr"
     },
@@ -107,7 +107,7 @@
       "title": "of lesser value will receive less than 10 free meals. 'Free for Life' offer is based on a limit of one free item",
       "offer_url": "https://www.hellofresh.com/eat/coupon-codes-and-promotions",
       "source_url": "https://www.hellofresh.com/eat/coupon-codes-and-promotions",
-      "fetched_at": "2026-09-09T15:22:20+00:00",
+      "fetched_at": "2026-09-09T15:33:28+00:00",
       "status": "active",
       "snippet": "*Offer only valid for new customers with qualifying auto-renewing subscription purchase. ‘10 Free Meals’ offer is based on total discount given on first box for a 4-person, 5-recipe plan, and expires 21 days after offer purchase at 11:59 PM ET. Customers who purchase a plan of gr"
     },
@@ -117,7 +117,7 @@
       "title": "Life' offer is based on a limit of one free item per box for as long as a customer remains active; if subscription is canceled, this offer becomes i",
       "offer_url": "https://www.hellofresh.com/eat/coupon-codes-and-promotions",
       "source_url": "https://www.hellofresh.com/eat/coupon-codes-and-promotions",
-      "fetched_at": "2026-09-09T15:22:20+00:00",
+      "fetched_at": "2026-09-09T15:33:28+00:00",
       "status": "active",
       "snippet": "*Offer only valid for new customers with qualifying auto-renewing subscription purchase. ‘10 Free Meals’ offer is based on total discount given on first box for a 4-person, 5-recipe plan, and expires 21 days after offer purchase at 11:59 PM ET. Customers who purchase a plan of gr"
     },
@@ -127,7 +127,7 @@
       "title": "Blue Apron: check current promotions on official page",
       "offer_url": "https://blog.blueapron.com/",
       "source_url": "https://blog.blueapron.com/",
-      "fetched_at": "2026-09-09T15:22:22+00:00",
+      "fetched_at": "2026-09-09T15:33:30+00:00",
       "status": "listing",
       "snippet": "Explore Blue Apron’s blog for delicious recipes, cooking tips, and meal prep ideas to simplify home cooking and inspire your culinary journey."
     },
@@ -137,7 +137,7 @@
       "title": "Code successfully applied for 18 Free Meals + Free Shipping on your First Box",
       "offer_url": "https://www.homechef.com/",
       "source_url": "https://www.homechef.com/",
-      "fetched_at": "2026-09-09T15:22:23+00:00",
+      "fetched_at": "2026-09-09T15:33:31+00:00",
       "status": "active",
       "snippet": "Code successfully applied for 18 Free Meals + Free Shipping on your First Box"
     },
@@ -147,7 +147,7 @@
       "title": "uccessfully applied for 18 Free Meals + Free Shipping on your First Box",
       "offer_url": "https://www.homechef.com/",
       "source_url": "https://www.homechef.com/",
-      "fetched_at": "2026-09-09T15:22:23+00:00",
+      "fetched_at": "2026-09-09T15:33:31+00:00",
       "status": "active",
       "snippet": "Code successfully applied for 18 Free Meals + Free Shipping on your First Box"
     },
@@ -157,7 +157,7 @@
       "title": "Factor: check current promotions on official page",
       "offer_url": "https://www.factor75.com/faq",
       "source_url": "https://www.factor75.com/faq",
-      "fetched_at": "2026-09-09T15:22:24+00:00",
+      "fetched_at": "2026-09-09T15:33:33+00:00",
       "status": "listing",
       "snippet": "No structured promo phrase extracted; visit official page for live offers."
     },
@@ -167,7 +167,7 @@
       "title": "Marley Spoon: check current promotions on official page",
       "offer_url": "https://marleyspoon.com/",
       "source_url": "https://marleyspoon.com/",
-      "fetched_at": "2026-09-09T15:22:26+00:00",
+      "fetched_at": "2026-09-09T15:33:36+00:00",
       "status": "listing",
       "snippet": "Marley Spoon delivers delicious, 30-minute recipes with farm-fresh ingredients to your door. Learn cooking techniques from Martha Stewart and save time with her meal kit."
     },
@@ -177,7 +177,7 @@
       "title": "Hungryroot: check current promotions on official page",
       "offer_url": "https://www.hungryroot.com/",
       "source_url": "https://www.hungryroot.com/",
-      "fetched_at": "2026-09-09T15:22:27+00:00",
+      "fetched_at": "2026-09-09T15:33:37+00:00",
       "status": "listing",
       "snippet": "Good-for-you groceries, simple recipes, recommended just for you. Take the quiz today."
     }
