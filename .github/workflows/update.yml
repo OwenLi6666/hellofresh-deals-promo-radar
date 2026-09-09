@@ -17,6 +17,10 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: update-offers
+  cancel-in-progress: false
+
 jobs:
   scrape-and-build:
     runs-on: ubuntu-latest
@@ -44,5 +48,6 @@ jobs:
             echo "No offer/site changes"
           else
             git commit -m "chore: refresh offers $(date -u +%Y-%m-%dT%H:%MZ)"
+            git pull --rebase origin main
             git push
           fi
