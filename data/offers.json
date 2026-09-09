@@ -4,8 +4,8 @@
   "locale": "en-US",
   "currency_default": "USD",
   "domain": "mealkitdeals.com",
-  "generated_at": "2026-09-09T19:12:43+00:00",
-  "config_source": "C:\\cusor\\hellofresh-deals-promo-radar\\.ilang\\site.ilang",
+  "generated_at": "2026-09-09T19:13:08+00:00",
+  "config_source": "/home/runner/work/hellofresh-deals-promo-radar/hellofresh-deals-promo-radar/.ilang/site.ilang",
   "providers": [
     "HelloFresh",
     "Blue Apron",
@@ -22,21 +22,10 @@
       "provider": "HelloFresh",
       "url": "https://www.hellofresh.com/eat/coupon-codes-and-promotions",
       "robots_allowed": true,
-      "http_status": 403,
+      "http_status": 200,
       "final_url": "https://www.hellofresh.com/eat/coupon-codes-and-promotions",
-      "retried": true,
-      "status": "fetch_failed",
-      "error": "HTTP 403"
-    },
-    {
-      "provider": "HelloFresh",
-      "url": "https://blog.hellofresh.com/",
-      "robots_allowed": true,
-      "http_status": 403,
-      "final_url": "https://blog.hellofresh.com/",
-      "retried": true,
-      "status": "fetch_failed",
-      "error": "HTTP 403"
+      "status": "ok",
+      "offers_extracted": 5
     },
     {
       "provider": "Blue Apron",
@@ -60,21 +49,10 @@
       "provider": "Factor",
       "url": "https://www.factor75.com/faq",
       "robots_allowed": true,
-      "http_status": 403,
+      "http_status": 200,
       "final_url": "https://www.factor75.com/faq",
-      "retried": true,
-      "status": "fetch_failed",
-      "error": "HTTP 403"
-    },
-    {
-      "provider": "Factor",
-      "url": "https://www.factor75.com/",
-      "robots_allowed": true,
-      "http_status": 403,
-      "final_url": "https://www.factor75.com/",
-      "retried": true,
-      "status": "fetch_failed",
-      "error": "HTTP 403"
+      "status": "ok",
+      "offers_extracted": 1
     },
     {
       "provider": "Marley Spoon",
@@ -126,12 +104,52 @@
     {
       "provider": "HelloFresh",
       "domain": "hellofresh.com",
-      "title": "HelloFresh: official promo page temporarily unreachable",
+      "title": "HelloFresh Coupon Codes and Promos: Get Free Breakfast for Life + 10 Free Meals on Us!",
       "offer_url": "https://www.hellofresh.com/eat/coupon-codes-and-promotions",
       "source_url": "https://www.hellofresh.com/eat/coupon-codes-and-promotions",
-      "fetched_at": "2026-09-09T19:12:25+00:00",
-      "status": "unreachable",
-      "snippet": "Fetch failed (HTTP 403); open the official URL for current offers. No price invented."
+      "fetched_at": "2026-09-09T19:12:55+00:00",
+      "status": "active",
+      "snippet": "HelloFresh Coupon Codes and Promos: Get Free Breakfast for Life + 10 Free Meals on Us!"
+    },
+    {
+      "provider": "HelloFresh",
+      "domain": "hellofresh.com",
+      "title": "g auto-renewing subscription purchase. ‘10 Free Meals’ offer is based on total discount given on first box for a",
+      "offer_url": "https://www.hellofresh.com/eat/coupon-codes-and-promotions",
+      "source_url": "https://www.hellofresh.com/eat/coupon-codes-and-promotions",
+      "fetched_at": "2026-09-09T19:12:55+00:00",
+      "status": "active",
+      "snippet": "*Offer only valid for new customers with qualifying auto-renewing subscription purchase. ‘10 Free Meals’ offer is based on total discount given on first box for a 4-person, 5-recipe plan, and expires 21 days after offer purchase at 11:59 PM ET. Customers who purchase a plan of gr"
+    },
+    {
+      "provider": "HelloFresh",
+      "domain": "hellofresh.com",
+      "title": "of greater value will receive more than 10 free meals, while customers who purchase a plan of lesser value will r",
+      "offer_url": "https://www.hellofresh.com/eat/coupon-codes-and-promotions",
+      "source_url": "https://www.hellofresh.com/eat/coupon-codes-and-promotions",
+      "fetched_at": "2026-09-09T19:12:55+00:00",
+      "status": "active",
+      "snippet": "*Offer only valid for new customers with qualifying auto-renewing subscription purchase. ‘10 Free Meals’ offer is based on total discount given on first box for a 4-person, 5-recipe plan, and expires 21 days after offer purchase at 11:59 PM ET. Customers who purchase a plan of gr"
+    },
+    {
+      "provider": "HelloFresh",
+      "domain": "hellofresh.com",
+      "title": "of lesser value will receive less than 10 free meals. 'Free for Life' offer is based on a limit of one free item",
+      "offer_url": "https://www.hellofresh.com/eat/coupon-codes-and-promotions",
+      "source_url": "https://www.hellofresh.com/eat/coupon-codes-and-promotions",
+      "fetched_at": "2026-09-09T19:12:55+00:00",
+      "status": "active",
+      "snippet": "*Offer only valid for new customers with qualifying auto-renewing subscription purchase. ‘10 Free Meals’ offer is based on total discount given on first box for a 4-person, 5-recipe plan, and expires 21 days after offer purchase at 11:59 PM ET. Customers who purchase a plan of gr"
+    },
+    {
+      "provider": "HelloFresh",
+      "domain": "hellofresh.com",
+      "title": "Life' offer is based on a limit of one free item per box for as long as a customer remains active; if subscription is canceled, this offer becomes i",
+      "offer_url": "https://www.hellofresh.com/eat/coupon-codes-and-promotions",
+      "source_url": "https://www.hellofresh.com/eat/coupon-codes-and-promotions",
+      "fetched_at": "2026-09-09T19:12:55+00:00",
+      "status": "active",
+      "snippet": "*Offer only valid for new customers with qualifying auto-renewing subscription purchase. ‘10 Free Meals’ offer is based on total discount given on first box for a 4-person, 5-recipe plan, and expires 21 days after offer purchase at 11:59 PM ET. Customers who purchase a plan of gr"
     },
     {
       "provider": "Blue Apron",
@@ -139,7 +157,7 @@
       "title": "Blue Apron: check current promotions on official page",
       "offer_url": "https://blog.blueapron.com/",
       "source_url": "https://blog.blueapron.com/",
-      "fetched_at": "2026-09-09T19:12:26+00:00",
+      "fetched_at": "2026-09-09T19:12:56+00:00",
       "status": "listing",
       "snippet": "Explore Blue Apron’s blog for delicious recipes, cooking tips, and meal prep ideas to simplify home cooking and inspire your culinary journey."
     },
@@ -149,7 +167,7 @@
       "title": "Code successfully applied for 18 Free Meals + Free Shipping on your First Box",
       "offer_url": "https://www.homechef.com/",
       "source_url": "https://www.homechef.com/",
-      "fetched_at": "2026-09-09T19:12:27+00:00",
+      "fetched_at": "2026-09-09T19:12:57+00:00",
       "status": "active",
       "snippet": "Code successfully applied for 18 Free Meals + Free Shipping on your First Box"
     },
@@ -159,19 +177,19 @@
       "title": "uccessfully applied for 18 Free Meals + Free Shipping on your First Box",
       "offer_url": "https://www.homechef.com/",
       "source_url": "https://www.homechef.com/",
-      "fetched_at": "2026-09-09T19:12:27+00:00",
+      "fetched_at": "2026-09-09T19:12:57+00:00",
       "status": "active",
       "snippet": "Code successfully applied for 18 Free Meals + Free Shipping on your First Box"
     },
     {
       "provider": "Factor",
       "domain": "factor75.com",
-      "title": "Factor: official promo page temporarily unreachable",
+      "title": "Factor: check current promotions on official page",
       "offer_url": "https://www.factor75.com/faq",
       "source_url": "https://www.factor75.com/faq",
-      "fetched_at": "2026-09-09T19:12:33+00:00",
-      "status": "unreachable",
-      "snippet": "Fetch failed (HTTP 403); open the official URL for current offers. No price invented."
+      "fetched_at": "2026-09-09T19:13:00+00:00",
+      "status": "listing",
+      "snippet": "No structured promo phrase extracted; visit official page for live offers."
     },
     {
       "provider": "Marley Spoon",
@@ -179,7 +197,7 @@
       "title": "Marley Spoon: check current promotions on official page",
       "offer_url": "https://marleyspoon.com/",
       "source_url": "https://marleyspoon.com/",
-      "fetched_at": "2026-09-09T19:12:34+00:00",
+      "fetched_at": "2026-09-09T19:13:02+00:00",
       "status": "listing",
       "snippet": "Marley Spoon delivers delicious, 30-minute recipes with farm-fresh ingredients to your door. Learn cooking techniques from Martha Stewart and save time with her meal kit."
     },
@@ -189,7 +207,7 @@
       "title": "Hungryroot: check current promotions on official page",
       "offer_url": "https://www.hungryroot.com/",
       "source_url": "https://www.hungryroot.com/",
-      "fetched_at": "2026-09-09T19:12:35+00:00",
+      "fetched_at": "2026-09-09T19:13:03+00:00",
       "status": "listing",
       "snippet": "Good-for-you groceries, simple recipes, recommended just for you. Take the quiz today."
     },
@@ -199,7 +217,7 @@
       "title": "Get 50% off your first week of chef-made, ready-to-eat meals | CookUnit",
       "offer_url": "https://www.cookunity.com/lp/cookunity-discount-code",
       "source_url": "https://www.cookunity.com/lp/cookunity-discount-code",
-      "fetched_at": "2026-09-09T19:12:37+00:00",
+      "fetched_at": "2026-09-09T19:13:04+00:00",
       "status": "active",
       "snippet": "Get 50% off your first week of chef-made, ready-to-eat meals | CookUnity"
     },
@@ -209,7 +227,7 @@
       "title": "Get 50% off your first week of chef-made meals",
       "offer_url": "https://www.cookunity.com/lp/cookunity-discount-code",
       "source_url": "https://www.cookunity.com/lp/cookunity-discount-code",
-      "fetched_at": "2026-09-09T19:12:37+00:00",
+      "fetched_at": "2026-09-09T19:13:04+00:00",
       "status": "active",
       "snippet": "Get 50% off your first week of chef-made meals"
     },
@@ -219,7 +237,7 @@
       "title": "Snag 50% off your first week while the promo lasts. After that, regular",
       "offer_url": "https://www.cookunity.com/lp/cookunity-discount-code",
       "source_url": "https://www.cookunity.com/lp/cookunity-discount-code",
-      "fetched_at": "2026-09-09T19:12:37+00:00",
+      "fetched_at": "2026-09-09T19:13:04+00:00",
       "status": "active",
       "snippet": "Snag 50% off your first week while the promo lasts. After that, regular pricing kicks in (but the flavor’s still on fire). We occasionally offer special promos for specific users or times, so check back often or keep an eye on your inbox!"
     },
@@ -229,7 +247,7 @@
       "title": "ntline workers get our best sale price, 50% off their first week of Thistle, all year round",
       "offer_url": "https://try.thistle.co/specialty_discounts/",
       "source_url": "https://try.thistle.co/specialty_discounts/",
-      "fetched_at": "2026-09-09T19:12:39+00:00",
+      "fetched_at": "2026-09-09T19:13:06+00:00",
       "status": "active",
       "snippet": "The people working hard to build and protect communities across the country deserve healthy, affordable meals (that taste great, too). Frontline workers get our best sale price, 50% off their first week of Thistle, all year round."
     },
@@ -239,7 +257,7 @@
       "title": "ble’s 15-Minute Meal Kits today and get $120 off across 4 boxes! Choose from a diverse menu that includes me",
       "offer_url": "https://www.gobble.com/quickmeals-menu/",
       "source_url": "https://www.gobble.com/quickmeals-menu/",
-      "fetched_at": "2026-09-09T19:12:42+00:00",
+      "fetched_at": "2026-09-09T19:13:07+00:00",
       "status": "active",
       "snippet": "Try Gobble’s 15-Minute Meal Kits today and get $120 off across 4 boxes! Choose from a diverse menu that includes meat, fish, and vegetarian dishes. Each and every recipe is prepped by our sous chefs, and designed to be table-ready in just 15 minutes!",
       "price": "120",
