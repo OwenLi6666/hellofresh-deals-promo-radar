@@ -19,6 +19,8 @@ ILANG
   Mosaic Foods | mosaicfoods.com | https://www.mosaicfoods.com/ | https://www.mosaicfoods.com/robots.txt
   ModifyHealth | modifyhealth.com | https://modifyhealth.com/ | https://modifyhealth.com/robots.txt
   Icon Meals | iconmeals.com | https://iconmeals.com/ | https://iconmeals.com/robots.txt
+  Clean Eatz Kitchen | cleaneatzkitchen.com | https://cleaneatzkitchen.com/ | https://cleaneatzkitchen.com/robots.txt
+  ButcherBox | butcherbox.com | https://www.butcherbox.com/ | https://www.butcherbox.com/robots.txt
 
 ::MODULE{FIELDS|title:每条优惠提取什么}
   title price currency offer_url valid_until source_url fetched_at status
@@ -45,6 +47,8 @@ ILANG
   Mosaic Foods | https://www.mosaicfoods.com/
   ModifyHealth | https://modifyhealth.com/
   Icon Meals | https://iconmeals.com/
+  Clean Eatz Kitchen | https://cleaneatzkitchen.com/
+  ButcherBox | https://www.butcherbox.com/
 
 ::RULE{抓不到 price⇒这条不写 price 字段 也不写进结构化数据 不许拿估的填}
 ::RULE{valid_until 已过⇒标记过期或下架 不许留着冒充有效}

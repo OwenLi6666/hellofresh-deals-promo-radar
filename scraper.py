@@ -244,7 +244,10 @@ def _clean_title(title: str) -> str:
     # Restore "$N" when a dollar amount was clipped at window start
     if re.match(r"^\d{2,3}\s+on\s+your\s+first", title, re.I):
         title = "$" + title
-    # Normalize "use code X …" into a readable offer title
+    # Prefer a clean "20% Off" badge over "20% Off <product dump>"
+    m20 = re.match(r"(?i)^(20%\s*off)\b(.{0,80})$", title)
+    if m20 and re.search(r"\b(ground beef|chicken|pork|steak|lb\b|pack)\b", m20.group(2), re.I):
+        title = "20% Off"    # Normalize "use code X …" into a readable offer title
     um = re.match(
         r"(?i)use\s+code\s+([A-Z0-9]{3,19})\s+(?:on\s+)?(?:an\s+)?upcoming\s+order\s+for\s+(.+)$",
         title,
