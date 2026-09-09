@@ -18,7 +18,6 @@ ILANG
   Sakara | sakara.com | https://www.sakara.com/ | https://www.sakara.com/robots.txt
   Mosaic Foods | mosaicfoods.com | https://www.mosaicfoods.com/ | https://www.mosaicfoods.com/robots.txt
   ModifyHealth | modifyhealth.com | https://modifyhealth.com/ | https://modifyhealth.com/robots.txt
-  Icon Meals | iconmeals.com | https://iconmeals.com/ | https://iconmeals.com/robots.txt
   Clean Eatz Kitchen | cleaneatzkitchen.com | https://cleaneatzkitchen.com/ | https://cleaneatzkitchen.com/robots.txt
 
 ::MODULE{FIELDS|title:每条优惠提取什么}
@@ -45,7 +44,6 @@ ILANG
   Sakara | https://www.sakara.com/
   Mosaic Foods | https://www.mosaicfoods.com/
   ModifyHealth | https://modifyhealth.com/
-  Icon Meals | https://iconmeals.com/
   Clean Eatz Kitchen | https://cleaneatzkitchen.com/
 
 ::RULE{抓不到 price⇒这条不写 price 字段 也不写进结构化数据 不许拿估的填}
