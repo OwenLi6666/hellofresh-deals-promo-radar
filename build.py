@@ -91,20 +91,26 @@ def abs_url(domain: str, path: str) -> str:
         domain = "https://" + domain
     if not path.startswith("/"):
         path = "/" + path
-    # Keep bare "/" ; strip trailing slash on other paths for canonical consistency
-    if path != "/" and path.endswith("/"):
-        path = path.rstrip("/")
+    # Directory indexes on Cloudflare Pages live at trailing-slash URLs;
+    # non-slash requests 308 to slash — keep canonical/sitemap on the slash form.
+    if path != "/" and not path.endswith("/"):
+        path = path + "/"
     return domain + path
 
 
 def page_path(*parts: str) -> str:
-    """Extensionless public path, e.g. ('providers','hellofresh') -> /providers/hellofresh."""
+    """Extensionless public path with trailing slash for CF Pages directory indexes.
+
+    Example: ('providers','hellofresh') -> /providers/hellofresh/
+    """
     clean = [p.strip("/") for p in parts if p and p.strip("/")]
-    return "/" + "/".join(clean) if clean else "/"
+    if not clean:
+        return "/"
+    return "/" + "/".join(clean) + "/"
 
 
 def write_page(rel_path: str, content: str) -> None:
-    """Write HTML as directory index so /path serves without .html or redirect."""
+    """Write HTML as directory index so /path/ serves without .html."""
     rel = rel_path.strip("/")
     if not rel or rel == "index":
         out = SITE_DIR / "index.html"
