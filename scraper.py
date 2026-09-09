@@ -308,6 +308,16 @@ def _looks_like_real_promo(title: str, price: str | None, code: str | None) -> b
         if len(t) > 60:
             return False
     has_promo = bool(PROMO_RE.search(title))
+    strong = bool(
+        PERCENT_RE.search(title)
+        or re.search(r"\$\d+\s*off", title, re.I)
+        or re.search(r"\d+\s*free meals?", title, re.I)
+        or re.search(r"free (?:breakfast|item|gift|dozen|trial)", title, re.I)
+        or code
+        or price
+    )
+    if not strong:
+        return False
     if code and has_promo:
         return True
     if code and re.search(r"off|free|discount|save|\$\d+", t):
