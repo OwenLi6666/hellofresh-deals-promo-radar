@@ -26,10 +26,25 @@ Open `site/index.html`. To change brands, edit `.ilang/site.ilang` only, then re
 
 ## Auto update
 
-`.github/workflows/update.yml` runs about every 6 hours: scrape → build → commit `data/offers.json`.
+`.github/workflows/update.yml` runs about every 6 hours (and on relevant pushes): scrape → build → commit `data/offers.json` + `site/`.
 
-Cloudflare Pages build command: `python build.py`  
-Output directory: `site`
+## Cloudflare Pages (step 7)
+
+1. Open [Cloudflare Dashboard → Workers & Pages → Create → Pages → Connect to Git](https://dash.cloudflare.com/?to=/:account/pages)
+2. Select repo `OwenLi6666/hellofresh-deals-promo-radar`, branch `main`
+3. Build settings:
+   - **Framework preset:** None
+   - **Build command:** *(leave empty)* — Actions already commits `site/`
+   - **Build output directory:** `site`
+4. Save and deploy. Production URL should be `https://hellofresh-deals-promo-radar.pages.dev` (or the project name you chose).
+5. If the subdomain differs, set `@SITE.domain` in `.ilang/site.ilang` and re-run the workflow.
+
+Optional CLI deploy (needs `CLOUDFLARE_API_TOKEN` + account login):
+
+```bash
+npx wrangler pages project create hellofresh-deals-promo-radar --production-branch main
+npx wrangler pages deploy site --project-name hellofresh-deals-promo-radar
+```
 
 ## Monetization
 
