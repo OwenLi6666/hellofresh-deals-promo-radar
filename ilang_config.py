@@ -102,6 +102,20 @@ def load_site_config(path: Path | None = None) -> dict[str, Any]:
             if line.startswith("affiliate_note:"):
                 affiliate_note = line.split(":", 1)[1].strip()
 
+    publisher: dict[str, str] = {}
+    pub_block = re.search(
+        r"::MODULE\{PUBLISHER[^}]*\}(.*?)(?=::MODULE\{|::RULE\{|::BOUNDARY\{|\Z)",
+        text,
+        re.S,
+    )
+    if pub_block:
+        for line in pub_block.group(1).splitlines():
+            line = line.strip()
+            if not line or line.startswith("[") or "|" not in line:
+                continue
+            key, _, val = line.partition("|")
+            publisher[key.strip()] = val.strip()
+
     return {
         "site": site,
         "providers": providers,
@@ -110,5 +124,6 @@ def load_site_config(path: Path | None = None) -> dict[str, Any]:
         "affiliate_note": affiliate_note or (
             "Links may be affiliate links. We may earn a commission at no extra cost to you."
         ),
+        "publisher": publisher,
         "source_path": str(p),
     }

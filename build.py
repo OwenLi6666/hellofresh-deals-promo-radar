@@ -30,6 +30,40 @@ DATA_PATH = ROOT / "data" / "offers.json"
 SITE_DIR = ROOT / "site"
 TPL_DIR = ROOT / "templates"
 
+FOOTER_LINKS_HTML = (
+    '<p class="footer-links">'
+    '<a href="/about/">About</a> '
+    '<a href="/contact/">Contact</a> '
+    '<a href="/privacy/">Privacy</a> '
+    '<a href="/compare/">Compare</a>'
+    "</p>"
+)
+NAV_LINKS_HTML = (
+    '<a href="/">Home</a>\n'
+    '        <a href="/compare/">Compare</a>\n'
+    '        <a href="/about/">About</a>\n'
+    '        <a href="/contact/">Contact</a>'
+)
+
+
+def nav_links_html(include_contact: bool = True) -> str:
+    links = [
+        '<a href="/">Home</a>',
+        '<a href="/compare/">Compare</a>',
+        '<a href="/about/">About</a>',
+    ]
+    if include_contact:
+        links.append('<a href="/contact/">Contact</a>')
+    return "\n        ".join(links)
+
+
+def footer_links_html(include_contact: bool = True) -> str:
+    parts = ['<a href="/about/">About</a>']
+    if include_contact:
+        parts.append('<a href="/contact/">Contact</a>')
+    parts.extend(['<a href="/privacy/">Privacy</a>', '<a href="/compare/">Compare</a>'])
+    return '<p class="footer-links">' + " ".join(parts) + "</p>"
+
 
 def slugify(text: str) -> str:
     s = text.lower()
@@ -87,6 +121,28 @@ def tpl_escape(value: Any) -> str:
 def render_tpl(name: str, mapping: dict[str, Any]) -> str:
     safe = {k: tpl_escape(v) for k, v in mapping.items()}
     return read_tpl(name).safe_substitute(safe)
+
+
+def normalize_offer_title(title: str) -> str:
+    """Display-time cleanup for UI crumbs; never invents new offer claims."""
+    from html import unescape
+
+    title = unescape(title or "")
+    title = re.sub(r"\s+", " ", title).strip()
+    if re.search(r"(?i)successfully applied|code successfully", title):
+        m = re.search(
+            r"(?i)(\d+\s*free meals?(?:\s*\+\s*free shipping)?(?:\s+on\s+(?:your\s+)?first\s+box)?)",
+            title,
+        )
+        if m:
+            title = m.group(1).strip()
+            title = title[0].upper() + title[1:]
+    title = re.sub(r"(?i)\s*see\s*t&?\s*cs\.?\s*$", "", title)
+    title = re.sub(r"(?i)\s*see\s*terms(?:\s*(?:and|&)\s*conditions)?\.?\s*$", "", title)
+    title = re.sub(r"[\ufffd]+", "", title)
+    # Drop brand suffix pipes like "| CookUnity"
+    title = re.sub(r"\s*\|\s*[A-Za-z][A-Za-z0-9 &'-]{1,40}$", "", title)
+    return title.strip(" -–|:;,.")
 
 
 def abs_url(domain: str, path: str) -> str:
@@ -152,14 +208,106 @@ def json_ld_offer(offer: dict[str, Any], page_url: str) -> dict[str, Any]:
 
 def clean_output_dirs() -> None:
     """Remove prior page trees so leftover .html files cannot leak old URLs."""
-    for name in ("providers", "deals", "compare"):
+    for name in ("providers", "deals", "compare", "about", "contact", "privacy"):
         target = SITE_DIR / name
         if target.exists():
             shutil.rmtree(target)
-    for stale in ("compare.html",):
+    for stale in ("compare.html", "404.html"):
         p = SITE_DIR / stale
         if p.exists():
             p.unlink()
+
+
+def build_static_pages(
+    brand: str,
+    domain: str,
+    affiliate_note: str,
+    base_vars: dict[str, Any],
+    cfg: dict[str, Any],
+) -> list[tuple[str, str]]:
+    """Emit About / Contact / Privacy trust pages. Never invent contact email."""
+    pub = cfg.get("publisher") or {}
+    contact_email = (pub.get("contact_email") or "").strip()
+    about_operator = (pub.get("about_operator") or "").strip()
+    written: list[tuple[str, str]] = []
+
+    about_who = (
+        html.escape(about_operator)
+        if about_operator
+        else "the independent publisher of this site"
+    )
+    about_body = f"""
+        <p><strong>{html.escape(brand)}</strong> is a meal-kit promo radar: we list publicly visible promotions scraped from official brand pages.</p>
+        <p>It is operated by {about_who}. The site is a static Cloudflare Pages site built from a public GitHub repository. Listings update automatically from public sources.</p>
+        <p>We only show titles, prices, promo codes, and expiry dates when those fields are extracted from official pages. We do not invent offers, prices, codes, or valid-through dates.</p>
+        <p>Outbound brand links may be affiliate links. Third-party advertising may appear on the site in the future; see the Privacy page for how that works.</p>
+    """
+    about_path = page_path("about")
+    about_html = render_tpl(
+        "static.html",
+        {
+            **base_vars,
+            "title": f"About — {brand}",
+            "description": f"Who runs {brand} and what this meal-kit promo radar does.",
+            "canonical": abs_url(domain, about_path),
+            "og_title": f"About {brand}",
+            "eyebrow": "About",
+            "heading": f"About {brand}",
+            "body": about_body,
+        },
+    )
+    write_page(about_path, about_html)
+    written.append((about_path, about_html))
+
+    if contact_email and "@" in contact_email:
+        contact_body = f"""
+        <p>Questions about listings, corrections, or partnership inquiries:</p>
+        <p><a href="mailto:{html.escape(contact_email)}">{html.escape(contact_email)}</a></p>
+        <p>Please include the page URL if you are reporting an incorrect or outdated promo listing.</p>
+        """
+        contact_path = page_path("contact")
+        contact_html = render_tpl(
+            "static.html",
+            {
+                **base_vars,
+                "title": f"Contact — {brand}",
+                "description": f"Contact the publisher of {brand}.",
+                "canonical": abs_url(domain, contact_path),
+                "og_title": f"Contact {brand}",
+                "eyebrow": "Contact",
+                "heading": "Contact",
+                "body": contact_body,
+            },
+        )
+        write_page(contact_path, contact_html)
+        written.append((contact_path, contact_html))
+
+    privacy_body = f"""
+        <p>This Privacy Policy applies to <strong>{html.escape(brand)}</strong> at <strong>{html.escape(domain)}</strong>, a static meal-kit promo radar hosted on Cloudflare Pages.</p>
+        <p><strong>What we collect.</strong> The public site itself does not run a member login and does not ask you to create an account. Standard web server / CDN logs (such as IP address, user agent, and requested URL) may be processed by Cloudflare while serving the site. We do not sell personal information.</p>
+        <p><strong>Affiliate links.</strong> Some outbound links to meal-kit brands may be affiliate links. If you click them and later subscribe or purchase, we may earn a commission at no extra cost to you. Affiliate networks and brand sites have their own privacy policies.</p>
+        <p><strong>Third-party advertising.</strong> The site is prepared to display third-party ads (for example display or affiliate network creatives). Ad partners may use cookies or similar technologies to measure impressions or personalize ads. When ad codes are added, those partners' policies also apply. We will not invent tracking that is not actually installed.</p>
+        <p><strong>Scraped listings.</strong> Promo titles, codes, and prices shown on this site come from publicly available brand pages. We do not invent missing fields.</p>
+        <p><strong>Contact.</strong> For privacy questions, use the email on the <a href="/contact/">Contact</a> page once published.</p>
+        <p>Last updated: {html.escape(date.today().isoformat())}.</p>
+    """
+    privacy_path = page_path("privacy")
+    privacy_html = render_tpl(
+        "static.html",
+        {
+            **base_vars,
+            "title": f"Privacy Policy — {brand}",
+            "description": f"Privacy Policy for {brand}, including affiliate links and third-party ads.",
+            "canonical": abs_url(domain, privacy_path),
+            "og_title": f"Privacy — {brand}",
+            "eyebrow": "Legal",
+            "heading": "Privacy Policy",
+            "body": privacy_body,
+        },
+    )
+    write_page(privacy_path, privacy_html)
+    written.append((privacy_path, privacy_html))
+    return written
 
 
 def render() -> None:
@@ -171,9 +319,19 @@ def render() -> None:
     niche = site.get("niche") or data.get("niche") or "meal kit deals"
     affiliate_note = cfg["affiliate_note"]
     affiliates = cfg["affiliates"]
+    pub = cfg.get("publisher") or {}
+    has_contact = bool((pub.get("contact_email") or "").strip() and "@" in (pub.get("contact_email") or ""))
 
     offers = [o for o in data.get("offers", []) if is_showable(o)]
     for o in offers:
+        o["title"] = normalize_offer_title(o.get("title") or "")
+        if o.get("snippet"):
+            sn = normalize_offer_title(o.get("snippet") or "")
+            # Avoid repeating the same sentence under the card title
+            if sn.lower() == (o.get("title") or "").lower() or (o.get("title") or "").lower() in sn.lower():
+                o["snippet"] = ""
+            else:
+                o["snippet"] = sn
         o["_id"] = offer_id(o)
         o["_affiliate"] = affiliates.get(o.get("provider", ""), o.get("offer_url", "#"))
 
@@ -201,6 +359,8 @@ def render() -> None:
         "affiliate_note": html.escape(affiliate_note),
         "canonical_home": abs_url(domain, "/"),
         "year": str(datetime.now(timezone.utc).year),
+        "nav_links": nav_links_html(has_contact),
+        "footer_links": footer_links_html(has_contact),
     }
 
     # CSS
@@ -213,18 +373,24 @@ def render() -> None:
     for name in provider_order:
         rows = by_provider.get(name, [])
         top_title = rows[0].get("title", name) if rows else f"{name}: no public promo extracted yet"
-        snip = (
-            rows[0].get("snippet")
-            if rows
-            else "No public promo phrase/code extracted from official pages. We do not invent deals."
-        )
+        snip = rows[0].get("snippet") if rows else ""
+        if not snip and rows:
+            # Short meta line — not a second copy of the title
+            bits = []
+            if rows[0].get("code"):
+                bits.append(f"Code {rows[0]['code']}")
+            if rows[0].get("valid_until"):
+                bits.append(f"Until {rows[0]['valid_until']}")
+            snip = " · ".join(bits) if bits else "From official public promo pages."
+        if not rows:
+            snip = "No public promo phrase/code extracted from official pages. We do not invent deals."
         provider_href = page_path("providers", slugify(name))
         cards.append(
             f"""
             <article class="card">
               <p class="eyebrow">{html.escape(name)}</p>
               <h2><a href="{provider_href}">{html.escape(top_title)}</a></h2>
-              <p>{html.escape(snip or 'Official promo listing')}</p>
+              <p>{html.escape(snip)}</p>
               <p class="meta">{len(rows)} live listing(s)</p>
               <a class="btn" href="{provider_href}">View {html.escape(name)}</a>
             </article>
@@ -450,6 +616,17 @@ def render() -> None:
         sitemap_urls.append((provider_path, generated))
 
     sitemap_urls.append((compare_path, generated))
+
+    # Legal / trust pages for affiliate review
+    static_pages = build_static_pages(brand, domain, affiliate_note, base_vars, cfg)
+    for path, _html in static_pages:
+        sitemap_urls.append((path, generated))
+
+    # 404 page (Cloudflare Pages serves this for missing paths)
+    (SITE_DIR / "404.html").write_text(
+        (TPL_DIR / "404.html").read_text(encoding="utf-8"),
+        encoding="utf-8",
+    )
 
     # sitemap + robots
     sm = [

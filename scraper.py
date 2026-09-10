@@ -293,6 +293,20 @@ def _clean_title(title: str) -> str:
     if re.match(r"^\$\d+", title) and re.search(r"(?i)first\s+\d+\s+boxes?", title):
         if not title.lower().startswith("save"):
             title = "Save " + title
+    # Home Chef UI status chrome → real offer phrase only
+    if re.search(r"(?i)successfully applied|code successfully", title):
+        m = re.search(
+            r"(?i)(\d+\s*free meals?(?:\s*\+\s*free shipping)?(?:\s+on\s+(?:your\s+)?first\s+box)?)",
+            title,
+        )
+        if m:
+            title = m.group(1).strip()
+            title = title[0].upper() + title[1:] if title else title
+    # Strip legal/UI crumbs that are not offer copy
+    title = re.sub(r"(?i)\s*see\s*t&?\s*cs\.?\s*$", "", title)
+    title = re.sub(r"(?i)\s*see\s*terms(?:\s*(?:and|&)\s*conditions)?\.?\s*$", "", title)
+    title = re.sub(r"[\ufffd]+", "", title)
+    title = re.sub(r"\s+", " ", title).strip(" -–|:;,.")
     if title and title[0].islower() and not title.startswith("use "):
         # Capitalize leading letter for display only when we already validated promo
         pass
