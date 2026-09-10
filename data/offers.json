@@ -4,7 +4,7 @@
   "locale": "en-US",
   "currency_default": "USD",
   "domain": "mealkitdeals.com",
-  "generated_at": "2026-09-10T02:41:34+00:00",
+  "generated_at": "2026-09-10T04:35:15+00:00",
   "config_source": "/home/runner/work/hellofresh-deals-promo-radar/hellofresh-deals-promo-radar/.ilang/site.ilang",
   "providers": [
     "HelloFresh",
@@ -167,7 +167,7 @@
       "title": "HelloFresh Coupon Codes and Promos: Get Free Breakfast for Life + 10 Free Meals on Us",
       "offer_url": "https://www.hellofresh.com/eat/coupon-codes-and-promotions",
       "source_url": "https://www.hellofresh.com/eat/coupon-codes-and-promotions",
-      "fetched_at": "2026-09-10T02:41:06+00:00",
+      "fetched_at": "2026-09-10T04:34:48+00:00",
       "status": "active",
       "snippet": "HelloFresh Coupon Codes and Promos: Get Free Breakfast for Life + 10 Free Meals on Us!"
     },
@@ -177,7 +177,7 @@
       "title": "Get $25 off your first 2 orders + Free Shipping with code WELCOME25",
       "offer_url": "https://blog.blueapron.com/guides/eggs-your-way-introducing-everyday-essentials",
       "source_url": "https://blog.blueapron.com/guides/eggs-your-way-introducing-everyday-essentials",
-      "fetched_at": "2026-09-10T02:41:08+00:00",
+      "fetched_at": "2026-09-10T04:34:49+00:00",
       "status": "active",
       "snippet": "Get $25 off your first 2 orders + Free Shipping with code WELCOME25",
       "code": "WELCOME25"
@@ -188,7 +188,7 @@
       "title": "A free dozen organic, pasture-raised eggs (code EGGS)",
       "offer_url": "https://blog.blueapron.com/guides/eggs-your-way-introducing-everyday-essentials",
       "source_url": "https://blog.blueapron.com/guides/eggs-your-way-introducing-everyday-essentials",
-      "fetched_at": "2026-09-10T02:41:08+00:00",
+      "fetched_at": "2026-09-10T04:34:49+00:00",
       "status": "active",
       "snippet": "So use code EGGS on an upcoming order for a free dozen organic, pasture-raised eggs.*",
       "code": "EGGS"
@@ -196,22 +196,22 @@
     {
       "provider": "Home Chef",
       "domain": "homechef.com",
-      "title": "Code successfully applied for 18 Free Meals + Free Shipping on your First Box",
+      "title": "18 Free Meals + Free Shipping on your First Box",
       "offer_url": "https://www.homechef.com/",
       "source_url": "https://www.homechef.com/",
-      "fetched_at": "2026-09-10T02:41:09+00:00",
+      "fetched_at": "2026-09-10T04:34:51+00:00",
       "status": "active",
-      "snippet": "Code successfully applied for 18 Free Meals + Free Shipping on your First Box"
+      "snippet": "18 Free Meals + Free Shipping on your First Box"
     },
     {
       "provider": "Factor",
       "domain": "factor75.com",
-      "title": "Get 50% Off + Free Breakfast for 1 Year See T&Cs",
+      "title": "Get 50% Off + Free Breakfast for 1 Year",
       "offer_url": "https://www.factor75.com/",
       "source_url": "https://www.factor75.com/",
-      "fetched_at": "2026-09-10T02:41:11+00:00",
+      "fetched_at": "2026-09-10T04:34:52+00:00",
       "status": "active",
-      "snippet": "Get 50% Off + Free Breakfast for 1 Year See T&Cs"
+      "snippet": "Get 50% Off + Free Breakfast for 1 Year"
     },
     {
       "provider": "Factor",
@@ -219,7 +219,7 @@
       "title": "20% off your next month’ applies to boxes 2-5",
       "offer_url": "https://www.factor75.com/",
       "source_url": "https://www.factor75.com/",
-      "fetched_at": "2026-09-10T02:41:11+00:00",
+      "fetched_at": "2026-09-10T04:34:52+00:00",
       "status": "active",
       "snippet": "20% off your next month’ applies to boxes 2-5"
     },
@@ -229,7 +229,7 @@
       "title": "Up to 50% Off",
       "offer_url": "https://marleyspoon.com/offer/black-friday-rtc-50p",
       "source_url": "https://marleyspoon.com/offer/black-friday-rtc-50p",
-      "fetched_at": "2026-09-10T02:41:14+00:00",
+      "fetched_at": "2026-09-10T04:34:55+00:00",
       "status": "active",
       "snippet": "Up to 50% Off"
     },
@@ -239,7 +239,7 @@
       "title": "40% off your first order plus 1 free item for life",
       "offer_url": "https://eat.hungryroot.com/2025-save-big",
       "source_url": "https://eat.hungryroot.com/2025-save-big",
-      "fetched_at": "2026-09-10T02:41:15+00:00",
+      "fetched_at": "2026-09-10T04:34:57+00:00",
       "status": "active",
       "snippet": "40% off your first order plus 1 free item for life!!"
     },
@@ -249,7 +249,7 @@
       "title": "Get 50% off your first week of chef-made, ready-to-eat meals | CookUnity",
       "offer_url": "https://www.cookunity.com/lp/cookunity-discount-code",
       "source_url": "https://www.cookunity.com/lp/cookunity-discount-code",
-      "fetched_at": "2026-09-10T02:41:17+00:00",
+      "fetched_at": "2026-09-10T04:34:58+00:00",
       "status": "active",
       "snippet": "Get 50% off your first week of chef-made, ready-to-eat meals | CookUnity"
     },
@@ -259,7 +259,7 @@
       "title": "50% off their first week of Thistle, all year round",
       "offer_url": "https://try.thistle.co/specialty_discounts/",
       "source_url": "https://try.thistle.co/specialty_discounts/",
-      "fetched_at": "2026-09-10T02:41:19+00:00",
+      "fetched_at": "2026-09-10T04:35:00+00:00",
       "status": "active",
       "snippet": "Frontline workers get our best sale price, 50% off their first week of Thistle, all year round"
     },
@@ -269,7 +269,7 @@
       "title": "Meal Kits today and get $120 off across 4 boxes",
       "offer_url": "https://www.gobble.com/quickmeals-menu/",
       "source_url": "https://www.gobble.com/quickmeals-menu/",
-      "fetched_at": "2026-09-10T02:41:20+00:00",
+      "fetched_at": "2026-09-10T04:35:01+00:00",
       "status": "active",
       "snippet": "Meal Kits today and get $120 off across 4 boxes! Choose from a diverse menu that includes meat, fish, and vegetarian dishes. Each and every recipe is prepped by our sous chefs, and designed to be table-ready in just 15 minutes!"
     },
@@ -279,7 +279,7 @@
       "title": "Save $65 with code FALL65",
       "offer_url": "https://splendidspoon.com/",
       "source_url": "https://splendidspoon.com/",
-      "fetched_at": "2026-09-10T02:41:22+00:00",
+      "fetched_at": "2026-09-10T04:35:03+00:00",
       "status": "active",
       "snippet": "Save $65 with code FALL65",
       "code": "FALL65"
@@ -290,7 +290,7 @@
       "title": "Save $75 on your first 3 boxes with code FALL75",
       "offer_url": "https://splendidspoon.com/",
       "source_url": "https://splendidspoon.com/",
-      "fetched_at": "2026-09-10T02:41:22+00:00",
+      "fetched_at": "2026-09-10T04:35:03+00:00",
       "status": "active",
       "snippet": "Save $75 on your first 3 boxes with code FALL75",
       "code": "FALL75"
@@ -301,7 +301,7 @@
       "title": "Spend $100+, get 10% off",
       "offer_url": "https://daily-harvest.com/",
       "source_url": "https://daily-harvest.com/",
-      "fetched_at": "2026-09-10T02:41:24+00:00",
+      "fetched_at": "2026-09-10T04:35:05+00:00",
       "status": "active",
       "snippet": "Spend $100+, get 10% off"
     },
@@ -311,7 +311,7 @@
       "title": "30% with code RESET30",
       "offer_url": "https://www.sakara.com/",
       "source_url": "https://www.sakara.com/",
-      "fetched_at": "2026-09-10T02:41:25+00:00",
+      "fetched_at": "2026-09-10T04:35:06+00:00",
       "status": "active",
       "snippet": "30% with code RESET30",
       "code": "RESET30"
@@ -322,7 +322,7 @@
       "title": "Up to 15% off",
       "offer_url": "https://www.sakara.com/",
       "source_url": "https://www.sakara.com/",
-      "fetched_at": "2026-09-10T02:41:25+00:00",
+      "fetched_at": "2026-09-10T04:35:06+00:00",
       "status": "active",
       "snippet": "Up to 15% off"
     },
@@ -332,7 +332,7 @@
       "title": "Get 25% off your first order",
       "offer_url": "https://www.sakara.com/",
       "source_url": "https://www.sakara.com/",
-      "fetched_at": "2026-09-10T02:41:25+00:00",
+      "fetched_at": "2026-09-10T04:35:06+00:00",
       "status": "active",
       "snippet": "Get 25% off your first order. Wellness starts here"
     },
@@ -342,7 +342,7 @@
       "title": "Save $60 off your first 3 deliveries with code FALL60",
       "offer_url": "https://www.mosaicfoods.com/",
       "source_url": "https://www.mosaicfoods.com/",
-      "fetched_at": "2026-09-10T02:41:28+00:00",
+      "fetched_at": "2026-09-10T04:35:09+00:00",
       "status": "active",
       "snippet": "Save $60 off your first 3 deliveries with code FALL60",
       "code": "FALL60"
@@ -353,7 +353,7 @@
       "title": "NATIONAL WELLNESS MONTH - 25% OFF YOUR FIRST ORDER + FREE SHIPPING WITH CODE ‘THRIVE25’",
       "offer_url": "https://modifyhealth.com/",
       "source_url": "https://modifyhealth.com/",
-      "fetched_at": "2026-09-10T02:41:31+00:00",
+      "fetched_at": "2026-09-10T04:35:11+00:00",
       "status": "active",
       "snippet": "NATIONAL WELLNESS MONTH - 25% OFF YOUR FIRST ORDER + FREE SHIPPING WITH CODE ‘THRIVE25’. NEED ASSISTANCE? CALL 888-7MODIFY (888-766-3439)",
       "code": "THRIVE25"
@@ -364,7 +364,7 @@
       "title": "Up to 20% off",
       "offer_url": "https://www.cleaneatzkitchen.com/",
       "source_url": "https://www.cleaneatzkitchen.com/",
-      "fetched_at": "2026-09-10T02:41:33+00:00",
+      "fetched_at": "2026-09-10T04:35:14+00:00",
       "status": "active",
       "snippet": "Up to 20% off"
     }
