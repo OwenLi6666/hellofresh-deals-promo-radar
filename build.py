@@ -282,13 +282,18 @@ def build_static_pages(
         write_page(contact_path, contact_html)
         written.append((contact_path, contact_html))
 
+    contact_line = (
+        '<p><strong>Contact.</strong> For privacy questions, use the email on the <a href="/contact/">Contact</a> page.</p>'
+        if contact_email and "@" in contact_email
+        else '<p><strong>Contact.</strong> A public contact email will be listed on this site once the publisher publishes one.</p>'
+    )
     privacy_body = f"""
         <p>This Privacy Policy applies to <strong>{html.escape(brand)}</strong> at <strong>{html.escape(domain)}</strong>, a static meal-kit promo radar hosted on Cloudflare Pages.</p>
         <p><strong>What we collect.</strong> The public site itself does not run a member login and does not ask you to create an account. Standard web server / CDN logs (such as IP address, user agent, and requested URL) may be processed by Cloudflare while serving the site. We do not sell personal information.</p>
         <p><strong>Affiliate links.</strong> Some outbound links to meal-kit brands may be affiliate links. If you click them and later subscribe or purchase, we may earn a commission at no extra cost to you. Affiliate networks and brand sites have their own privacy policies.</p>
         <p><strong>Third-party advertising.</strong> The site is prepared to display third-party ads (for example display or affiliate network creatives). Ad partners may use cookies or similar technologies to measure impressions or personalize ads. When ad codes are added, those partners' policies also apply. We will not invent tracking that is not actually installed.</p>
         <p><strong>Scraped listings.</strong> Promo titles, codes, and prices shown on this site come from publicly available brand pages. We do not invent missing fields.</p>
-        <p><strong>Contact.</strong> For privacy questions, use the email on the <a href="/contact/">Contact</a> page once published.</p>
+        {contact_line}
         <p>Last updated: {html.escape(date.today().isoformat())}.</p>
     """
     privacy_path = page_path("privacy")
