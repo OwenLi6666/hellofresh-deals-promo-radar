@@ -36,6 +36,9 @@ jobs:
       - name: Scrape public offers
         run: python scraper.py
 
+      - name: Export public CSV / brand list
+        run: python tools/export_public_assets.py
+
       - name: Build static site
         run: python build.py
 
@@ -43,7 +46,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/offers.json site/
+          git add data/offers.json public/ site/
           if git diff --staged --quiet; then
             echo "No offer/site changes"
           else

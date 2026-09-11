@@ -1,22 +1,38 @@
 # mealkitdeals promo radar
 
-Public meal-kit / meal-delivery promo radar for **mealkitdeals**.
+Open-source scraper and static site generator that collects **public** meal-kit / meal-delivery promo text from official brand pages (robots-respecting, no invented prices or codes).
 
-- Niche: meal delivery / meal kit deals (en-US)
-- Runtime: pure Python (stdlib) + GitHub Actions + Cloudflare Pages
-- No servers, no runtime LLM, no API keys required
-- Config truth: `.ilang/site.ilang` (scraper + build both read it)
+Live listings: https://mealkitdeals.com/
 
-## Live site
+## What you can reuse
 
-`https://mealkitdeals.com`
+| Asset | Path | Notes |
+| --- | --- | --- |
+| Offers CSV | [`public/offers.csv`](public/offers.csv) | One row per extracted offer: benefit, conditions, code, source URL, fetch time |
+| Brand list | [`public/brands.md`](public/brands.md) | 15 tracked brands with listing counts and source URLs |
+| Full JSON | [`data/offers.json`](data/offers.json) | Same data plus scrape log |
+| Compare UI | https://mealkitdeals.com/compare/ | Side-by-side table rendered from the scrape |
+| Print helper | [`public/print_offers.py`](public/print_offers.py) | Prints current offers as TSV |
 
-(Pages project: `hellofresh-deals-promo-radar`; canonical domain is set in `.ilang/site.ilang`.)
+Regenerate CSV/MD after a scrape:
+
+```bash
+python scraper.py
+python tools/export_public_assets.py
+python build.py
+```
+
+## Stack
+
+- Pure Python (stdlib) + GitHub Actions + Cloudflare Pages
+- Config truth: [`.ilang/site.ilang`](.ilang/site.ilang)
+- No runtime LLM, no paid API keys required for the scrape path
 
 ## Local use
 
 ```bash
 python scraper.py
+python tools/export_public_assets.py
 python build.py
 ```
 
@@ -28,16 +44,15 @@ Open `site/index.html`. To change brands, edit `.ilang/site.ilang` only, then re
 
 ## Deploy
 
-Direct upload to the existing Pages project:
-
 ```bash
 npx wrangler pages deploy site --project-name hellofresh-deals-promo-radar
 ```
 
-## Monetization
+## Rules
 
-Templates use official brand entry URLs from `AFFILIATE` in `.ilang/site.ilang`. Replace those with your approved affiliate destinations when networks approve the live site. Never invent commission rates.
+- Missing price / code / expiry on the official page → field left empty (or `官方页未标` for expiry display). Never invent offers.
+- Affiliate destinations live in `AFFILIATE` inside `.ilang/site.ilang`; swap in approved network links only after acceptance.
 
----
+## License
 
-站点规则用 I-Lang 协议描述，见 `.ilang/site.ilang`；协议说明：https://ilang.ai
+Use and fork freely for research and publishing workflows that cite the official `source_url` on each row.
