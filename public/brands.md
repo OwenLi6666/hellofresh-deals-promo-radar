@@ -1,6 +1,6 @@
 # Meal kit / meal delivery brands tracked by mealkitdeals
 
-Generated from `data/offers.json` at `2026-09-11T15:39:41+00:00`.
+Generated from `data/offers.json` at `2026-09-11T15:44:52+00:00`.
 
 Live listings: https://mealkitdeals.com/
 
@@ -20,7 +20,7 @@ Only fields present in the scrape are shown. Empty means the official public pag
 | Splendid Spoon |  | 0 | (none extracted) |  |
 | Daily Harvest | daily-harvest.com | 1 | Spend $100+, get 10% off | https://daily-harvest.com/ |
 | Sakara | sakara.com | 3 | 30% with code RESET30 | https://www.sakara.com/ |
-| Mosaic Foods | mosaicfoods.com | 2 | Save $60 off your first 3 deliveries with code FALL60 | https://www.mosaicfoods.com/ |
+| Mosaic Foods | mosaicfoods.com | 1 | Free shipping and no subscription required | https://www.mosaicfoods.com/ |
 | ModifyHealth | modifyhealth.com | 1 | NATIONAL WELLNESS MONTH - 25% OFF YOUR FIRST ORDER + FREE SHIPPING WITH CODE 'THRIVE25' | https://modifyhealth.com/ |
 | Clean Eatz Kitchen | cleaneatzkitchen.com | 1 | Up to 20% off | https://www.cleaneatzkitchen.com/ |
 | EveryPlate | everyplate.com | 2 | Get $2.99/Meal on Your First Box + Free Lunch for a Month on Us! | https://www.everyplate.com/eat/coupon-codes-and-promotions |
