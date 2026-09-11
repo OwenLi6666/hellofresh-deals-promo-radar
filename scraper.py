@@ -437,6 +437,7 @@ def _clean_title(title: str) -> str:
         title = tm.group(1)
         title = title[0].upper() + title[1:]
     title = re.sub(r"[\ufffd]+", "", title)
+    title = re.sub(r"\s*\|\s*[A-Za-z][A-Za-z0-9 &'-]{1,40}$", "", title)
     title = _dedupe_repeated_segments(title)
     title = re.sub(r"(?i)\s*get up to\s*$", "", title)
     hf = re.search(r"(?i)(?:get up to )?\d+\s*free meals?\s*\+\s*free sides for life\*?", title)
