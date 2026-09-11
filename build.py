@@ -245,18 +245,49 @@ def provider_sources_html(rows: list[dict[str, Any]]) -> str:
     )
 
 
+def _sentence_case_fragment(fragment: str) -> str:
+    fragment = fragment.strip()
+    if not fragment:
+        return ""
+    if fragment[0].islower():
+        return fragment[0].upper() + fragment[1:]
+    return fragment
+
+
+def _split_condition_fragments(conditions: str) -> list[str]:
+    parts: list[str] = []
+    for piece in re.split(r"[,;]", conditions):
+        p = piece.strip()
+        if p:
+            parts.append(p)
+    return parts
+
+
+def _format_card_conditions(kept_fragments: list[str], comma_joined: str) -> str:
+    """Turn deduped fragments into a short readable line; fall back if not clearer."""
+    if not kept_fragments:
+        return ""
+    if len(kept_fragments) == 1:
+        single = kept_fragments[0]
+        cased = _sentence_case_fragment(single)
+        return comma_joined if cased == single and single != comma_joined else cased
+    formatted = "; ".join(_sentence_case_fragment(f) for f in kept_fragments)
+    if formatted.lower().replace("; ", ", ") == comma_joined.lower():
+        return formatted
+    return formatted
+
+
 def offer_card_conditions_line(offer: dict[str, Any]) -> str:
-    """Homepage card line 2: deduped conditions only (no validity — detail pages keep that)."""
+    """Homepage card line 2: deduped, lightly formatted conditions (detail pages keep full text)."""
     title = (offer.get("title") or "").strip()
     benefit = (offer.get("benefit") or "").strip()
-    conditions = clean_conditions((offer.get("conditions") or "").strip())
+    raw_cleaned = clean_conditions((offer.get("conditions") or "").strip())
     tl = title.lower()
     bl = benefit.lower()
 
-    if conditions:
-        parts = [p.strip() for p in conditions.split(",") if p.strip()]
-        kept: list[str] = []
-        for part in parts:
+    kept: list[str] = []
+    if raw_cleaned:
+        for part in _split_condition_fragments(raw_cleaned):
             pl = part.lower()
             if pl in tl or (bl and pl in bl):
                 continue
@@ -265,7 +296,9 @@ def offer_card_conditions_line(offer: dict[str, Any]) -> str:
             if tl and len(pl) >= 10 and pl in tl:
                 continue
             kept.append(part)
-        conditions = ", ".join(kept)
+
+    comma_joined = ", ".join(kept)
+    conditions = _format_card_conditions(kept, comma_joined)
 
     code = (offer.get("code") or "").strip()
     if code and code.upper() not in title.upper():
@@ -560,7 +593,6 @@ def render() -> None:
               <p class="eyebrow">{html.escape(name)}</p>
               <h2><a href="{provider_href}">{html.escape(top_title)}</a></h2>
               {cond_html}
-              <p class="meta">{len(rows)} live listing(s)</p>
               <a class="btn" href="{provider_href}">View {html.escape(name)}</a>
             </article>
             """
