@@ -48,6 +48,7 @@ ILANG
 
 ::MODULE{SHELVED|title:抓但暂不展示 数据保留}
   HelloFresh Canada | hellofresh.ca re-scrape HTTP 403 2026-09-11 titles had social icon junk
+  ButcherBox | butcherbox.com 2026-09-11 homepage scrape only Free Shipping subscription perk no real promo
 
 ::MODULE{RENDER|title:页面渲染规则}
   pages: index provider deal compare

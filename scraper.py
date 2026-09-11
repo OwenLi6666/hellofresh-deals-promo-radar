@@ -320,10 +320,52 @@ def _extract_code(text: str) -> str | None:
     return None
 
 
+def _normalize_quotes(text: str) -> str:
+    return (text or "").translate(
+        str.maketrans(
+            {
+                "\u2018": "'",
+                "\u2019": "'",
+                "\u201c": '"',
+                "\u201d": '"',
+                "\u00b4": "'",
+                "`": "'",
+            }
+        )
+    )
+
+
+_AUDIENCE_HINTS = re.compile(
+    r"(?i)frontline workers|first responders|military\s*/\s*first responder|"
+    r"healthcare workers|teachers|students|seniors|military members"
+)
+
+
+def _prefer_audience_headline(title: str, snippet: str = "", conditions: str = "") -> str:
+    """When official copy names an audience but the title does not, use that sentence."""
+    title = (title or "").strip()
+    for blob in (snippet, conditions):
+        if not blob or not _AUDIENCE_HINTS.search(blob):
+            continue
+        if _AUDIENCE_HINTS.search(title):
+            return title
+        for sent in re.split(r"(?<=[.!?])\s+", blob.strip()):
+            s = sent.strip(" ,;")
+            if _AUDIENCE_HINTS.search(s) and PROMO_RE.search(s):
+                cleaned = _clean_title(s)
+                if cleaned and len(cleaned) >= 20:
+                    return cleaned
+        if _AUDIENCE_HINTS.search(blob) and PROMO_RE.search(blob) and len(blob) <= 140:
+            cleaned = _clean_title(blob.strip())
+            if cleaned:
+                return cleaned
+    return title
+
+
 def _clean_title(title: str) -> str:
     from html import unescape
 
-    title = unescape(title)
+    title = _normalize_quotes(unescape(title))
     title = re.sub(r"\s+", " ", title).strip(" -–|:;,.")
     title = re.sub(r"^[^A-Za-z0-9$]+", "", title)
     title = re.sub(r"^(?:and|or|the|a|an|of|to|for|on|in|with|your|our|so|now|shop now)\s+", "", title, flags=re.I)
@@ -352,7 +394,7 @@ def _clean_title(title: str) -> str:
                 title = title[0].upper() + title[1:]
     # If nav chrome precedes the promo phrase, keep from the promo phrase onward
     m = PROMO_RE.search(title)
-    if m and m.start() > 40:
+    if m and m.start() > 40 and not _AUDIENCE_HINTS.search(title[: m.start()]):
         original = title
         # rewind to nearest sentence/capital/$ start before promo
         cut = title.rfind(". ", 0, m.start())
@@ -515,6 +557,9 @@ def _looks_like_real_promo(title: str, price: str | None, code: str | None) -> b
     if re.search(r"(?i)click.*get\s+code.*button|get\s+verified and receive your discount", t):
         return False
     if re.fullmatch(r"(?i)life\*?\s*(\*one free item per box while subscripti)?", t.strip()):
+        return False
+    # Subscription perks like bare "Free Shipping" are not standalone promos
+    if re.fullmatch(r"(?i)free\s+shipping(?:\s+on\s+(?:all|every)\s+orders?)?\.?", t):
         return False
     has_promo = bool(PROMO_RE.search(title))
     strong = bool(

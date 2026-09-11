@@ -29,6 +29,7 @@ from scraper import (
     VALID_UNTIL_NOT_STATED,
     _clean_title,
     _looks_like_real_promo,
+    _prefer_audience_headline,
     _validate_code,
     clean_conditions,
 )
@@ -98,10 +99,13 @@ def load_offers() -> dict[str, Any]:
 def sanitize_offer(offer: dict[str, Any]) -> None:
     """Display-time cleanup: readable titles, no fake codes. Mutates offer in place."""
     raw_title = (offer.get("title") or "").strip()
-    title = _clean_title(raw_title)
+    snippet = offer.get("snippet") or ""
+    conditions = offer.get("conditions") or ""
+    headline = _prefer_audience_headline(raw_title, snippet, conditions)
+    title = _clean_title(headline)
     # Title cleanup must not erase a valid official extract — keep raw if clean stripped too much.
-    if len(title) < 10 and len(raw_title) >= 10:
-        title = raw_title
+    if len(title) < 10 and len(headline) >= 10:
+        title = headline
     offer["title"] = title
     if offer.get("snippet"):
         sn = _clean_title(offer.get("snippet") or "")

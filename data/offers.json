@@ -502,7 +502,7 @@
     {
       "provider": "Thistle",
       "domain": "thistle.co",
-      "title": "50% off their first week of Thistle, all year round",
+      "title": "Frontline workers get our best sale price, 50% off their first week of Thistle, all year round",
       "offer_url": "https://try.thistle.co/specialty_discounts/",
       "source_url": "https://try.thistle.co/specialty_discounts/",
       "fetched_at": "2026-09-11T13:46:27+00:00",
@@ -637,12 +637,12 @@
     {
       "provider": "ModifyHealth",
       "domain": "modifyhealth.com",
-      "title": "NATIONAL WELLNESS MONTH - 25% OFF YOUR FIRST ORDER + FREE SHIPPING WITH CODE ‘THRIVE25’",
+      "title": "NATIONAL WELLNESS MONTH - 25% OFF YOUR FIRST ORDER + FREE SHIPPING WITH CODE 'THRIVE25'",
       "offer_url": "https://modifyhealth.com/",
       "source_url": "https://modifyhealth.com/",
       "fetched_at": "2026-09-11T13:46:43+00:00",
       "status": "active",
-      "snippet": "NATIONAL WELLNESS MONTH - 25% OFF YOUR FIRST ORDER + FREE SHIPPING WITH CODE ‘THRIVE25’. NEED ASSISTANCE? CALL 888-7MODIFY (888-766-3439)",
+      "snippet": "NATIONAL WELLNESS MONTH - 25% OFF YOUR FIRST ORDER + FREE SHIPPING WITH CODE 'THRIVE25'. NEED ASSISTANCE? CALL 888-7MODIFY (888-766-3439)",
       "code": "THRIVE25",
       "benefit": "25% OFF + FREE SHIPPING",
       "conditions": "YOUR FIRST ORDER, NATIONAL WELLNESS MONTH",
