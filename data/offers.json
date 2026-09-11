@@ -4,8 +4,8 @@
   "locale": "en-US",
   "currency_default": "USD",
   "domain": "mealkitdeals.com",
-  "generated_at": "2026-09-11T16:11:58+00:00",
-  "config_source": "C:\\cusor\\hellofresh-deals-promo-radar\\.ilang\\site.ilang",
+  "generated_at": "2026-09-11T16:14:10+00:00",
+  "config_source": "/home/runner/work/hellofresh-deals-promo-radar/hellofresh-deals-promo-radar/.ilang/site.ilang",
   "providers": [
     "HelloFresh",
     "Blue Apron",
@@ -41,31 +41,29 @@
   "fetch_log": [
     {
       "provider": "HelloFresh",
+      "url": "https://www.hellofresh.com/plans",
+      "http_status": 200,
+      "final_url": "https://www.hellofresh.com/plans",
+      "status": "ok_intro_only",
+      "robots_allowed": true
+    },
+    {
+      "provider": "HelloFresh",
       "url": "https://www.hellofresh.com/eat/coupon-codes-and-promotions",
       "robots_allowed": true,
-      "http_status": 403,
+      "http_status": 200,
       "final_url": "https://www.hellofresh.com/eat/coupon-codes-and-promotions",
-      "retried": true,
-      "status": "fetch_failed",
-      "error": "HTTP 403"
+      "status": "ok",
+      "offers_extracted": 1
     },
     {
       "provider": "HelloFresh",
       "url": "https://blog.hellofresh.com/",
       "robots_allowed": true,
-      "http_status": 403,
-      "final_url": "https://blog.hellofresh.com/",
-      "retried": true,
-      "status": "fetch_failed",
-      "error": "HTTP 403"
-    },
-    {
-      "provider": "HelloFresh",
-      "url": "https://www.hellofresh.com/eat/coupon-codes-and-promotions",
-      "status": "reused_previous_extract",
-      "error": "HTTP 403",
-      "offers_reused": 1,
-      "note": "Live fetch failed or returned no promo; kept prior official-page extract. Not invented."
+      "http_status": 200,
+      "final_url": "https://www.hellofresh.com/stories",
+      "status": "ok",
+      "offers_extracted": 1
     },
     {
       "provider": "Blue Apron",
@@ -105,40 +103,37 @@
     {
       "provider": "Factor",
       "url": "https://www.factor75.com/",
-      "robots_allowed": true,
-      "http_status": 403,
+      "http_status": 200,
       "final_url": "https://www.factor75.com/",
-      "retried": true,
-      "status": "fetch_failed",
-      "error": "HTTP 403"
+      "status": "ok_intro_only",
+      "robots_allowed": true
+    },
+    {
+      "provider": "Factor",
+      "url": "https://www.factor75.com/",
+      "robots_allowed": true,
+      "http_status": 200,
+      "final_url": "https://www.factor75.com/",
+      "status": "ok",
+      "offers_extracted": 2
     },
     {
       "provider": "Factor",
       "url": "https://www.factor75.com/plans",
       "robots_allowed": true,
-      "http_status": 403,
+      "http_status": 200,
       "final_url": "https://www.factor75.com/plans",
-      "retried": true,
-      "status": "fetch_failed",
-      "error": "HTTP 403"
+      "status": "ok_no_promo",
+      "offers_extracted": 0
     },
     {
       "provider": "Factor",
       "url": "https://www.factor75.com/faq",
       "robots_allowed": true,
-      "http_status": 403,
+      "http_status": 200,
       "final_url": "https://www.factor75.com/faq",
-      "retried": true,
-      "status": "fetch_failed",
-      "error": "HTTP 403"
-    },
-    {
-      "provider": "Factor",
-      "url": "https://www.factor75.com/",
-      "status": "reused_previous_extract",
-      "error": "HTTP 403",
-      "offers_reused": 3,
-      "note": "Live fetch failed or returned no promo; kept prior official-page extract. Not invented."
+      "status": "ok_no_promo",
+      "offers_extracted": 0
     },
     {
       "provider": "Marley Spoon",
@@ -382,49 +377,46 @@
     },
     {
       "provider": "EveryPlate",
+      "url": "https://www.everyplate.com/",
+      "http_status": 200,
+      "final_url": "https://www.everyplate.com/",
+      "status": "ok_intro_only",
+      "robots_allowed": true
+    },
+    {
+      "provider": "EveryPlate",
       "url": "https://www.everyplate.com/eat/coupon-codes-and-promotions",
       "robots_allowed": true,
-      "http_status": 403,
+      "http_status": 200,
       "final_url": "https://www.everyplate.com/eat/coupon-codes-and-promotions",
-      "retried": true,
-      "status": "fetch_failed",
-      "error": "HTTP 403"
+      "status": "ok",
+      "offers_extracted": 1
     },
     {
       "provider": "EveryPlate",
       "url": "https://www.everyplate.com/",
       "robots_allowed": true,
-      "http_status": 403,
+      "http_status": 200,
       "final_url": "https://www.everyplate.com/",
-      "retried": true,
-      "status": "fetch_failed",
-      "error": "HTTP 403"
+      "status": "ok",
+      "offers_extracted": 1
     },
     {
-      "provider": "EveryPlate",
-      "url": "https://www.everyplate.com/eat/coupon-codes-and-promotions",
-      "status": "reused_previous_extract",
-      "error": "HTTP 403",
-      "offers_reused": 2,
-      "note": "Live fetch failed or returned no promo; kept prior official-page extract. Not invented."
+      "provider": "Green Chef",
+      "url": "https://www.greenchef.com/",
+      "http_status": 200,
+      "final_url": "https://www.greenchef.com/",
+      "status": "ok_intro_only",
+      "robots_allowed": true
     },
     {
       "provider": "Green Chef",
       "url": "https://www.greenchef.com/",
       "robots_allowed": true,
-      "http_status": 403,
+      "http_status": 200,
       "final_url": "https://www.greenchef.com/",
-      "retried": true,
-      "status": "fetch_failed",
-      "error": "HTTP 403"
-    },
-    {
-      "provider": "Green Chef",
-      "url": "https://www.greenchef.com/",
-      "status": "reused_previous_extract",
-      "error": "HTTP 403",
-      "offers_reused": 1,
-      "note": "Live fetch failed or returned no promo; kept prior official-page extract. Not invented."
+      "status": "ok",
+      "offers_extracted": 1
     },
     {
       "provider": "Dinnerly",
@@ -657,133 +649,163 @@
     {
       "provider": "Chefs Plate",
       "url": "https://www.chefsplate.com/",
-      "robots_allowed": true,
-      "http_status": 403,
+      "http_status": 200,
       "final_url": "https://www.chefsplate.com/",
-      "retried": true,
-      "status": "fetch_failed",
-      "error": "HTTP 403"
+      "status": "ok_intro_only",
+      "robots_allowed": true
     },
     {
       "provider": "Chefs Plate",
       "url": "https://www.chefsplate.com/",
-      "status": "reused_previous_extract",
-      "error": "HTTP 403",
-      "offers_reused": 1,
-      "note": "Live fetch failed or returned no promo; kept prior official-page extract. Not invented."
+      "robots_allowed": true,
+      "http_status": 200,
+      "final_url": "https://www.chefsplate.com/",
+      "status": "ok",
+      "offers_extracted": 1
+    },
+    {
+      "provider": "HelloFresh Canada",
+      "url": "https://www.hellofresh.ca/",
+      "http_status": 200,
+      "final_url": "https://www.hellofresh.ca/",
+      "status": "ok_intro_only",
+      "robots_allowed": true
     },
     {
       "provider": "HelloFresh Canada",
       "url": "https://www.hellofresh.ca/",
       "robots_allowed": true,
-      "http_status": 403,
+      "http_status": 200,
       "final_url": "https://www.hellofresh.ca/",
-      "retried": true,
-      "status": "fetch_failed",
-      "error": "HTTP 403"
-    },
-    {
-      "provider": "HelloFresh Canada",
-      "url": "https://www.hellofresh.ca/",
-      "status": "all_urls_failed",
-      "error": "HTTP 403"
+      "status": "ok",
+      "offers_extracted": 2
     }
   ],
   "provider_profiles": {
+    "HelloFresh": {
+      "intro": "Get fresh meal delivery with HelloFresh & our weekly meal plans! Meat & Veggies ✅ Veggies ✅ Pescatarian ✅ Quick & Easy ✅ Fit & Wholesome ✅ Family Friendly ✅",
+      "intro_source_url": "https://www.hellofresh.com/plans",
+      "fetched_at": "2026-09-11T16:12:14+00:00"
+    },
     "Home Chef": {
       "intro": "Our weekly deliveries of fresh, perfectly-portioned ingredients have everything you need to prepare home-cooked meals in about 30 minutes.",
       "intro_source_url": "https://www.homechef.com/",
-      "fetched_at": "2026-09-11T16:10:13+00:00"
+      "fetched_at": "2026-09-11T16:12:21+00:00"
+    },
+    "Factor": {
+      "intro": "Factor provides a rotating weekly menu of ready-made, dietitian-approved meals. Whether you're looking for meals, high-protein options, calorie-smart dishes, or vegetarian prepared meals, there's something to fit your lifestyle. Every recipe is designed for maximum flavor and nutrition, and is cooked entirely by our chefs.",
+      "intro_source_url": "https://www.factor75.com/",
+      "fetched_at": "2026-09-11T16:12:27+00:00"
     },
     "Marley Spoon": {
       "intro": "Marley Spoon delivers delicious, 30-minute recipes with farm-fresh ingredients to your door. Learn cooking techniques from Martha Stewart and save time with her meal kit.",
       "intro_source_url": "https://marleyspoon.com/",
-      "fetched_at": "2026-09-11T16:10:25+00:00"
+      "fetched_at": "2026-09-11T16:12:34+00:00"
     },
     "Hungryroot": {
       "intro": "Good-for-you groceries, simple recipes, recommended just for you. Take the quiz today.",
       "intro_source_url": "https://www.hungryroot.com/",
-      "fetched_at": "2026-09-11T16:10:29+00:00"
+      "fetched_at": "2026-09-11T16:12:38+00:00"
     },
     "Thistle": {
       "intro": "Healthy, organic, plant-based meals and cold-pressed juices.",
       "intro_source_url": "https://www.thistle.co/",
-      "fetched_at": "2026-09-11T16:10:37+00:00"
+      "fetched_at": "2026-09-11T16:12:47+00:00"
     },
     "Gobble": {
       "intro": "Gobble delivers freshly prepped meal kits that transform into delicious dinners in 15 minutes. Enjoy chef-designed recipes & flexible plans.",
       "intro_source_url": "https://www.gobble.com/",
-      "fetched_at": "2026-09-11T16:10:41+00:00"
+      "fetched_at": "2026-09-11T16:12:51+00:00"
     },
     "Splendid Spoon": {
       "intro": "Choose the meal plan that fits your flow—whether it's a seasonal reset, a weekly rhythm, or a full-on fridge takeover. Our plans flex with your goals, no matter what they look like.",
       "intro_source_url": "https://splendidspoon.com/",
-      "fetched_at": "2026-09-11T16:10:46+00:00"
+      "fetched_at": "2026-09-11T16:12:54+00:00"
     },
     "Daily Harvest": {
       "intro": "Your daily nourishment routine, simplified. A health food delivery service built on protein, smoothies, oat bowls, elixirs, and boosters. No subscription needed",
       "intro_source_url": "https://daily-harvest.com/",
-      "fetched_at": "2026-09-11T16:10:49+00:00"
+      "fetched_at": "2026-09-11T16:12:57+00:00"
     },
     "Sakara": {
       "intro": "These fiber-rich treats are as easy to make as they are to enjoy.",
       "intro_source_url": "https://www.sakara.com/",
-      "fetched_at": "2026-09-11T16:10:55+00:00"
+      "fetched_at": "2026-09-11T16:13:01+00:00"
     },
     "Mosaic Foods": {
       "intro": "Delicious, healthy frozen meals — cooked with care and delivered to your door. Mosaic is the ultimate in healthy convenience.",
       "intro_source_url": "https://www.mosaicfoods.com/",
-      "fetched_at": "2026-09-11T16:10:59+00:00"
+      "fetched_at": "2026-09-11T16:13:05+00:00"
     },
     "ModifyHealth": {
       "intro": "Take control of your health with our Gluten-free, Mediterranean, Heart-friendly, Diabetes-friendly, Carb-Conscious or Monash University Low FODMAP Certified meal plans delivered nationwide with FREE shipping.",
       "intro_source_url": "https://modifyhealth.com/",
-      "fetched_at": "2026-09-11T16:11:02+00:00"
+      "fetched_at": "2026-09-11T16:13:08+00:00"
     },
     "Clean Eatz Kitchen": {
       "intro": "Chef-prepared frozen meals shipped free to your door — no subscription required. Build a box of 10, 20, or 30 Clean Eatz Kitchen meals from $8.99 each.",
       "intro_source_url": "https://www.cleaneatzkitchen.com/",
-      "fetched_at": "2026-09-11T16:11:06+00:00"
+      "fetched_at": "2026-09-11T16:13:13+00:00"
+    },
+    "EveryPlate": {
+      "intro": "Real dinners made doable—meal kits with fresh ingredients, easy-to-cook recipes, and dependable prices every week.",
+      "intro_source_url": "https://www.everyplate.com/",
+      "fetched_at": "2026-09-11T16:13:19+00:00"
+    },
+    "Green Chef": {
+      "intro": "Green Chef delivers meal kits filled with organic produce, responsibly sourced proteins, and nutritionist-approved recipes designed to support a healthy lifestyle.",
+      "intro_source_url": "https://www.greenchef.com/",
+      "fetched_at": "2026-09-11T16:13:21+00:00"
     },
     "Dinnerly": {
       "intro": "Dinnerly is the affordable meal delivery service on the market. Open the door to unfussy, affordable weeknight cooking.",
       "intro_source_url": "https://dinnerly.com/",
-      "fetched_at": "2026-09-11T16:11:17+00:00"
+      "fetched_at": "2026-09-11T16:13:24+00:00"
     },
     "ButcherBox": {
       "intro": "Our fully cooked, organic chicken nuggets are lightly seasoned and gluten-free. Pop in the oven or microwave, pair with your favorite dipping sauce and sides, and enjoy for a quick meal (22 oz).",
       "intro_source_url": "https://www.butcherbox.com/",
-      "fetched_at": "2026-09-11T16:11:28+00:00"
+      "fetched_at": "2026-09-11T16:13:34+00:00"
     },
     "Trifecta": {
       "intro": "As Seen On Netflix: Trifecta gives you the food, the advice, and the community support you need to achieve your goals. We do the meal planning, shopping, and cooking, so you can focus on everything else.",
       "intro_source_url": "https://www.trifectanutrition.com/",
-      "fetched_at": "2026-09-11T16:11:31+00:00"
+      "fetched_at": "2026-09-11T16:13:37+00:00"
     },
     "Epicured": {
       "intro": "Epicured delivers gourmet low-FODMAP, gluten-free meals by chefs for digestive health. Tasty cuisine right to your door.",
       "intro_source_url": "https://epicured.com/",
-      "fetched_at": "2026-09-11T16:11:38+00:00"
+      "fetched_at": "2026-09-11T16:13:48+00:00"
     },
     "MamaSezz": {
       "intro": "Named #1 Forbes MamaSezz is the leading whole food plant-based delivery company in the U.S. We make it easier for you to be your healthiest self by delivering healthy, convenient, ready to eat whole food plant-based vegan cookies and snacks with no B.S. (you know ... Bad Stuff) right to your door.",
       "intro_source_url": "https://www.mamasezz.com/",
-      "fetched_at": "2026-09-11T16:11:40+00:00"
+      "fetched_at": "2026-09-11T16:13:51+00:00"
     },
     "Icon Meals": {
       "intro": "Icon Meals provides Simple, Convenient, Fresh and Affordable Ready to Eat, Meals and Healthy Snacks as a time saving nutritious solution for everyone that strives to live a healthy and fulfilling lifestyle in this fast paced world and delivers Nation Wide.",
       "intro_source_url": "https://iconmeals.com/",
-      "fetched_at": "2026-09-11T16:11:45+00:00"
+      "fetched_at": "2026-09-11T16:13:58+00:00"
     },
     "Crowd Cow": {
       "intro": "Crowd Cow delivers the very best craft meat from the farm to your table",
       "intro_source_url": "https://www.crowdcow.com/",
-      "fetched_at": "2026-09-11T16:11:48+00:00"
+      "fetched_at": "2026-09-11T16:14:00+00:00"
     },
     "Prep Dish": {
       "intro": "We plan the meals, provide the grocery list, and give you step-by-step instructions on how to meal prep for the whole week in as little as 1 hour.",
       "intro_source_url": "https://prepdish.com/",
-      "fetched_at": "2026-09-11T16:11:51+00:00"
+      "fetched_at": "2026-09-11T16:14:03+00:00"
+    },
+    "Chefs Plate": {
+      "intro": "Chef's Plate delivers fresh, affordable meal kits with easy-to-follow recipes and pre-portioned ingredients. Cook delicious dinners at home, stress-free.",
+      "intro_source_url": "https://www.chefsplate.com/",
+      "fetched_at": "2026-09-11T16:14:07+00:00"
+    },
+    "HelloFresh Canada": {
+      "intro": "Get Up To 20 Free Meals + Free Sides for Life with Canada's Most Popular Meal Kit Service! One free item per box while subscription is active, items may vary.",
+      "intro_source_url": "https://www.hellofresh.ca/",
+      "fetched_at": "2026-09-11T16:14:10+00:00"
     }
   },
   "offers": [
@@ -793,14 +815,13 @@
       "title": "Get Free Breakfast for Life + 10 Free Meals on Us",
       "offer_url": "https://www.hellofresh.com/eat/coupon-codes-and-promotions",
       "source_url": "https://www.hellofresh.com/eat/coupon-codes-and-promotions",
-      "fetched_at": "2026-09-11T14:35:19+00:00",
+      "fetched_at": "2026-09-11T16:12:11+00:00",
       "status": "active",
       "snippet": "Get Free Breakfast for Life + 10 Free Meals on Us!",
       "benefit": "Free Breakfast for Life + 10 Free Meals",
       "conditions": "For Life, on first box, One per box with active subscription",
       "valid_until_note": "Not stated on the official page",
-      "verification_basis": "scrape_record",
-      "restored_from": "5b0514d"
+      "visible_verified": true
     },
     {
       "provider": "Blue Apron",
@@ -808,7 +829,7 @@
       "title": "A free dozen organic, pasture-raised eggs (code EGGS)",
       "offer_url": "https://blog.blueapron.com/guides/eggs-your-way-introducing-everyday-essentials",
       "source_url": "https://blog.blueapron.com/guides/eggs-your-way-introducing-everyday-essentials",
-      "fetched_at": "2026-09-11T16:10:07+00:00",
+      "fetched_at": "2026-09-11T16:12:16+00:00",
       "status": "active",
       "snippet": "So use code EGGS on an upcoming order for a free dozen organic, pasture-raised eggs.*",
       "code": "EGGS",
@@ -824,7 +845,7 @@
       "title": "18 Free Meals + Free Shipping on your First Box",
       "offer_url": "https://www.homechef.com/",
       "source_url": "https://www.homechef.com/",
-      "fetched_at": "2026-09-11T16:10:11+00:00",
+      "fetched_at": "2026-09-11T16:12:19+00:00",
       "status": "active",
       "snippet": "18 Free Meals + Free Shipping on your First Box",
       "benefit": "18 Free Meals + Free Shipping",
@@ -838,14 +859,13 @@
       "title": "Get 50% Off + Free Breakfast for 1 Year",
       "offer_url": "https://www.factor75.com/",
       "source_url": "https://www.factor75.com/",
-      "fetched_at": "2026-09-11T14:35:30+00:00",
+      "fetched_at": "2026-09-11T16:12:22+00:00",
       "status": "active",
       "snippet": "Get 50% Off + Free Breakfast for 1 Year",
       "benefit": "50% Off + Free Breakfast for 1 Year",
       "conditions": "For 1 Year, first box",
       "valid_until_note": "Not stated on the official page",
-      "verification_basis": "scrape_record",
-      "restored_from": "5b0514d"
+      "visible_verified": true
     },
     {
       "provider": "Factor",
@@ -853,28 +873,13 @@
       "title": "20% off your next month' applies to boxes 2-5",
       "offer_url": "https://www.factor75.com/",
       "source_url": "https://www.factor75.com/",
-      "fetched_at": "2026-09-11T14:35:30+00:00",
+      "fetched_at": "2026-09-11T16:12:22+00:00",
       "status": "active",
       "snippet": "20% off your next month' applies to boxes 2-5",
       "benefit": "20% off",
       "conditions": "Applies to boxes 2-5, next month",
       "valid_until_note": "Not stated on the official page",
-      "verification_basis": "scrape_record",
-      "restored_from": "5b0514d"
-    },
-    {
-      "provider": "Factor",
-      "domain": "factor75.com",
-      "title": "Factor box, plus free shipping",
-      "offer_url": "https://www.factor75.com/",
-      "source_url": "https://www.factor75.com/",
-      "fetched_at": "2026-09-11T14:35:30+00:00",
-      "status": "active",
-      "snippet": "Factor box, plus free shipping",
-      "benefit": "free shipping",
-      "valid_until_note": "Not stated on the official page",
-      "verification_basis": "scrape_record",
-      "restored_from": "5b0514d"
+      "visible_verified": true
     },
     {
       "provider": "Marley Spoon",
@@ -882,7 +887,7 @@
       "title": "Up to 50% Off",
       "offer_url": "https://marleyspoon.com/offer/black-friday-rtc-50p",
       "source_url": "https://marleyspoon.com/offer/black-friday-rtc-50p",
-      "fetched_at": "2026-09-11T16:10:22+00:00",
+      "fetched_at": "2026-09-11T16:12:31+00:00",
       "status": "active",
       "snippet": "Up to 50% Off",
       "benefit": "Up to 50% Off",
@@ -895,7 +900,7 @@
       "title": "40% off your first order plus 1 free item for life",
       "offer_url": "https://eat.hungryroot.com/2025-save-big",
       "source_url": "https://eat.hungryroot.com/2025-save-big",
-      "fetched_at": "2026-09-11T16:10:27+00:00",
+      "fetched_at": "2026-09-11T16:12:36+00:00",
       "status": "active",
       "snippet": "40% off your first order plus 1 free item for life!!",
       "benefit": "40% off + 1 free item for life",
@@ -909,7 +914,7 @@
       "title": "Choose Your Free Gift for Life",
       "offer_url": "https://www.hungryroot.com/limited-time/",
       "source_url": "https://www.hungryroot.com/limited-time/",
-      "fetched_at": "2026-09-11T16:10:28+00:00",
+      "fetched_at": "2026-09-11T16:12:37+00:00",
       "status": "active",
       "snippet": "Choose Your Free Gift for Life",
       "benefit": "Choose Your Free Gift for Life",
@@ -923,7 +928,7 @@
       "title": "Get 50% off your first week of chef-made, ready-to-eat meals",
       "offer_url": "https://www.cookunity.com/lp/cookunity-discount-code",
       "source_url": "https://www.cookunity.com/lp/cookunity-discount-code",
-      "fetched_at": "2026-09-11T16:10:31+00:00",
+      "fetched_at": "2026-09-11T16:12:40+00:00",
       "status": "active",
       "snippet": "Get 50% off your first week of chef-made, ready-to-eat meals",
       "benefit": "50% off",
@@ -937,7 +942,7 @@
       "title": "Frontline workers get our best sale price, 50% off their first week of Thistle, all year round",
       "offer_url": "https://try.thistle.co/specialty_discounts/",
       "source_url": "https://try.thistle.co/specialty_discounts/",
-      "fetched_at": "2026-09-11T16:10:35+00:00",
+      "fetched_at": "2026-09-11T16:12:44+00:00",
       "status": "active",
       "snippet": "people working hard to build and protect communities across the country deserve healthy, affordable meals (that taste great, too). Frontline workers get our best sale price, 50% off their first week of Thistle, all year round",
       "benefit": "50% off",
@@ -951,7 +956,7 @@
       "title": "$120 off across 4 boxes",
       "offer_url": "https://www.gobble.com/quickmeals-menu/",
       "source_url": "https://www.gobble.com/quickmeals-menu/",
-      "fetched_at": "2026-09-11T16:10:39+00:00",
+      "fetched_at": "2026-09-11T16:12:48+00:00",
       "status": "active",
       "snippet": "$120 off across 4 boxes! Choose from a diverse menu that includes meat, fish, and vegetarian dishes. Each and every recipe is prepped by our sous chefs, and designed to be table-ready in just 15 minutes!",
       "benefit": "$120 off",
@@ -998,7 +1003,7 @@
       "title": "Spend $100+, get 10% off",
       "offer_url": "https://daily-harvest.com/",
       "source_url": "https://daily-harvest.com/",
-      "fetched_at": "2026-09-11T16:10:48+00:00",
+      "fetched_at": "2026-09-11T16:12:56+00:00",
       "status": "active",
       "snippet": "Spend $100+, get 10% off",
       "benefit": "10% off",
@@ -1012,7 +1017,7 @@
       "title": "30% with code RESET30",
       "offer_url": "https://www.sakara.com/",
       "source_url": "https://www.sakara.com/",
-      "fetched_at": "2026-09-11T16:10:51+00:00",
+      "fetched_at": "2026-09-11T16:12:59+00:00",
       "status": "active",
       "snippet": "30% with code RESET30",
       "code": "RESET30",
@@ -1027,7 +1032,7 @@
       "title": "Up to 15% off",
       "offer_url": "https://www.sakara.com/",
       "source_url": "https://www.sakara.com/",
-      "fetched_at": "2026-09-11T16:10:51+00:00",
+      "fetched_at": "2026-09-11T16:12:59+00:00",
       "status": "active",
       "snippet": "Up to 15% off",
       "benefit": "Up to 15% off",
@@ -1040,7 +1045,7 @@
       "title": "Get 25% off your first order",
       "offer_url": "https://www.sakara.com/",
       "source_url": "https://www.sakara.com/",
-      "fetched_at": "2026-09-11T16:10:51+00:00",
+      "fetched_at": "2026-09-11T16:12:59+00:00",
       "status": "active",
       "snippet": "Get 25% off your first order. Wellness starts here",
       "benefit": "25% off",
@@ -1054,7 +1059,7 @@
       "title": "Free shipping and no subscription required",
       "offer_url": "https://www.mosaicfoods.com/",
       "source_url": "https://www.mosaicfoods.com/",
-      "fetched_at": "2026-09-11T16:10:57+00:00",
+      "fetched_at": "2026-09-11T16:13:03+00:00",
       "status": "active",
       "snippet": "Choose your 6 favorite Family Meals. Free shipping and no subscription required",
       "benefit": "Free shipping",
@@ -1068,7 +1073,7 @@
       "title": "NATIONAL WELLNESS MONTH - 25% OFF YOUR FIRST ORDER + FREE SHIPPING WITH CODE 'THRIVE25'",
       "offer_url": "https://modifyhealth.com/",
       "source_url": "https://modifyhealth.com/",
-      "fetched_at": "2026-09-11T16:11:01+00:00",
+      "fetched_at": "2026-09-11T16:13:07+00:00",
       "status": "active",
       "snippet": "NATIONAL WELLNESS MONTH - 25% OFF YOUR FIRST ORDER + FREE SHIPPING WITH CODE 'THRIVE25'. NEED ASSISTANCE? CALL 888-7MODIFY (888-766-3439)",
       "code": "THRIVE25",
@@ -1084,7 +1089,7 @@
       "title": "Up to 20% off",
       "offer_url": "https://www.cleaneatzkitchen.com/",
       "source_url": "https://www.cleaneatzkitchen.com/",
-      "fetched_at": "2026-09-11T16:11:05+00:00",
+      "fetched_at": "2026-09-11T16:13:12+00:00",
       "status": "active",
       "snippet": "Up to 20% off",
       "benefit": "Up to 20% off",
@@ -1097,7 +1102,7 @@
       "title": "Get $2.99/Meal on Your First Box + Free Lunch for a Month on Us!",
       "offer_url": "https://www.everyplate.com/eat/coupon-codes-and-promotions",
       "source_url": "https://www.everyplate.com/eat/coupon-codes-and-promotions",
-      "fetched_at": "2026-09-11T14:36:13+00:00",
+      "fetched_at": "2026-09-11T16:13:16+00:00",
       "status": "active",
       "snippet": "Get $2.99/Meal on Your First Box + Free Lunch for a Month on Us!",
       "price": "2.99",
@@ -1105,8 +1110,7 @@
       "benefit": "$2.99/Meal + Free Lunch for a Month",
       "conditions": "On Your First Box",
       "valid_until_note": "Not stated on the official page",
-      "verification_basis": "scrape_record",
-      "restored_from": "5b0514d"
+      "visible_verified": true
     },
     {
       "provider": "EveryPlate",
@@ -1114,7 +1118,7 @@
       "title": "EveryPlate todayand get $2.99/Meal on Your First Box + 10% Off 1 Month*",
       "offer_url": "https://www.everyplate.com/",
       "source_url": "https://www.everyplate.com/",
-      "fetched_at": "2026-09-11T14:36:15+00:00",
+      "fetched_at": "2026-09-11T16:13:17+00:00",
       "status": "active",
       "snippet": "EveryPlate todayand get $2.99/Meal on Your First Box + 10% Off 1 Month*",
       "price": "2.99",
@@ -1122,8 +1126,7 @@
       "benefit": "$2.99/Meal + 10% Off",
       "conditions": "On Your First Box, applies to boxes 2-5, next month, expires 49 days after the voucher is attached to an account at 11:59 PM ET",
       "valid_until_note": "Not stated on the official page",
-      "verification_basis": "scrape_record",
-      "restored_from": "5b0514d"
+      "visible_verified": true
     },
     {
       "provider": "Green Chef",
@@ -1131,14 +1134,13 @@
       "title": "Get 50% Off Your First Box + Free Staub Mixing Bowls with your third box*",
       "offer_url": "https://www.greenchef.com/",
       "source_url": "https://www.greenchef.com/",
-      "fetched_at": "2026-09-11T14:36:17+00:00",
+      "fetched_at": "2026-09-11T16:13:20+00:00",
       "status": "active",
       "snippet": "Get 50% Off Your First Box + Free Staub Mixing Bowls with your third box*",
       "benefit": "50% Off",
-      "conditions": "Your First Box, applies to boxes 2-9",
+      "conditions": "Your First Box",
       "valid_until_note": "Not stated on the official page",
-      "verification_basis": "scrape_record",
-      "restored_from": "5b0514d"
+      "visible_verified": true
     },
     {
       "provider": "Dinnerly",
@@ -1191,7 +1193,7 @@
       "title": "Claim your free protein now",
       "offer_url": "https://www.butcherbox.com/",
       "source_url": "https://www.butcherbox.com/",
-      "fetched_at": "2026-09-11T16:11:27+00:00",
+      "fetched_at": "2026-09-11T16:13:33+00:00",
       "status": "active",
       "snippet": "Claim your free protein now!",
       "benefit": "free protein now",
@@ -1219,7 +1221,7 @@
       "title": "Use code FALL40 for 40% OFF + Free Shipping* on your first subscription order",
       "offer_url": "https://epicured.com/",
       "source_url": "https://epicured.com/",
-      "fetched_at": "2026-09-11T16:11:33+00:00",
+      "fetched_at": "2026-09-11T16:13:39+00:00",
       "status": "active",
       "snippet": "Use code FALL40 for 40% OFF + Free Shipping* on your first subscription order! Exp. 10/31. Call Us: (888) 221-4985",
       "code": "FALL40",
@@ -1235,7 +1237,7 @@
       "title": "10% off your first order",
       "offer_url": "https://www.mamasezz.com/",
       "source_url": "https://www.mamasezz.com/",
-      "fetched_at": "2026-09-11T16:11:39+00:00",
+      "fetched_at": "2026-09-11T16:13:50+00:00",
       "status": "active",
       "snippet": "10% off your first order",
       "benefit": "10% off",
@@ -1249,7 +1251,7 @@
       "title": "FREE SHIPPING ON ALL ORDERS OVER $75",
       "offer_url": "https://www.mamasezz.com/",
       "source_url": "https://www.mamasezz.com/",
-      "fetched_at": "2026-09-11T16:11:39+00:00",
+      "fetched_at": "2026-09-11T16:13:50+00:00",
       "status": "active",
       "snippet": "FREE SHIPPING ON ALL ORDERS OVER $75",
       "benefit": "FREE SHIPPING",
@@ -1277,7 +1279,7 @@
       "title": "Free favorites in every order",
       "offer_url": "https://www.crowdcow.com/",
       "source_url": "https://www.crowdcow.com/",
-      "fetched_at": "2026-09-11T16:11:47+00:00",
+      "fetched_at": "2026-09-11T16:13:59+00:00",
       "status": "active",
       "snippet": "Free favorites in every order. For life",
       "benefit": "Free favorites in every order",
@@ -1291,7 +1293,7 @@
       "title": "Free 7-day trial",
       "offer_url": "https://prepdish.com/",
       "source_url": "https://prepdish.com/",
-      "fetched_at": "2026-09-11T16:11:50+00:00",
+      "fetched_at": "2026-09-11T16:14:02+00:00",
       "status": "active",
       "snippet": "Free 7-day trial",
       "benefit": "Free 7-day trial",
@@ -1319,13 +1321,40 @@
       "title": "Get Up to 20 Free Meals + Free Shipping + $1 menu",
       "offer_url": "https://www.chefsplate.com/",
       "source_url": "https://www.chefsplate.com/",
-      "fetched_at": "2026-09-11T14:36:47+00:00",
+      "fetched_at": "2026-09-11T16:14:05+00:00",
       "status": "active",
       "snippet": "Get Up to 20 Free Meals + Free Shipping + $1 menu!",
       "benefit": "20 Free Meals + Free Shipping",
       "valid_until_note": "Not stated on the official page",
-      "verification_basis": "scrape_record",
-      "restored_from": "5b0514d"
+      "visible_verified": true
+    },
+    {
+      "provider": "HelloFresh Canada",
+      "domain": "hellofresh.ca",
+      "title": "Up To 20 Free Meals + Free Sides for Life",
+      "offer_url": "https://www.hellofresh.ca/",
+      "source_url": "https://www.hellofresh.ca/",
+      "fetched_at": "2026-09-11T16:14:08+00:00",
+      "status": "active",
+      "snippet": "Up To 20 Free Meals + Free Sides for Life",
+      "benefit": "20 Free Meals",
+      "conditions": "For Life",
+      "valid_until_note": "Not stated on the official page",
+      "visible_verified": true
+    },
+    {
+      "provider": "HelloFresh Canada",
+      "domain": "hellofresh.ca",
+      "title": "One free item per box while subscription is active, items may vary",
+      "offer_url": "https://www.hellofresh.ca/",
+      "source_url": "https://www.hellofresh.ca/",
+      "fetched_at": "2026-09-11T16:14:08+00:00",
+      "status": "active",
+      "snippet": "Get Up To 20 Free Meals + Free Sides for Life with Canada's Most Popular Meal Kit Service! One free item per box while subscription is active, items may vary",
+      "benefit": "One free item per box while subscription is active, items may vary",
+      "conditions": "Subscription is active, items may vary, for Life",
+      "valid_until_note": "Not stated on the official page",
+      "visible_verified": true
     }
   ]
 }
