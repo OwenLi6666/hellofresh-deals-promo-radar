@@ -18,6 +18,7 @@ import html
 import json
 import re
 import shutil
+import sys
 from collections import defaultdict
 from datetime import date, datetime, timezone
 from pathlib import Path
@@ -25,6 +26,10 @@ from string import Template
 from typing import Any
 
 from ilang_config import ROOT, load_site_config
+
+sys.path.insert(0, str(ROOT / "tools"))
+from offer_quality import offer_passes_quality  # noqa: E402
+
 from scraper import (
     VALID_UNTIL_NOT_STATED,
     _clean_title,
@@ -144,6 +149,8 @@ def is_showable(offer: dict[str, Any]) -> bool:
         return False
     title = (offer.get("title") or "").strip()
     if _is_unit_price_not_promo(title, offer.get("price")):
+        return False
+    if not offer_passes_quality(offer):
         return False
     if offer.get("visible_verified") is False:
         return False
@@ -832,4 +839,12 @@ def render() -> None:
 
 
 if __name__ == "__main__":
+    from audit_offer_quality import collect_quality_issues  # noqa: E402
+
+    issues = collect_quality_issues()
+    if issues:
+        print(f"quality audit failed ({len(issues)} issue(s)):", file=sys.stderr)
+        for line in issues:
+            print(f"- {line}", file=sys.stderr)
+        sys.exit(1)
     render()

@@ -561,6 +561,11 @@ def _looks_like_real_promo(title: str, price: str | None, code: str | None) -> b
     # Subscription perks like bare "Free Shipping" are not standalone promos
     if re.fullmatch(r"(?i)free\s+shipping(?:\s+on\s+(?:all|every)\s+orders?)?\.?", t):
         return False
+    if re.search(r"(?i)free\s+shipping\s+and\s+no\s+subscription", t):
+        if not re.search(r"(?i)(?:\d+%\s*off|\$\d+\s*off|save\s+\$?\d+)", t):
+            return False
+    if re.fullmatch(r"(?i)factor\s+box,\s*plus\s+free\s+shipping", t):
+        return False
     if _is_unit_price_not_promo(title, price):
         return False
     has_promo = bool(PROMO_RE.search(title))
@@ -896,12 +901,27 @@ def extract_provider_intro(html: str, final_url: str) -> dict[str, str] | None:
     return {"intro": best, "intro_source_url": final_url}
 
 
+def _offer_passes_quality_gate(row: dict[str, Any]) -> bool:
+    import sys
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parent
+    tools = str(root / "tools")
+    if tools not in sys.path:
+        sys.path.insert(0, tools)
+    from offer_quality import offer_passes_quality
+
+    return offer_passes_quality(row)
+
+
 def _cached_offer_still_valid(row: dict[str, Any]) -> bool:
     """Reuse prior official extracts using scrape-time record, not live re-fetchability."""
     title = row.get("title") or ""
     if _is_unit_price_not_promo(title, row.get("price")):
         return False
     if not _looks_like_real_promo(title, row.get("price"), row.get("code")):
+        return False
+    if not _offer_passes_quality_gate(row):
         return False
     if row.get("visible_verified") is False:
         return False
@@ -1048,6 +1068,8 @@ def extract_offers(provider: dict[str, str], html: str, final_url: str) -> list[
         if item.get("valid_until") and _expired(str(item["valid_until"])):
             item["status"] = "expired"
             item.pop("valid_until_note", None)
+        if not _offer_passes_quality_gate(item):
+            return
         item["visible_verified"] = True
         candidates.append(item)
 

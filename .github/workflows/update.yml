@@ -41,6 +41,9 @@ jobs:
       - name: Export public CSV / brand list
         run: python tools/export_public_assets.py
 
+      - name: Audit offer quality
+        run: python tools/audit_offer_quality.py
+
       - name: Build static site
         run: python build.py
 

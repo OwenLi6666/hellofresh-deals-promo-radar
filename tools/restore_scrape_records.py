@@ -27,6 +27,7 @@ RESTORE_PROVIDERS = [
     "Icon Meals",
     "Magic Kitchen",
     "Splendid Spoon",
+    "Mosaic Foods",
 ]
 
 
