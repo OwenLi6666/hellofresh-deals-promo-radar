@@ -4,7 +4,7 @@
   "locale": "en-US",
   "currency_default": "USD",
   "domain": "mealkitdeals.com",
-  "generated_at": "2026-09-11T13:09:23+00:00",
+  "generated_at": "2026-09-11T13:19:52+00:00",
   "config_source": "/home/runner/work/hellofresh-deals-promo-radar/hellofresh-deals-promo-radar/.ilang/site.ilang",
   "providers": [
     "HelloFresh",
@@ -202,14 +202,6 @@
       "offers_extracted": 0
     },
     {
-      "provider": "Dinnerly",
-      "url": "https://dinnerly.com/",
-      "status": "reused_previous_extract",
-      "error": "ok_no_promo",
-      "offers_reused": 1,
-      "note": "Live fetch failed or returned no promo; kept prior official-page extract. Not invented."
-    },
-    {
       "provider": "Sunbasket",
       "url": "https://sunbasket.com/",
       "robots_allowed": true,
@@ -222,10 +214,8 @@
     {
       "provider": "Sunbasket",
       "url": "https://sunbasket.com/",
-      "status": "reused_previous_extract",
-      "error": "HTTP 403",
-      "offers_reused": 1,
-      "note": "Live fetch failed or returned no promo; kept prior official-page extract. Not invented."
+      "status": "all_urls_failed",
+      "error": "HTTP 403"
     },
     {
       "provider": "Purple Carrot",
@@ -240,10 +230,8 @@
     {
       "provider": "Purple Carrot",
       "url": "https://www.purplecarrot.com/",
-      "status": "reused_previous_extract",
-      "error": "HTTP 403",
-      "offers_reused": 1,
-      "note": "Live fetch failed or returned no promo; kept prior official-page extract. Not invented."
+      "status": "all_urls_failed",
+      "error": "HTTP 403"
     },
     {
       "provider": "ButcherBox",
@@ -264,14 +252,6 @@
       "offers_extracted": 0
     },
     {
-      "provider": "Trifecta",
-      "url": "https://www.trifectanutrition.com/",
-      "status": "reused_previous_extract",
-      "error": "ok_no_promo",
-      "offers_reused": 1,
-      "note": "Live fetch failed or returned no promo; kept prior official-page extract. Not invented."
-    },
-    {
       "provider": "Epicured",
       "url": "https://www.epicured.com/",
       "robots_allowed": true,
@@ -286,6 +266,7 @@
       "robots_allowed": true,
       "http_status": 200,
       "final_url": "https://www.mamasezz.com/",
+      "retried": true,
       "status": "ok",
       "offers_extracted": 2
     },
@@ -334,10 +315,8 @@
     {
       "provider": "Magic Kitchen",
       "url": "https://www.magickitchen.com/",
-      "status": "reused_previous_extract",
-      "error": "unknown",
-      "offers_reused": 1,
-      "note": "Live fetch failed or returned no promo; kept prior official-page extract. Not invented."
+      "status": "all_urls_failed",
+      "error": "unknown"
     },
     {
       "provider": "Chefs Plate",
@@ -365,7 +344,7 @@
       "title": "HelloFresh Coupon Codes and Promos: Get Free Breakfast for Life + 10 Free Meals on Us",
       "offer_url": "https://www.hellofresh.com/eat/coupon-codes-and-promotions",
       "source_url": "https://www.hellofresh.com/eat/coupon-codes-and-promotions",
-      "fetched_at": "2026-09-11T13:08:18+00:00",
+      "fetched_at": "2026-09-11T13:18:52+00:00",
       "status": "active",
       "snippet": "HelloFresh Coupon Codes and Promos: Get Free Breakfast for Life + 10 Free Meals on Us!",
       "benefit": "Free Breakfast for Life + 10 Free Meals",
@@ -378,7 +357,7 @@
       "title": "Get $25 off your first 2 orders + Free Shipping with code WELCOME25",
       "offer_url": "https://blog.blueapron.com/guides/eggs-your-way-introducing-everyday-essentials",
       "source_url": "https://blog.blueapron.com/guides/eggs-your-way-introducing-everyday-essentials",
-      "fetched_at": "2026-09-11T13:08:20+00:00",
+      "fetched_at": "2026-09-11T13:18:54+00:00",
       "status": "active",
       "snippet": "Get $25 off your first 2 orders + Free Shipping with code WELCOME25",
       "code": "WELCOME25",
@@ -393,7 +372,7 @@
       "title": "A free dozen organic, pasture-raised eggs (code EGGS)",
       "offer_url": "https://blog.blueapron.com/guides/eggs-your-way-introducing-everyday-essentials",
       "source_url": "https://blog.blueapron.com/guides/eggs-your-way-introducing-everyday-essentials",
-      "fetched_at": "2026-09-11T13:08:20+00:00",
+      "fetched_at": "2026-09-11T13:18:54+00:00",
       "status": "active",
       "snippet": "So use code EGGS on an upcoming order for a free dozen organic, pasture-raised eggs.*",
       "code": "EGGS",
@@ -408,7 +387,7 @@
       "title": "18 Free Meals + Free Shipping on your First Box",
       "offer_url": "https://www.homechef.com/",
       "source_url": "https://www.homechef.com/",
-      "fetched_at": "2026-09-11T13:08:22+00:00",
+      "fetched_at": "2026-09-11T13:18:55+00:00",
       "status": "active",
       "snippet": "18 Free Meals + Free Shipping on your First Box",
       "benefit": "18 Free Meals + Free Shipping",
@@ -421,7 +400,7 @@
       "title": "Get 50% Off + Free Breakfast for 1 Year",
       "offer_url": "https://www.factor75.com/",
       "source_url": "https://www.factor75.com/",
-      "fetched_at": "2026-09-11T13:08:23+00:00",
+      "fetched_at": "2026-09-11T13:18:57+00:00",
       "status": "active",
       "snippet": "Get 50% Off + Free Breakfast for 1 Year",
       "benefit": "50% Off + Free Breakfast for 1 Year",
@@ -434,7 +413,7 @@
       "title": "20% off your next month’ applies to boxes 2-5",
       "offer_url": "https://www.factor75.com/",
       "source_url": "https://www.factor75.com/",
-      "fetched_at": "2026-09-11T13:08:23+00:00",
+      "fetched_at": "2026-09-11T13:18:57+00:00",
       "status": "active",
       "snippet": "20% off your next month’ applies to boxes 2-5",
       "benefit": "20% off",
@@ -447,7 +426,7 @@
       "title": "Factor box, plus free shipping",
       "offer_url": "https://www.factor75.com/",
       "source_url": "https://www.factor75.com/",
-      "fetched_at": "2026-09-11T13:08:23+00:00",
+      "fetched_at": "2026-09-11T13:18:57+00:00",
       "status": "active",
       "snippet": "Factor box, plus free shipping",
       "benefit": "free shipping",
@@ -459,7 +438,7 @@
       "title": "Up to 50% Off",
       "offer_url": "https://marleyspoon.com/offer/black-friday-rtc-50p",
       "source_url": "https://marleyspoon.com/offer/black-friday-rtc-50p",
-      "fetched_at": "2026-09-11T13:08:26+00:00",
+      "fetched_at": "2026-09-11T13:18:59+00:00",
       "status": "active",
       "snippet": "Up to 50% Off",
       "benefit": "Up to 50% Off",
@@ -471,7 +450,7 @@
       "title": "40% off your first order plus 1 free item for life",
       "offer_url": "https://eat.hungryroot.com/2025-save-big",
       "source_url": "https://eat.hungryroot.com/2025-save-big",
-      "fetched_at": "2026-09-11T13:08:28+00:00",
+      "fetched_at": "2026-09-11T13:19:01+00:00",
       "status": "active",
       "snippet": "40% off your first order plus 1 free item for life!!",
       "benefit": "40% off + 1 free item for life",
@@ -484,7 +463,7 @@
       "title": "Get 50% off your first week of chef-made, ready-to-eat meals | CookUnity",
       "offer_url": "https://www.cookunity.com/lp/cookunity-discount-code",
       "source_url": "https://www.cookunity.com/lp/cookunity-discount-code",
-      "fetched_at": "2026-09-11T13:08:30+00:00",
+      "fetched_at": "2026-09-11T13:19:02+00:00",
       "status": "active",
       "snippet": "Get 50% off your first week of chef-made, ready-to-eat meals | CookUnity",
       "benefit": "50% off",
@@ -497,15 +476,11 @@
       "title": "50% off their first week of Thistle, all year round",
       "offer_url": "https://try.thistle.co/specialty_discounts/",
       "source_url": "https://try.thistle.co/specialty_discounts/",
-      "fetched_at": "2026-09-11T13:08:31+00:00",
+      "fetched_at": "2026-09-11T13:19:04+00:00",
       "status": "active",
       "snippet": "Frontline workers get our best sale price, 50% off their first week of Thistle, all year round",
       "benefit": "50% off",
-<<<<<<< HEAD
-      "conditions": "first week; all year round; Frontline workers get our best sale price, 50% off their first week of Thistle, all year round; First Responders Get 50% Off WHO YOU ARE WHO YOU ARE Registered Dietitians",
-=======
-      "conditions": "Frontline workers get our best sale price, 50% off their first week of Thistle, all year round",
->>>>>>> 31d65cb (Format Conditions as deduplicated readable sentences without changing meaning.)
+      "conditions": "Frontline workers get our best sale price, 50% off their first week of Thistle, all year round, First Responders Get 50% Off WHO YOU ARE WHO YOU ARE Registered Dietitians",
       "valid_until_note": "官方页未标"
     },
     {
@@ -514,7 +489,7 @@
       "title": "Meal Kits today and get $120 off across 4 boxes",
       "offer_url": "https://www.gobble.com/quickmeals-menu/",
       "source_url": "https://www.gobble.com/quickmeals-menu/",
-      "fetched_at": "2026-09-11T13:08:33+00:00",
+      "fetched_at": "2026-09-11T13:19:05+00:00",
       "status": "active",
       "snippet": "Meal Kits today and get $120 off across 4 boxes! Choose from a diverse menu that includes meat, fish, and vegetarian dishes. Each and every recipe is prepped by our sous chefs, and designed to be table-ready in just 15 minutes!",
       "benefit": "$120 off",
@@ -527,7 +502,7 @@
       "title": "Save $65 with code FALL65",
       "offer_url": "https://splendidspoon.com/",
       "source_url": "https://splendidspoon.com/",
-      "fetched_at": "2026-09-11T13:08:38+00:00",
+      "fetched_at": "2026-09-11T13:19:07+00:00",
       "status": "active",
       "snippet": "Save $65 with code FALL65",
       "code": "FALL65",
@@ -541,7 +516,7 @@
       "title": "Save $75 on your first 3 boxes with code FALL75",
       "offer_url": "https://splendidspoon.com/",
       "source_url": "https://splendidspoon.com/",
-      "fetched_at": "2026-09-11T13:08:38+00:00",
+      "fetched_at": "2026-09-11T13:19:07+00:00",
       "status": "active",
       "snippet": "Save $75 on your first 3 boxes with code FALL75",
       "code": "FALL75",
@@ -556,7 +531,7 @@
       "title": "Spend $100+, get 10% off",
       "offer_url": "https://daily-harvest.com/",
       "source_url": "https://daily-harvest.com/",
-      "fetched_at": "2026-09-11T13:08:40+00:00",
+      "fetched_at": "2026-09-11T13:19:10+00:00",
       "status": "active",
       "snippet": "Spend $100+, get 10% off",
       "benefit": "10% off",
@@ -569,7 +544,7 @@
       "title": "30% with code RESET30",
       "offer_url": "https://www.sakara.com/",
       "source_url": "https://www.sakara.com/",
-      "fetched_at": "2026-09-11T13:08:42+00:00",
+      "fetched_at": "2026-09-11T13:19:11+00:00",
       "status": "active",
       "snippet": "30% with code RESET30",
       "code": "RESET30",
@@ -583,7 +558,7 @@
       "title": "Up to 15% off",
       "offer_url": "https://www.sakara.com/",
       "source_url": "https://www.sakara.com/",
-      "fetched_at": "2026-09-11T13:08:42+00:00",
+      "fetched_at": "2026-09-11T13:19:11+00:00",
       "status": "active",
       "snippet": "Up to 15% off",
       "benefit": "Up to 15% off",
@@ -595,7 +570,7 @@
       "title": "Get 25% off your first order",
       "offer_url": "https://www.sakara.com/",
       "source_url": "https://www.sakara.com/",
-      "fetched_at": "2026-09-11T13:08:42+00:00",
+      "fetched_at": "2026-09-11T13:19:11+00:00",
       "status": "active",
       "snippet": "Get 25% off your first order. Wellness starts here",
       "benefit": "25% off",
@@ -608,7 +583,7 @@
       "title": "Save $60 off your first 3 deliveries with code FALL60",
       "offer_url": "https://www.mosaicfoods.com/",
       "source_url": "https://www.mosaicfoods.com/",
-      "fetched_at": "2026-09-11T13:08:44+00:00",
+      "fetched_at": "2026-09-11T13:19:15+00:00",
       "status": "active",
       "snippet": "Save $60 off your first 3 deliveries with code FALL60",
       "code": "FALL60",
@@ -623,11 +598,11 @@
       "title": "Free shipping and no subscription required",
       "offer_url": "https://www.mosaicfoods.com/",
       "source_url": "https://www.mosaicfoods.com/",
-      "fetched_at": "2026-09-11T13:08:44+00:00",
+      "fetched_at": "2026-09-11T13:19:15+00:00",
       "status": "active",
       "snippet": "Choose your 6 favorite Family Meals. Free shipping and no subscription required",
       "benefit": "Free shipping",
-      "conditions": "subscription required",
+      "conditions": "Subscription required",
       "valid_until_note": "官方页未标"
     },
     {
@@ -636,7 +611,7 @@
       "title": "NATIONAL WELLNESS MONTH - 25% OFF YOUR FIRST ORDER + FREE SHIPPING WITH CODE ‘THRIVE25’",
       "offer_url": "https://modifyhealth.com/",
       "source_url": "https://modifyhealth.com/",
-      "fetched_at": "2026-09-11T13:08:46+00:00",
+      "fetched_at": "2026-09-11T13:19:17+00:00",
       "status": "active",
       "snippet": "NATIONAL WELLNESS MONTH - 25% OFF YOUR FIRST ORDER + FREE SHIPPING WITH CODE ‘THRIVE25’. NEED ASSISTANCE? CALL 888-7MODIFY (888-766-3439)",
       "code": "THRIVE25",
@@ -651,7 +626,7 @@
       "title": "Up to 20% off",
       "offer_url": "https://www.cleaneatzkitchen.com/",
       "source_url": "https://www.cleaneatzkitchen.com/",
-      "fetched_at": "2026-09-11T13:08:48+00:00",
+      "fetched_at": "2026-09-11T13:19:19+00:00",
       "status": "active",
       "snippet": "Up to 20% off",
       "benefit": "Up to 20% off",
@@ -663,32 +638,13 @@
       "title": "$8.99/meal — that's below most premium prepared meal delivery services",
       "offer_url": "https://www.cleaneatzkitchen.com/",
       "source_url": "https://www.cleaneatzkitchen.com/",
-      "fetched_at": "2026-09-11T13:08:48+00:00",
+      "fetched_at": "2026-09-11T13:19:19+00:00",
       "status": "active",
-<<<<<<< HEAD
       "snippet": "$8.99/meal — that's below most premium prepared meal delivery services",
       "price": "8.99",
       "currency": "USD",
       "benefit": "$8.99/meal",
-      "conditions": "subscription required, and a price point — starting",
-=======
-      "snippet": "10% off your next month applies to boxes 2-5",
-      "benefit": "10% off",
-      "conditions": "Applies to boxes 2-5, next month",
-      "valid_until_note": "官方页未标"
-    },
-    {
-      "provider": "EveryPlate",
-      "domain": "everyplate.com",
-      "title": "58% off your first box",
-      "offer_url": "https://www.everyplate.com/eat/coupon-codes-and-promotions",
-      "source_url": "https://www.everyplate.com/eat/coupon-codes-and-promotions",
-      "fetched_at": "2026-09-11T12:47:07+00:00",
-      "status": "active",
-      "snippet": "58% off your first box",
-      "benefit": "58% off",
-      "conditions": "Your first box, applies to boxes 2-5, next month, subscription",
->>>>>>> 31d65cb (Format Conditions as deduplicated readable sentences without changing meaning.)
+      "conditions": "Subscription required, and a price point — starting",
       "valid_until_note": "官方页未标"
     },
     {
@@ -697,7 +653,7 @@
       "title": "EveryPlate Coupon Codes and Promos: Get $2.99/Meal on Your First Box + Free Lunch for a Month on Us!",
       "offer_url": "https://www.everyplate.com/eat/coupon-codes-and-promotions",
       "source_url": "https://www.everyplate.com/eat/coupon-codes-and-promotions",
-      "fetched_at": "2026-09-11T13:08:52+00:00",
+      "fetched_at": "2026-09-11T13:19:22+00:00",
       "status": "active",
       "snippet": "EveryPlate Coupon Codes and Promos: Get $2.99/Meal on Your First Box + Free Lunch for a Month on Us!",
       "price": "2.99",
@@ -712,13 +668,13 @@
       "title": "Coupon Codes and Promos: Get $2.99/Meal on Your First Box + Free Lunch for a Month on Us",
       "offer_url": "https://www.everyplate.com/eat/coupon-codes-and-promotions",
       "source_url": "https://www.everyplate.com/eat/coupon-codes-and-promotions",
-      "fetched_at": "2026-09-11T13:08:52+00:00",
+      "fetched_at": "2026-09-11T13:19:22+00:00",
       "status": "active",
       "snippet": "Coupon Codes and Promos: Get $2.99/Meal on Your First Box + Free Lunch for a Month on Us",
       "price": "2.99",
       "currency": "USD",
       "benefit": "$2.99/Meal + Free Lunch for a Month",
-      "conditions": "on Your First Box",
+      "conditions": "On Your First Box",
       "valid_until_note": "官方页未标"
     },
     {
@@ -727,13 +683,13 @@
       "title": "Get $2.99/Meal on Your First Box + Free Lunch for a Month Learn More About EveryPlate Coupons",
       "offer_url": "https://www.everyplate.com/eat/coupon-codes-and-promotions",
       "source_url": "https://www.everyplate.com/eat/coupon-codes-and-promotions",
-      "fetched_at": "2026-09-11T13:08:52+00:00",
+      "fetched_at": "2026-09-11T13:19:22+00:00",
       "status": "active",
       "snippet": "Get $2.99/Meal on Your First Box + Free Lunch for a Month Learn More About EveryPlate Coupons, Promo Codes & Deals How do I apply",
       "price": "2.99",
       "currency": "USD",
       "benefit": "$2.99/Meal + Free Lunch for a Month",
-      "conditions": "on Your First Box",
+      "conditions": "On Your First Box",
       "valid_until_note": "官方页未标"
     },
     {
@@ -742,7 +698,7 @@
       "title": "Dinners, Easy Cleanup Get 50% Off Your First Box + Free Staub Mixing Bowls with your third box*",
       "offer_url": "https://www.greenchef.com/",
       "source_url": "https://www.greenchef.com/",
-      "fetched_at": "2026-09-11T13:08:54+00:00",
+      "fetched_at": "2026-09-11T13:19:24+00:00",
       "status": "active",
       "snippet": "Dinners, Easy Cleanup Get 50% Off Your First Box + Free Staub Mixing Bowls with your third box*",
       "benefit": "50% Off",
@@ -750,109 +706,16 @@
       "valid_until_note": "官方页未标"
     },
     {
-<<<<<<< HEAD
-=======
-      "provider": "Green Chef",
-      "domain": "greenchef.com",
-      "title": "15% off your next two months applies to boxes 2-9",
-      "offer_url": "https://www.greenchef.com/",
-      "source_url": "https://www.greenchef.com/",
-      "fetched_at": "2026-09-11T12:49:00+00:00",
-      "status": "active",
-      "snippet": "15% off your next two months applies to boxes 2-9",
-      "benefit": "15% off",
-      "conditions": "Applies to boxes 2-9",
-      "valid_until_note": "官方页未标"
-    },
-    {
-      "provider": "Purple Carrot",
-      "domain": "purplecarrot.com",
-      "title": "Get $100 Off Your First Month",
-      "offer_url": "https://www.purplecarrot.com/",
-      "source_url": "https://www.purplecarrot.com/",
-      "fetched_at": "2026-09-11T12:49:25+00:00",
-      "status": "active",
-      "snippet": "Get $100 Off Your First Month",
-      "benefit": "$100 Off",
-      "conditions": "FIRST 4 WEEKS",
-      "valid_until_note": "官方页未标"
-    },
-    {
-      "provider": "Sunbasket",
-      "domain": "sunbasket.com",
-      "title": "$90 off across 4 boxes",
-      "offer_url": "https://sunbasket.com/",
-      "source_url": "https://sunbasket.com/",
-      "fetched_at": "2026-09-11T12:49:56+00:00",
-      "status": "active",
-      "snippet": "$90 off across 4 boxes",
-      "benefit": "$90 off",
-      "conditions": "Across 4 boxes",
-      "valid_until_note": "官方页未标"
-    },
-    {
->>>>>>> 31d65cb (Format Conditions as deduplicated readable sentences without changing meaning.)
-      "provider": "Dinnerly",
-      "domain": "dinnerly.com",
-      "title": "Order now and get up to $180 off your first 5 boxes",
-      "offer_url": "https://dinnerly.com/",
-      "source_url": "https://dinnerly.com/",
-      "fetched_at": "2026-09-11T12:50:37+00:00",
-      "status": "active",
-      "snippet": "Order now and get up to $180 off your first 5 boxes",
-      "benefit": "$180 off",
-      "conditions": "Your first 5 boxes",
-      "valid_until_note": "官方页未标"
-    },
-    {
-      "provider": "Sunbasket",
-      "domain": "sunbasket.com",
-      "title": "$90 off across 4 boxes",
-      "offer_url": "https://sunbasket.com/",
-      "source_url": "https://sunbasket.com/",
-      "fetched_at": "2026-09-11T12:49:56+00:00",
-      "status": "active",
-      "snippet": "$90 off across 4 boxes",
-      "benefit": "$90 off",
-      "conditions": "across 4 boxes",
-      "valid_until_note": "官方页未标"
-    },
-    {
-      "provider": "Purple Carrot",
-      "domain": "purplecarrot.com",
-      "title": "Get $100 Off Your First Month",
-      "offer_url": "https://www.purplecarrot.com/",
-      "source_url": "https://www.purplecarrot.com/",
-      "fetched_at": "2026-09-11T12:49:25+00:00",
-      "status": "active",
-      "snippet": "Get $100 Off Your First Month",
-      "benefit": "$100 Off",
-      "conditions": "FIRST 4 WEEKS",
-      "valid_until_note": "官方页未标"
-    },
-    {
       "provider": "ButcherBox",
       "domain": "butcherbox.com",
-      "title": "Choose FREE Ribeyes, NY Strip Steaks, or Filet Mignons in every order for a year, plus $100 off",
+      "title": "Skip or Cancel Anytime Free Shipping 100% Satisfaction Guarantee Third-Party Certified for Animal Welfare No Antibiotics Ever The value of a ButcherBox Memb",
       "offer_url": "https://www.butcherbox.com/",
       "source_url": "https://www.butcherbox.com/",
-      "fetched_at": "2026-09-11T13:09:04+00:00",
+      "fetched_at": "2026-09-11T13:19:33+00:00",
       "status": "active",
-      "snippet": "Choose FREE Ribeyes, NY Strip Steaks, or Filet Mignons in every order for a year, plus $100 off",
-      "benefit": "FREE Ribeyes, NY Strip Steaks, or Filet Mignons in every order for a year, plus $100 off",
-      "valid_until_note": "官方页未标"
-    },
-    {
-      "provider": "Trifecta",
-      "domain": "trifectanutrition.com",
-      "title": "50% OFF YOUR FIRST ORDER + FREE MEAL PREP CHICKEN FOR A MONTH",
-      "offer_url": "https://www.trifectanutrition.com/",
-      "source_url": "https://www.trifectanutrition.com/",
-      "fetched_at": "2026-09-11T12:55:08+00:00",
-      "status": "active",
-      "snippet": "Labor Day Offer! 50% OFF YOUR FIRST ORDER + FREE MEAL PREP CHICKEN FOR A MONTH",
-      "benefit": "50% OFF + FREE MEAL PREP CHICKEN FOR A MONTH",
-      "conditions": "YOUR FIRST ORDER",
+      "snippet": "Skip or Cancel Anytime Free Shipping 100% Satisfaction Guarantee Third-Party Certified for Animal Welfare No Antibiotics Ever The value of a ButcherBox Memb",
+      "benefit": "Free Shipping",
+      "conditions": "Subscription Skip or Cancel Anytime Free Shipping 10",
       "valid_until_note": "官方页未标"
     },
     {
@@ -861,7 +724,7 @@
       "title": "Use code FALL40 for 40% OFF + Free Shipping* on your first subscription order",
       "offer_url": "https://epicured.com/",
       "source_url": "https://epicured.com/",
-      "fetched_at": "2026-09-11T13:09:08+00:00",
+      "fetched_at": "2026-09-11T13:19:37+00:00",
       "status": "active",
       "snippet": "Use code FALL40 for 40% OFF + Free Shipping* on your first subscription order! Exp. 10/31. Call Us: (888) 221-4985",
       "code": "FALL40",
@@ -876,7 +739,7 @@
       "title": "10% off your first order",
       "offer_url": "https://www.mamasezz.com/",
       "source_url": "https://www.mamasezz.com/",
-      "fetched_at": "2026-09-11T13:09:10+00:00",
+      "fetched_at": "2026-09-11T13:19:41+00:00",
       "status": "active",
       "snippet": "10% off your first order",
       "benefit": "10% off",
@@ -889,16 +752,10 @@
       "title": "FREE SHIPPING ON ALL ORDERS OVER $75",
       "offer_url": "https://www.mamasezz.com/",
       "source_url": "https://www.mamasezz.com/",
-      "fetched_at": "2026-09-11T13:09:10+00:00",
+      "fetched_at": "2026-09-11T13:19:41+00:00",
       "status": "active",
-<<<<<<< HEAD
       "snippet": "FREE SHIPPING ON ALL ORDERS OVER $75",
       "benefit": "FREE SHIPPING",
-=======
-      "snippet": "Military / First Responder? 15% Off!",
-      "benefit": "15% Off",
-      "conditions": "Military / First Responder, for Military and First Responders",
->>>>>>> 31d65cb (Format Conditions as deduplicated readable sentences without changing meaning.)
       "valid_until_note": "官方页未标"
     },
     {
@@ -907,7 +764,7 @@
       "title": "Click the \"get code\" buttons below to get verified and receive your discount",
       "offer_url": "https://iconmeals.com/pages/hero",
       "source_url": "https://iconmeals.com/pages/hero",
-      "fetched_at": "2026-09-11T13:09:13+00:00",
+      "fetched_at": "2026-09-11T13:19:45+00:00",
       "status": "active",
       "snippet": "Click the \"get code\" buttons below to get verified and receive your discount",
       "code": "BUTTONS",
@@ -920,9 +777,8 @@
       "title": "Free favorites in every order",
       "offer_url": "https://www.crowdcow.com/",
       "source_url": "https://www.crowdcow.com/",
-      "fetched_at": "2026-09-11T13:09:15+00:00",
+      "fetched_at": "2026-09-11T13:19:46+00:00",
       "status": "active",
-<<<<<<< HEAD
       "snippet": "Free favorites in every order. For life",
       "benefit": "Free favorites in every order",
       "conditions": "For life",
@@ -934,28 +790,10 @@
       "title": "Try our free 7-day trial to find out how much easier it will be to dish up a healthy, whole-food meal your entire family will love",
       "offer_url": "https://prepdish.com/",
       "source_url": "https://prepdish.com/",
-      "fetched_at": "2026-09-11T13:09:17+00:00",
+      "fetched_at": "2026-09-11T13:19:48+00:00",
       "status": "active",
       "snippet": "Try our free 7-day trial to find out how much easier it will be to dish up a healthy, whole-food meal your entire family will love!",
       "benefit": "free 7-day trial",
-=======
-      "snippet": "Free favorites in every order for life",
-      "benefit": "Free favorites in every order for life",
-      "conditions": "For life",
->>>>>>> 31d65cb (Format Conditions as deduplicated readable sentences without changing meaning.)
-      "valid_until_note": "官方页未标"
-    },
-    {
-      "provider": "Magic Kitchen",
-      "domain": "magickitchen.com",
-      "title": "20% Off! Subscribe to our newsletter",
-      "offer_url": "https://www.magickitchen.com/",
-      "source_url": "https://www.magickitchen.com/",
-      "fetched_at": "2026-09-11T13:02:12+00:00",
-      "status": "active",
-      "snippet": "20% Off! Subscribe to our newsletter",
-      "benefit": "20% Off",
-      "conditions": "New subscribers only",
       "valid_until_note": "官方页未标"
     },
     {
@@ -964,7 +802,7 @@
       "title": "Chefs Plate: Get Up to 20 Free Meals + Free Shipping + $1 menu",
       "offer_url": "https://www.chefsplate.com/",
       "source_url": "https://www.chefsplate.com/",
-      "fetched_at": "2026-09-11T13:09:19+00:00",
+      "fetched_at": "2026-09-11T13:19:49+00:00",
       "status": "active",
       "snippet": "Chefs Plate: Get Up to 20 Free Meals + Free Shipping + $1 menu!facebookinstagram",
       "benefit": "20 Free Meals + Free Shipping",
@@ -976,17 +814,11 @@
       "title": "20 Free Meals + Free Sides for Life* Get Up To 20 Free Meals + Free Sides for Life* Get Offer *One free item per box while subscripti",
       "offer_url": "https://www.hellofresh.ca/",
       "source_url": "https://www.hellofresh.ca/",
-      "fetched_at": "2026-09-11T13:09:22+00:00",
+      "fetched_at": "2026-09-11T13:19:51+00:00",
       "status": "active",
-<<<<<<< HEAD
       "snippet": "LICIOUS STARTS HERE Get Up To 20 Free Meals + Free Sides for Life* Get Up To 20 Free Meals + Free Sides for Life* Get Offer *One free item per box while subscripti",
       "benefit": "20 Free Meals",
-      "conditions": "for Life",
-=======
-      "snippet": "Up to 20 Free Meals*+ Free Shipping + Free Sides for Life**",
-      "benefit": "20 Free Meals + Free Shipping",
       "conditions": "For Life",
->>>>>>> 31d65cb (Format Conditions as deduplicated readable sentences without changing meaning.)
       "valid_until_note": "官方页未标"
     },
     {
@@ -995,11 +827,11 @@
       "title": "One free item per box while subscription is active, items may vary",
       "offer_url": "https://www.hellofresh.ca/",
       "source_url": "https://www.hellofresh.ca/",
-      "fetched_at": "2026-09-11T13:09:22+00:00",
+      "fetched_at": "2026-09-11T13:19:51+00:00",
       "status": "active",
       "snippet": "Get Up To 20 Free Meals + Free Sides for Life with Canada's Most Popular Meal Kit Service! One free item per box while subscription is active, items may vary",
       "benefit": "One free item per box while subscription is active, items may vary",
-      "conditions": "subscription is active, items may vary; for Life; subscription is active, items may vary More question",
+      "conditions": "For Life, subscription is active, items may vary More question",
       "valid_until_note": "官方页未标"
     },
     {
@@ -1008,11 +840,11 @@
       "title": "Life* Get Offer *One free item per box while subscripti",
       "offer_url": "https://www.hellofresh.ca/",
       "source_url": "https://www.hellofresh.ca/",
-      "fetched_at": "2026-09-11T13:09:22+00:00",
+      "fetched_at": "2026-09-11T13:19:51+00:00",
       "status": "active",
       "snippet": "LICIOUS STARTS HERE Get Up To 20 Free Meals + Free Sides for Life* Get Up To 20 Free Meals + Free Sides for Life* Get Offer *One free item per box while subscripti",
       "benefit": "Life* Get Offer *One free item per box while subscripti",
-      "conditions": "for Life; subscription is active, items may vary More question",
+      "conditions": "For Life, subscription is active, items may vary More question",
       "valid_until_note": "官方页未标"
     }
   ]
