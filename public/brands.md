@@ -1,6 +1,6 @@
 # Meal kit / meal delivery brands tracked by mealkitdeals
 
-Generated from `data/offers.json` at `2026-09-11T13:38:35+00:00`.
+Generated from `data/offers.json` at `2026-09-11T13:47:15+00:00`.
 
 Live listings: https://mealkitdeals.com/
 
@@ -37,7 +37,7 @@ Only fields present in the scrape are shown. Empty means the official public pag
 | Prep Dish | prepdish.com | 1 | Free 7-day trial | https://prepdish.com/ |
 | Magic Kitchen | magickitchen.com | 1 | 20% Off! Subscribe to our newsletter | https://www.magickitchen.com/ |
 | Chefs Plate | chefsplate.com | 1 | Get Up to 20 Free Meals + Free Shipping + $1 menu | https://www.chefsplate.com/ |
-| HelloFresh Canada | hellofresh.ca | 2 | HelloFresh® Canada Meal Kits: Up To 20 Free Meals + Free Sides for Lifefacebooktwitterinstagram | https://www.hellofresh.ca/ |
+| HelloFresh Canada | hellofresh.ca | 2 | Up To 20 Free Meals + Free Sides for Life | https://www.hellofresh.ca/ |
 
 ## Machine-readable offers
 
