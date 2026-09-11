@@ -66,6 +66,10 @@ a:hover { color: var(--accent-2); }
   letter-spacing: -0.03em;
   max-width: 14ch;
 }
+.hero-provider h1 { max-width: none; }
+.about-brand p { margin: 0 0 0.75rem; color: var(--ink); }
+.panel ul { margin: 0.5rem 0 0; padding-left: 1.2rem; }
+.panel li { margin: 0.65rem 0; }
 .eyebrow {
   text-transform: uppercase;
   letter-spacing: 0.12em;

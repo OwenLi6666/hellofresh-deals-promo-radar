@@ -755,6 +755,78 @@ def _enrich_details(
     return out
 
 
+_INTRO_PROMO_HEAVY = re.compile(
+    r"(?i)(\d{1,3}%\s*off|\$\d+\s*off|use code|coupon code|promo code|limited.?time|save \$\d+)"
+)
+_INTRO_JUNK = re.compile(
+    r"(?i)(cookie policy|privacy policy|terms of service|subscribe to our newsletter|sign up for)"
+)
+
+
+def _clean_intro(text: str) -> str:
+    from html import unescape
+
+    text = _normalize_quotes(unescape(text or ""))
+    text = re.sub(r"\s+", " ", text).strip()
+    text = re.sub(r"(?i)\s*(shop now|get started|order now|learn more)\s*\.?\s*$", "", text)
+    return text.strip()
+
+
+def extract_provider_intro(html: str, final_url: str) -> dict[str, str] | None:
+    """Brand description from official meta or non-promo paragraph only."""
+    parser = _MetaParser()
+    try:
+        parser.feed(html)
+    except Exception:  # noqa: BLE001
+        pass
+
+    ranked: list[tuple[int, str]] = []
+    for key, base in (("og:description", 55), ("description", 45), ("twitter:description", 40)):
+        val = (parser.metas.get(key) or "").strip()
+        if len(val) < 35:
+            continue
+        score = base
+        if _INTRO_PROMO_HEAVY.search(val[:120]):
+            score -= 35
+        if _INTRO_JUNK.search(val):
+            score -= 20
+        ranked.append((score, val))
+
+    for p in parser.texts[:20]:
+        p = re.sub(r"\s+", " ", p).strip()
+        if not (40 <= len(p) <= 700):
+            continue
+        if _INTRO_PROMO_HEAVY.search(p[:120]) or _INTRO_JUNK.search(p):
+            continue
+        ranked.append((28 + min(len(p) // 12, 18), p))
+
+    if not ranked:
+        return None
+    ranked.sort(key=lambda x: x[0], reverse=True)
+    best = _clean_intro(ranked[0][1])
+    if len(best) < 35 or ranked[0][0] < 15:
+        return None
+    if len(best) > 480:
+        cut = best.rfind(". ", 0, 480)
+        best = (best[: cut + 1] if cut > 200 else best[:480]).strip()
+    return {"intro": best, "intro_source_url": final_url}
+
+
+def _dedupe_provider_offers(offers: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    seen: set[tuple[str, str]] = set()
+    out: list[dict[str, Any]] = []
+    for o in offers:
+        key = (
+            (o.get("code") or "").upper(),
+            (o.get("benefit") or o.get("title") or "").strip().lower()[:90],
+        )
+        if key in seen:
+            continue
+        seen.add(key)
+        out.append(o)
+    return out
+
+
 def _score_offer(title: str, price: str | None, code: str | None) -> int:
     score = 0
     if code:
@@ -999,8 +1071,10 @@ def scrape_all() -> dict[str, Any]:
     site = cfg["site"]
     all_offers: list[dict[str, Any]] = []
     fetch_log: list[dict[str, Any]] = []
+    provider_profiles: dict[str, dict[str, Any]] = {}
 
     prev_by_provider: dict[str, list[dict[str, Any]]] = {}
+    prev_profiles: dict[str, dict[str, Any]] = {}
     if DATA_PATH.exists():
         try:
             prev = json.loads(DATA_PATH.read_text(encoding="utf-8"))
@@ -1008,8 +1082,10 @@ def scrape_all() -> dict[str, Any]:
                 name = o.get("provider") or ""
                 if name:
                     prev_by_provider.setdefault(name, []).append(o)
+            prev_profiles = dict(prev.get("provider_profiles") or {})
         except (OSError, json.JSONDecodeError):
             prev_by_provider = {}
+            prev_profiles = {}
 
     for provider in cfg["providers"]:
         urls = provider.get("promo_urls") or [provider["promo_url"]]
@@ -1017,6 +1093,8 @@ def scrape_all() -> dict[str, Any]:
         got_page = False
         got_offers = False
         last_error = ""
+        provider_offers: list[dict[str, Any]] = []
+        best_intro: dict[str, Any] | None = None
         for url in urls:
             allowed = robots_allows(robots_url, url)
             entry: dict[str, Any] = {
@@ -1049,14 +1127,53 @@ def scrape_all() -> dict[str, Any]:
             entry["status"] = "ok" if offers else "ok_no_promo"
             entry["offers_extracted"] = len(offers)
             fetch_log.append(entry)
-            all_offers.extend(offers)
+            provider_offers.extend(offers)
+            intro = extract_provider_intro(body, final_url)
+            if intro and (
+                not best_intro or len(intro.get("intro") or "") > len(best_intro.get("intro") or "")
+            ):
+                best_intro = intro
             got_page = True
             if offers:
                 got_offers = True
             time.sleep(1.0)
-            # Keep trying next URL if this page had zero real promos
-            if offers:
-                break
+
+        # Homepage / official entry for brand copy when promo pages are thin
+        home_url = (cfg.get("affiliates") or {}).get(provider["name"], "")
+        if home_url and home_url not in urls:
+            allowed_home = robots_allows(robots_url, home_url)
+            if allowed_home and (
+                not best_intro or len(best_intro.get("intro") or "") < 80
+            ):
+                status, final_url, body = fetch(home_url)
+                if status == 200 and not body.startswith("__ERROR__"):
+                    intro = extract_provider_intro(body, final_url)
+                    if intro and (
+                        not best_intro
+                        or len(intro.get("intro") or "") > len(best_intro.get("intro") or "")
+                    ):
+                        best_intro = intro
+                    fetch_log.append(
+                        {
+                            "provider": provider["name"],
+                            "url": home_url,
+                            "http_status": status,
+                            "final_url": final_url,
+                            "status": "ok_intro_only",
+                            "robots_allowed": True,
+                        }
+                    )
+                time.sleep(0.8)
+
+        merged = _dedupe_provider_offers(provider_offers)[:6]
+        if merged:
+            all_offers.extend(merged)
+        if best_intro:
+            best_intro["fetched_at"] = datetime.now(timezone.utc).replace(microsecond=0).isoformat()
+            provider_profiles[provider["name"]] = best_intro
+        elif prev_profiles.get(provider["name"]):
+            provider_profiles[provider["name"]] = prev_profiles[provider["name"]]
+
         if not got_offers:
             # Keep last good extract when live fetch fails, returns zero promos, or robots blocks.
             # Never invent new rows — only reuse previously scraped official extracts.
@@ -1125,6 +1242,7 @@ def scrape_all() -> dict[str, Any]:
         "config_source": cfg["source_path"],
         "providers": [p["name"] for p in cfg["providers"]],
         "fetch_log": fetch_log,
+        "provider_profiles": provider_profiles,
         "offers": all_offers,
     }
     DATA_PATH.parent.mkdir(parents=True, exist_ok=True)

@@ -189,6 +189,49 @@ def offer_code_required_html(offer: dict[str, Any]) -> str:
     return ""
 
 
+def provider_about_html(name: str, profiles: dict[str, Any]) -> str:
+    prof = profiles.get(name) or {}
+    intro = (prof.get("intro") or "").strip()
+    src = (prof.get("intro_source_url") or "").strip()
+    if not intro:
+        return ""
+    src_html = ""
+    if src:
+        src_html = (
+            f'<p class="meta">Source: <a href="{html.escape(src)}" rel="nofollow noopener">'
+            f"{html.escape(src)}</a></p>"
+        )
+    return (
+        f'<section class="panel about-brand">'
+        f"<h2>About {html.escape(name)}</h2>"
+        f"<p>{html.escape(intro)}</p>"
+        f"{src_html}"
+        f"</section>"
+    )
+
+
+def provider_sources_html(rows: list[dict[str, Any]]) -> str:
+    items: list[str] = []
+    seen: set[str] = set()
+    for o in rows:
+        src = (o.get("source_url") or o.get("offer_url") or "").strip()
+        if not src or src in seen:
+            continue
+        seen.add(src)
+        items.append(
+            f'<li><a href="{html.escape(src)}" rel="nofollow noopener">{html.escape(src)}</a></li>'
+        )
+    if not items:
+        return ""
+    return (
+        '<section class="panel">'
+        "<h2>Official source pages</h2>"
+        "<ul>"
+        + "".join(items)
+        + "</ul></section>"
+    )
+
+
 def offer_card_snip(offer: dict[str, Any]) -> str:
     bits: list[str] = []
     benefit = (offer.get("benefit") or "").strip()
@@ -399,6 +442,7 @@ def render() -> None:
     pub = cfg.get("publisher") or {}
     has_contact = bool((pub.get("contact_email") or "").strip() and "@" in (pub.get("contact_email") or ""))
 
+    provider_profiles: dict[str, Any] = dict(data.get("provider_profiles") or {})
     raw_offers = [dict(o) for o in data.get("offers", [])]
     for o in raw_offers:
         if o.get("provider") in shelved:
@@ -712,16 +756,34 @@ def render() -> None:
             )
         )
 
+        prof = provider_profiles.get(name) or {}
+        intro = (prof.get("intro") or "").strip()
+        desc_bits = [
+            f"{name} promo codes, coupons, and deals for {month}.",
+            intro[:140] if intro else "Public listings scraped from official brand pages.",
+        ]
+        listing_count = len(rows)
         provider_html = render_tpl(
             "provider.html",
             {
                 **base_vars,
                 "title": f"{name} promo codes & deals — {brand} ({month})",
-                "description": f"Public {name} meal kit promo listings for {month}. Source: official pages.",
+                "description": " ".join(desc_bits)[:300],
                 "canonical": abs_url(domain, provider_path),
-                "og_title": f"{name} deals — {month}",
+                "og_title": f"{name} promo codes & deals — {month}",
+                "h1": html.escape(f"{name} promo codes & deals"),
+                "lede": html.escape(
+                    f"Public {name} promo codes, coupons, and meal kit deals from official pages "
+                    f"for {month}. Every line below is extracted from brand sites — nothing invented."
+                ),
                 "provider": html.escape(name),
+                "about_section": provider_about_html(name, provider_profiles),
+                "listings_heading": html.escape(f"{name} promo codes & coupons ({listing_count})"),
+                "listings_note": html.escape(
+                    f"{listing_count} public offer(s) extracted from official {name} pages."
+                ),
                 "deal_list": deal_list_html,
+                "source_section": provider_sources_html(rows),
                 "json_ld": json.dumps([product_ld, faq_ld], ensure_ascii=False),
                 "official": html.escape(affiliates.get(name, rows[0].get("source_url", "#") if rows else "#")),
             },
