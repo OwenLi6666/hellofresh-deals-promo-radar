@@ -12,6 +12,8 @@ on:
       - "ilang_config.py"
       - ".ilang/**"
       - "templates/**"
+      - "data/**"
+      - "tools/**"
       - ".github/workflows/update.yml"
 
 permissions:
@@ -22,7 +24,7 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  scrape-and-build:
+  scrape-build-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -42,15 +44,21 @@ jobs:
       - name: Build static site
         run: python build.py
 
-      - name: Commit data + site refresh
+      - name: Commit scraped data (not generated HTML)
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/offers.json public/ site/
+          git add data/offers.json public/
           if git diff --staged --quiet; then
-            echo "No offer/site changes"
+            echo "No data/export changes"
           else
             git commit -m "chore: refresh offers $(date -u +%Y-%m-%dT%H:%MZ)"
             git pull --rebase origin main
             git push
           fi
+
+      - name: Deploy to Cloudflare Pages
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: npx --yes wrangler@4 pages deploy site --project-name hellofresh-deals-promo-radar --branch main

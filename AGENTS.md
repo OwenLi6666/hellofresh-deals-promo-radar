@@ -24,7 +24,7 @@ ILANG
 ::MODULE{DATA}
   真源配置: .ilang/site.ilang
   数据集: data/offers.json（workflow 覆盖）
-  页面输出: site/（build.py 生成）
+  页面输出: site/（build.py 生成，gitignore，仅 CI 部署）
 
 ::RULE{抓不到 price⇒不写 price 字段也不进 Offer JSON-LD 的 price}
 ::RULE{valid_until 过期⇒标 expired 或下架 不许冒充有效}

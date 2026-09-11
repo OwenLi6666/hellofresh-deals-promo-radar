@@ -36,17 +36,17 @@ python tools/export_public_assets.py
 python build.py
 ```
 
-Open `site/index.html`. To change brands, edit `.ilang/site.ilang` only, then re-run.
+Open `site/index.html` locally after `python build.py`. The `site/` folder is **not** committed — CI builds and deploys it.
 
 ## Auto update
 
-`.github/workflows/update.yml` runs about every 6 hours (and on relevant pushes): scrape → build → commit `data/offers.json` + `site/`.
+`.github/workflows/update.yml` runs every 6 hours (and on pushes to source/data): scrape → build → commit `data/offers.json` + `public/` → deploy `site/` to Cloudflare Pages.
 
-## Deploy
+## Local workflow
 
-```bash
-npx wrangler pages deploy site --project-name hellofresh-deals-promo-radar
-```
+1. Edit source only (`.ilang/`, `templates/`, `scraper.py`, `build.py`, `data/`).
+2. `git pull --rebase origin main` then commit and push to `main`.
+3. GitHub Actions rebuilds and deploys; no need to commit `site/` or run wrangler locally.
 
 ## Rules
 

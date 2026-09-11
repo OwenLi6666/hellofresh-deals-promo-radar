@@ -11,3 +11,6 @@ venv/
 
 .wrangler/
 
+# Generated static site (build.py output — CI builds and deploys)
+site/
+
