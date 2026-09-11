@@ -1,6 +1,6 @@
 # Meal kit / meal delivery brands tracked by mealkitdeals
 
-Generated from `data/offers.json` at `2026-09-11T12:40:14+00:00`.
+Generated from `data/offers.json` at `2026-09-11T13:09:23+00:00`.
 
 Live listings: https://mealkitdeals.com/
 
@@ -11,7 +11,7 @@ Only fields present in the scrape are shown. Empty means the official public pag
 | HelloFresh | hellofresh.com | 1 | HelloFresh Coupon Codes and Promos: Get Free Breakfast for Life + 10 Free Meals on Us | https://www.hellofresh.com/eat/coupon-codes-and-promotions |
 | Blue Apron | blueapron.com | 2 | Get $25 off your first 2 orders + Free Shipping with code WELCOME25 | https://blog.blueapron.com/guides/eggs-your-way-introducing-everyday-essentials |
 | Home Chef | homechef.com | 1 | 18 Free Meals + Free Shipping on your First Box | https://www.homechef.com/ |
-| Factor | factor75.com | 2 | Get 50% Off + Free Breakfast for 1 Year | https://www.factor75.com/ |
+| Factor | factor75.com | 3 | Get 50% Off + Free Breakfast for 1 Year | https://www.factor75.com/ |
 | Marley Spoon | marleyspoon.com | 1 | Up to 50% Off | https://marleyspoon.com/offer/black-friday-rtc-50p |
 | Hungryroot | hungryroot.com | 1 | 40% off your first order plus 1 free item for life | https://eat.hungryroot.com/2025-save-big |
 | CookUnity | cookunity.com | 1 | Get 50% off your first week of chef-made, ready-to-eat meals / CookUnity | https://www.cookunity.com/lp/cookunity-discount-code |
@@ -20,24 +20,24 @@ Only fields present in the scrape are shown. Empty means the official public pag
 | Splendid Spoon | splendidspoon.com | 2 | Save $65 with code FALL65 | https://splendidspoon.com/ |
 | Daily Harvest | daily-harvest.com | 1 | Spend $100+, get 10% off | https://daily-harvest.com/ |
 | Sakara | sakara.com | 3 | 30% with code RESET30 | https://www.sakara.com/ |
-| Mosaic Foods | mosaicfoods.com | 1 | Save $60 off your first 3 deliveries with code FALL60 | https://www.mosaicfoods.com/ |
+| Mosaic Foods | mosaicfoods.com | 2 | Save $60 off your first 3 deliveries with code FALL60 | https://www.mosaicfoods.com/ |
 | ModifyHealth | modifyhealth.com | 1 | NATIONAL WELLNESS MONTH - 25% OFF YOUR FIRST ORDER + FREE SHIPPING WITH CODE ‘THRIVE25’ | https://modifyhealth.com/ |
-| Clean Eatz Kitchen | cleaneatzkitchen.com | 1 | Up to 20% off | https://www.cleaneatzkitchen.com/ |
-| EveryPlate | everyplate.com | 3 | 10% off your next month applies to boxes 2-5 | https://www.everyplate.com/eat/coupon-codes-and-promotions |
-| Green Chef | greenchef.com | 2 | 50% Off Your First Box + Free Staub Mixing Bowls with your third box | https://www.greenchef.com/ |
+| Clean Eatz Kitchen | cleaneatzkitchen.com | 2 | Up to 20% off | https://www.cleaneatzkitchen.com/ |
+| EveryPlate | everyplate.com | 3 | EveryPlate Coupon Codes and Promos: Get $2.99/Meal on Your First Box + Free Lunch for a Month on Us! | https://www.everyplate.com/eat/coupon-codes-and-promotions |
+| Green Chef | greenchef.com | 1 | Dinners, Easy Cleanup Get 50% Off Your First Box + Free Staub Mixing Bowls with your third box* | https://www.greenchef.com/ |
 | Dinnerly | dinnerly.com | 1 | Order now and get up to $180 off your first 5 boxes | https://dinnerly.com/ |
 | Sunbasket | sunbasket.com | 1 | $90 off across 4 boxes | https://sunbasket.com/ |
 | Purple Carrot | purplecarrot.com | 1 | Get $100 Off Your First Month | https://www.purplecarrot.com/ |
 | ButcherBox | butcherbox.com | 1 | Choose FREE Ribeyes, NY Strip Steaks, or Filet Mignons in every order for a year, plus $100 off | https://www.butcherbox.com/ |
 | Trifecta | trifectanutrition.com | 1 | 50% OFF YOUR FIRST ORDER + FREE MEAL PREP CHICKEN FOR A MONTH | https://www.trifectanutrition.com/ |
 | Epicured | epicured.com | 1 | Use code FALL40 for 40% OFF + Free Shipping* on your first subscription order | https://epicured.com/ |
-| MamaSezz | mamasezz.com | 1 | 10% off your first order | https://www.mamasezz.com/ |
-| Icon Meals | iconmeals.com | 1 | Military / First Responder? 15% Off! | https://iconmeals.com/ |
-| Crowd Cow | crowdcow.com | 1 | Free favorites in every order for life | https://www.crowdcow.com/ |
-| Prep Dish | prepdish.com | 1 | START FREE 7-DAY TRIAL | https://prepdish.com/ |
+| MamaSezz | mamasezz.com | 2 | 10% off your first order | https://www.mamasezz.com/ |
+| Icon Meals | iconmeals.com | 1 | Click the "get code" buttons below to get verified and receive your discount | https://iconmeals.com/pages/hero |
+| Crowd Cow | crowdcow.com | 1 | Free favorites in every order | https://www.crowdcow.com/ |
+| Prep Dish | prepdish.com | 1 | Try our free 7-day trial to find out how much easier it will be to dish up a healthy, whole-food meal your entire family will love | https://prepdish.com/ |
 | Magic Kitchen | magickitchen.com | 1 | 20% Off! Subscribe to our newsletter | https://www.magickitchen.com/ |
 | Chefs Plate | chefsplate.com | 1 | Chefs Plate: Get Up to 20 Free Meals + Free Shipping + $1 menu | https://www.chefsplate.com/ |
-| HelloFresh Canada | hellofresh.ca | 1 | Up to 20 Free Meals*+ Free Shipping + Free Sides for Life** | https://www.hellofresh.ca/ |
+| HelloFresh Canada | hellofresh.ca | 3 | 20 Free Meals + Free Sides for Life* Get Up To 20 Free Meals + Free Sides for Life* Get Offer *One free item per box while subscripti | https://www.hellofresh.ca/ |
 
 ## Machine-readable offers
 
