@@ -168,8 +168,11 @@ PROMO_RE = re.compile(
     r"\d{1,3}%\s*off|"
     r"up to\s*\d{1,3}%|"
     r"\$\d+(?:\.\d{1,2})?\s*off|"
+    r"\$\d+(?:\.\d{1,2})?\s*/\s*meals?|"
     r"\d+\s*free meals?|"
-    r"free (?:breakfast|shipping|dessert|item|gift|trial|dozen)[^.!]{0,50}|"
+    r"free (?:breakfast|lunch|shipping|dessert|item|gift|dozen|protein|steaks?|ribeyes?|meal prep|favorites|welcome)[^.!]{0,80}|"
+    r"free (?:\d+[-\s]?day\s+)?trial|"
+    r"\$[\d,]+(?:\.\d{1,2})?\s*(?:worth|value)[^.!]{0,40}(?:for\s+free|free)?|"
     r"(?:use|with)\s+code\s+[A-Z][A-Z0-9]{3,19}"
     r")",
     re.I,
@@ -181,7 +184,10 @@ CODE_RE = re.compile(
     re.I,
 )
 DATE_RE = re.compile(
-    r"(expires?|valid through|until|ends?|offer ends|good through)\s*:?\s*"
+    r"(expires?|valid through|until|ends?|offer ends|good through|limited time until|"
+    r"ordered before|redeemed by|before)\s*"
+    r"(?:\d{1,2}:\d{2}\s*(?:AM|PM)\s*ET\s+on\s+)?"
+    r":?\s*"
     r"([A-Za-z]+\s+\d{1,2},?\s+\d{4}|\d{1,2}/\d{1,2}/\d{2,4}|\d{4}-\d{2}-\d{2})",
     re.I,
 )
@@ -189,9 +195,15 @@ BENEFIT_RE = re.compile(
     r"(?i)("
     r"(?:up to\s+)?\d{1,3}%\s*off|"
     r"\$\d+(?:\.\d{1,2})?\s*off|"
+    r"\$\d+(?:\.\d{1,2})?\s*/\s*meals?|"
     r"save\s+\$\d+(?:\.\d{1,2})?(?:\s+off)?|"
     r"\d+\s*free meals?(?:\s*\+\s*free shipping)?|"
     r"free breakfast(?: for (?:life|1 year|one year))?|"
+    r"free lunch(?: for a month)?|"
+    r"free (?:protein|steaks?|ribeyes?|favorites)[^.!?]{0,80}|"
+    r"free meal prep[^.!?]{0,60}|"
+    r"free (?:\d+[-\s]?day\s+)?trial|"
+    r"\$[\d,]+(?:\.\d{1,2})?\s*(?:worth|value)[^.!?]{0,40}(?:for\s+free)?|"
     r"free shipping|"
     r"free dozen[^.!?]{0,60}|"
     r"1 free item(?: for life)?|"
@@ -202,6 +214,8 @@ CONDITION_RES = [
     re.compile(p, re.I)
     for p in (
         r"frontline workers[^.!?]{0,100}",
+        r"military\s*/\s*first\s+responder[s]?[^.!?]{0,80}",
+        r"(?:for\s+)?(?:military|first\s+responders?)[^.!?]{0,60}",
         r"(?:on\s+)?(?:your\s+)?first\s+(?:\d+\s+)?(?:orders?|boxes?|weeks?|deliveries?|box)\b",
         r"applies to boxes?\s+\d+\s*[-–]\s*\d+",
         r"boxes?\s+\d+\s*[-–]\s*\d+",
@@ -310,6 +324,7 @@ def _clean_title(title: str) -> str:
     # If nav chrome precedes the promo phrase, keep from the promo phrase onward
     m = PROMO_RE.search(title)
     if m and m.start() > 40:
+        original = title
         # rewind to nearest sentence/capital/$ start before promo
         cut = title.rfind(". ", 0, m.start())
         if cut == -1:
@@ -324,6 +339,14 @@ def _clean_title(title: str) -> str:
         else:
             cut = cut + 2
         title = title[cut:].strip()
+        # Bare "$N off" after cut — keep earlier free/plus context from original sentence
+        if re.fullmatch(r"\$\d+(?:\.\d{1,2})?\s*off", title, re.I):
+            anchor = re.search(
+                r"(?i)((?:choose\s+)?free\b.{0,100}|plus\s+)\$\d+(?:\.\d{1,2})?\s*off",
+                original,
+            )
+            if anchor:
+                title = anchor.group(0).strip()
     # Drop leftover leading chrome words after cut (keep Save/$ amounts)
     title = re.sub(r"^(?:Get Started|Login|Menu|Home)\s+", "", title, flags=re.I)
     # Normalize CTA-only titles to the promo phrase
@@ -361,8 +384,12 @@ def _looks_like_real_promo(title: str, price: str | None, code: str | None) -> b
     t = title.lower().strip()
     if len(t) < 8:
         return False
-    # Short percent headlines like "15% Off" / "Up to 20% off" are valid
-    if len(t) < 10 and not PERCENT_RE.search(title):
+    # Short percent / $off headlines like "15% Off" / "$100 off" are valid
+    if len(t) < 10 and not (
+        PERCENT_RE.search(title) or re.search(r"\$\d+(?:\.\d{1,2})?\s*off", title, re.I)
+    ):
+        return False
+    if re.search(r"(?i)offer is based on\b", title):
         return False
     if "check current promotions" in t:
         return False
@@ -401,12 +428,17 @@ def _looks_like_real_promo(title: str, price: str | None, code: str | None) -> b
         # Long nav dump without a code is almost never a clean offer title
         if re.search(r"\b(blog|shop all|gift|affiliate|support|faq)\b", t):
             return False
+    if re.search(r"(?i)^free shipping\.?$", title.strip()):
+        return False
     has_promo = bool(PROMO_RE.search(title))
     strong = bool(
         PERCENT_RE.search(title)
         or re.search(r"\$\d+\s*off", title, re.I)
+        or re.search(r"\$\d+(?:\.\d{1,2})?\s*/\s*meals?", title, re.I)
         or re.search(r"\d+\s*free meals?", title, re.I)
-        or re.search(r"free (?:breakfast|item|gift|dozen|trial)", title, re.I)
+        or re.search(r"free (?:breakfast|lunch|item|gift|dozen|trial|shipping|protein|favorites|welcome)", title, re.I)
+        or re.search(r"free (?:\d+[-\s]?day\s+)?trial", title, re.I)
+        or re.search(r"\$[\d,]+\s*(?:worth|value).{0,40}free", title, re.I)
         or code
         or price
     )
@@ -705,7 +737,7 @@ def extract_offers(provider: dict[str, str], html: str, final_url: str) -> list[
     stripped = re.sub(r"(?s)<[^>]+>", " ", stripped)
     stripped = re.sub(r"\s+", " ", stripped)
     for chunk in re.findall(
-        r"[^.!?]{0,120}(?:\d{1,3}%\s*off|\$\d+\s*off|\d+\s*free meals?|free breakfast|free shipping|use code\s+[A-Z0-9]{4,}|with code\s+[A-Z0-9]{4,})[^.!?]{0,120}",
+        r"[^.!?]{0,120}(?:\d{1,3}%\s*off|\$\d+\s*off|\$\d+(?:\.\d{1,2})?\s*/\s*meals?|\d+\s*free meals?|free breakfast|free lunch|free shipping|use code\s+[A-Z0-9]{4,}|with code\s+[A-Z0-9]{4,})[^.!?]{0,120}",
         stripped[:150000],
         flags=re.I,
     ):

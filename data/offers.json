@@ -21,7 +21,22 @@
     "Sakara",
     "Mosaic Foods",
     "ModifyHealth",
-    "Clean Eatz Kitchen"
+    "Clean Eatz Kitchen",
+    "EveryPlate",
+    "Green Chef",
+    "Dinnerly",
+    "Sunbasket",
+    "Purple Carrot",
+    "ButcherBox",
+    "Trifecta",
+    "Epicured",
+    "MamaSezz",
+    "Icon Meals",
+    "Crowd Cow",
+    "Prep Dish",
+    "Magic Kitchen",
+    "Chefs Plate",
+    "HelloFresh Canada"
   ],
   "fetch_log": [
     {
@@ -158,6 +173,206 @@
       "final_url": "https://www.cleaneatzkitchen.com/",
       "status": "ok",
       "offers_extracted": 1
+    },
+    {
+      "provider": "EveryPlate",
+      "url": "https://www.everyplate.com/eat/coupon-codes-and-promotions",
+      "status": "ok_browser",
+      "offers_extracted": 3,
+      "http_status": 200,
+      "note": "urllib got 403; HTML captured via browser render of official page"
+    },
+    {
+      "provider": "EveryPlate",
+      "url": "https://www.everyplate.com/eat/coupon-codes-and-promotions",
+      "status": "ok_browser",
+      "offers_extracted": 3,
+      "http_status": 200,
+      "note": "urllib got 403; HTML captured via browser render of official page"
+    },
+    {
+      "provider": "Green Chef",
+      "url": "https://www.greenchef.com/",
+      "status": "ok_browser",
+      "offers_extracted": 2,
+      "http_status": 200,
+      "note": "urllib got 403; HTML captured via browser render of official page"
+    },
+    {
+      "provider": "Green Chef",
+      "url": "https://www.greenchef.com/",
+      "status": "ok_browser",
+      "offers_extracted": 2,
+      "http_status": 200,
+      "note": "urllib got 403; HTML captured via browser render of official page"
+    },
+    {
+      "provider": "Purple Carrot",
+      "url": "https://www.purplecarrot.com/",
+      "status": "ok_browser",
+      "offers_extracted": 1,
+      "http_status": 200,
+      "note": "urllib got 403; HTML captured via browser render of official page"
+    },
+    {
+      "provider": "Sunbasket",
+      "url": "https://sunbasket.com/",
+      "status": "ok_browser",
+      "offers_extracted": 1,
+      "http_status": 200,
+      "note": "urllib got 403; HTML captured via browser render of official page"
+    },
+    {
+      "provider": "Dinnerly",
+      "url": "https://dinnerly.com/",
+      "status": "ok_browser",
+      "offers_extracted": 1,
+      "http_status": 200,
+      "note": "urllib got 403; HTML captured via browser render of official page"
+    },
+    {
+      "provider": "ButcherBox",
+      "url": "https://www.butcherbox.com/",
+      "status": "ok_browser_no_promo",
+      "offers_extracted": 0,
+      "http_status": 200,
+      "note": "urllib got 403; HTML captured via browser render of official page"
+    },
+    {
+      "provider": "ButcherBox",
+      "url": "https://www.butcherbox.com/",
+      "status": "ok_browser",
+      "offers_extracted": 1,
+      "http_status": 200,
+      "note": "urllib got 403; HTML captured via browser render of official page"
+    },
+    {
+      "provider": "Trifecta",
+      "url": "https://www.trifectanutrition.com/",
+      "status": "ok_browser",
+      "offers_extracted": 1,
+      "http_status": 200,
+      "note": "urllib got 403; HTML captured via browser render of official page"
+    },
+    {
+      "provider": "Epicured",
+      "url": "https://epicured.com/",
+      "status": "ok_browser",
+      "offers_extracted": 1,
+      "http_status": 200,
+      "note": "urllib got 403; HTML captured via browser render of official page"
+    },
+    {
+      "provider": "MamaSezz",
+      "url": "https://www.mamasezz.com/",
+      "status": "ok_browser",
+      "offers_extracted": 1,
+      "http_status": 200,
+      "note": "urllib got 403; HTML captured via browser render of official page"
+    },
+    {
+      "provider": "Icon Meals",
+      "url": "https://iconmeals.com/",
+      "status": "ok_browser_no_promo",
+      "offers_extracted": 0,
+      "http_status": 200,
+      "note": "urllib got 403; HTML captured via browser render of official page"
+    },
+    {
+      "provider": "Icon Meals",
+      "url": "https://iconmeals.com/",
+      "status": "ok_browser",
+      "offers_extracted": 1,
+      "http_status": 200,
+      "note": "urllib got 403; HTML captured via browser render of official page"
+    },
+    {
+      "provider": "Icon Meals",
+      "url": "https://iconmeals.com/",
+      "status": "ok_browser",
+      "offers_extracted": 1,
+      "http_status": 200,
+      "note": "urllib got 403; HTML captured via browser render of official page"
+    },
+    {
+      "provider": "Crowd Cow",
+      "url": "https://www.crowdcow.com/",
+      "status": "ok_browser_no_promo",
+      "offers_extracted": 0,
+      "http_status": 200,
+      "note": "urllib got 403; HTML captured via browser render of official page"
+    },
+    {
+      "provider": "Crowd Cow",
+      "url": "https://www.crowdcow.com/",
+      "status": "ok_browser",
+      "offers_extracted": 1,
+      "http_status": 200,
+      "note": "urllib got 403; HTML captured via browser render of official page"
+    },
+    {
+      "provider": "Crowd Cow",
+      "url": "https://www.crowdcow.com/",
+      "status": "ok_browser",
+      "offers_extracted": 1,
+      "http_status": 200,
+      "note": "urllib got 403; HTML captured via browser render of official page"
+    },
+    {
+      "provider": "Prep Dish",
+      "url": "https://prepdish.com/",
+      "status": "ok_browser",
+      "offers_extracted": 1,
+      "http_status": 200,
+      "note": "urllib got 403; HTML captured via browser render of official page"
+    },
+    {
+      "provider": "Crowd Cow",
+      "url": "https://www.crowdcow.com/",
+      "status": "ok_browser",
+      "offers_extracted": 1,
+      "http_status": 200,
+      "note": "urllib got 403; HTML captured via browser render of official page"
+    },
+    {
+      "provider": "Magic Kitchen",
+      "url": "https://www.magickitchen.com/",
+      "status": "ok_browser",
+      "offers_extracted": 1,
+      "http_status": 200,
+      "note": "urllib got 403; HTML captured via browser render of official page"
+    },
+    {
+      "provider": "Magic Kitchen",
+      "url": "https://www.magickitchen.com/",
+      "status": "ok_browser_no_promo",
+      "offers_extracted": 0,
+      "http_status": 200,
+      "note": "urllib got 403; HTML captured via browser render of official page"
+    },
+    {
+      "provider": "Magic Kitchen",
+      "url": "https://www.magickitchen.com/",
+      "status": "ok_browser",
+      "offers_extracted": 1,
+      "http_status": 200,
+      "note": "urllib got 403; HTML captured via browser render of official page"
+    },
+    {
+      "provider": "Chefs Plate",
+      "url": "https://www.chefsplate.com/",
+      "status": "ok_browser",
+      "offers_extracted": 1,
+      "http_status": 200,
+      "note": "urllib got 403; HTML captured via browser render of official page"
+    },
+    {
+      "provider": "HelloFresh Canada",
+      "url": "https://www.hellofresh.ca/",
+      "status": "ok_browser",
+      "offers_extracted": 1,
+      "http_status": 200,
+      "note": "urllib got 403; HTML captured via browser render of official page"
     }
   ],
   "offers": [
@@ -428,6 +643,241 @@
       "status": "active",
       "snippet": "Up to 20% off",
       "benefit": "Up to 20% off",
+      "valid_until_note": "官方页未标"
+    },
+    {
+      "provider": "EveryPlate",
+      "domain": "everyplate.com",
+      "title": "10% off your next month applies to boxes 2-5",
+      "offer_url": "https://www.everyplate.com/eat/coupon-codes-and-promotions",
+      "source_url": "https://www.everyplate.com/eat/coupon-codes-and-promotions",
+      "fetched_at": "2026-09-11T12:47:07+00:00",
+      "status": "active",
+      "snippet": "10% off your next month applies to boxes 2-5",
+      "benefit": "10% off",
+      "conditions": "applies to boxes 2-5; boxes 2-5; next month",
+      "valid_until_note": "官方页未标"
+    },
+    {
+      "provider": "EveryPlate",
+      "domain": "everyplate.com",
+      "title": "58% off your first box",
+      "offer_url": "https://www.everyplate.com/eat/coupon-codes-and-promotions",
+      "source_url": "https://www.everyplate.com/eat/coupon-codes-and-promotions",
+      "fetched_at": "2026-09-11T12:47:07+00:00",
+      "status": "active",
+      "snippet": "58% off your first box",
+      "benefit": "58% off",
+      "conditions": "your first box; applies to boxes 2-5; next month; subscription",
+      "valid_until_note": "官方页未标"
+    },
+    {
+      "provider": "EveryPlate",
+      "domain": "everyplate.com",
+      "title": "EveryPlate Coupon Codes and Promos: Get $2.99/Meal on Your First Box + Free Lunch for a Month on Us!",
+      "offer_url": "https://www.everyplate.com/eat/coupon-codes-and-promotions",
+      "source_url": "https://www.everyplate.com/eat/coupon-codes-and-promotions",
+      "fetched_at": "2026-09-11T12:47:07+00:00",
+      "status": "active",
+      "snippet": "EveryPlate Coupon Codes and Promos: Get $2.99/Meal on Your First Box + Free Lunch for a Month on Us!",
+      "price": "2.99",
+      "currency": "USD",
+      "benefit": "$2.99/Meal + Free Lunch for a Month",
+      "conditions": "on Your First Box",
+      "valid_until_note": "官方页未标"
+    },
+    {
+      "provider": "Green Chef",
+      "domain": "greenchef.com",
+      "title": "50% Off Your First Box + Free Staub Mixing Bowls with your third box",
+      "offer_url": "https://www.greenchef.com/",
+      "source_url": "https://www.greenchef.com/",
+      "fetched_at": "2026-09-11T12:49:00+00:00",
+      "status": "active",
+      "snippet": "50% Off Your First Box + Free Staub Mixing Bowls with your third box",
+      "benefit": "50% Off",
+      "conditions": "Your First Box; first box; applies to boxes 2-9; boxes 2-9",
+      "valid_until_note": "官方页未标"
+    },
+    {
+      "provider": "Green Chef",
+      "domain": "greenchef.com",
+      "title": "15% off your next two months applies to boxes 2-9",
+      "offer_url": "https://www.greenchef.com/",
+      "source_url": "https://www.greenchef.com/",
+      "fetched_at": "2026-09-11T12:49:00+00:00",
+      "status": "active",
+      "snippet": "15% off your next two months applies to boxes 2-9",
+      "benefit": "15% off",
+      "conditions": "applies to boxes 2-9; boxes 2-9",
+      "valid_until_note": "官方页未标"
+    },
+    {
+      "provider": "Purple Carrot",
+      "domain": "purplecarrot.com",
+      "title": "Get $100 Off Your First Month",
+      "offer_url": "https://www.purplecarrot.com/",
+      "source_url": "https://www.purplecarrot.com/",
+      "fetched_at": "2026-09-11T12:49:25+00:00",
+      "status": "active",
+      "snippet": "Get $100 Off Your First Month",
+      "benefit": "$100 Off",
+      "conditions": "FIRST 4 WEEKS",
+      "valid_until_note": "官方页未标"
+    },
+    {
+      "provider": "Sunbasket",
+      "domain": "sunbasket.com",
+      "title": "$90 off across 4 boxes",
+      "offer_url": "https://sunbasket.com/",
+      "source_url": "https://sunbasket.com/",
+      "fetched_at": "2026-09-11T12:49:56+00:00",
+      "status": "active",
+      "snippet": "$90 off across 4 boxes",
+      "benefit": "$90 off",
+      "conditions": "across 4 boxes",
+      "valid_until_note": "官方页未标"
+    },
+    {
+      "provider": "Dinnerly",
+      "domain": "dinnerly.com",
+      "title": "Order now and get up to $180 off your first 5 boxes",
+      "offer_url": "https://dinnerly.com/",
+      "source_url": "https://dinnerly.com/",
+      "fetched_at": "2026-09-11T12:50:37+00:00",
+      "status": "active",
+      "snippet": "Order now and get up to $180 off your first 5 boxes",
+      "benefit": "$180 off",
+      "conditions": "your first 5 boxes",
+      "valid_until_note": "官方页未标"
+    },
+    {
+      "provider": "ButcherBox",
+      "domain": "butcherbox.com",
+      "title": "Choose FREE Ribeyes, NY Strip Steaks, or Filet Mignons in every order for a year, plus $100 off",
+      "offer_url": "https://www.butcherbox.com/",
+      "source_url": "https://www.butcherbox.com/",
+      "fetched_at": "2026-09-11T12:55:08+00:00",
+      "status": "active",
+      "snippet": "Choose FREE Ribeyes, NY Strip Steaks, or Filet Mignons in every order for a year, plus $100 off",
+      "benefit": "FREE Ribeyes, NY Strip Steaks, or Filet Mignons in every order for a year, plus $100 off",
+      "valid_until_note": "官方页未标"
+    },
+    {
+      "provider": "Trifecta",
+      "domain": "trifectanutrition.com",
+      "title": "50% OFF YOUR FIRST ORDER + FREE MEAL PREP CHICKEN FOR A MONTH",
+      "offer_url": "https://www.trifectanutrition.com/",
+      "source_url": "https://www.trifectanutrition.com/",
+      "fetched_at": "2026-09-11T12:55:08+00:00",
+      "status": "active",
+      "snippet": "Labor Day Offer! 50% OFF YOUR FIRST ORDER + FREE MEAL PREP CHICKEN FOR A MONTH",
+      "benefit": "50% OFF + FREE MEAL PREP CHICKEN FOR A MONTH",
+      "conditions": "YOUR FIRST ORDER",
+      "valid_until_note": "官方页未标"
+    },
+    {
+      "provider": "Epicured",
+      "domain": "epicured.com",
+      "title": "Use code FALL40 for 40% OFF + Free Shipping* on your first subscription order",
+      "offer_url": "https://epicured.com/",
+      "source_url": "https://epicured.com/",
+      "fetched_at": "2026-09-11T12:58:07+00:00",
+      "status": "active",
+      "snippet": "Use code FALL40 for 40% OFF + Free Shipping* on your first subscription order! Exp. 10/31. Call Us: (888) 221-4985",
+      "code": "FALL40",
+      "benefit": "40% OFF + Free Shipping",
+      "conditions": "subscription order",
+      "code_required": "yes",
+      "valid_until_note": "官方页未标"
+    },
+    {
+      "provider": "MamaSezz",
+      "domain": "mamasezz.com",
+      "title": "10% off your first order",
+      "offer_url": "https://www.mamasezz.com/",
+      "source_url": "https://www.mamasezz.com/",
+      "fetched_at": "2026-09-11T12:58:10+00:00",
+      "status": "active",
+      "snippet": "10% off your first order",
+      "benefit": "10% off",
+      "conditions": "your first order",
+      "valid_until_note": "官方页未标"
+    },
+    {
+      "provider": "Icon Meals",
+      "domain": "iconmeals.com",
+      "title": "Military / First Responder? 15% Off!",
+      "offer_url": "https://iconmeals.com/",
+      "source_url": "https://iconmeals.com/",
+      "fetched_at": "2026-09-11T12:59:20+00:00",
+      "status": "active",
+      "snippet": "Military / First Responder? 15% Off!",
+      "benefit": "15% Off",
+      "conditions": "Military / First Responder; for Military and First Responders Click HERE For 15% Off",
+      "valid_until_note": "官方页未标"
+    },
+    {
+      "provider": "Prep Dish",
+      "domain": "prepdish.com",
+      "title": "START FREE 7-DAY TRIAL",
+      "offer_url": "https://prepdish.com/",
+      "source_url": "https://prepdish.com/",
+      "fetched_at": "2026-09-11T13:00:48+00:00",
+      "status": "active",
+      "snippet": "START FREE 7-DAY TRIAL",
+      "benefit": "FREE 7-DAY TRIAL",
+      "valid_until_note": "官方页未标"
+    },
+    {
+      "provider": "Crowd Cow",
+      "domain": "crowdcow.com",
+      "title": "Free favorites in every order for life",
+      "offer_url": "https://www.crowdcow.com/",
+      "source_url": "https://www.crowdcow.com/",
+      "fetched_at": "2026-09-11T13:01:11+00:00",
+      "status": "active",
+      "snippet": "Free favorites in every order for life",
+      "benefit": "Free favorites in every order for life",
+      "conditions": "for life",
+      "valid_until_note": "官方页未标"
+    },
+    {
+      "provider": "Magic Kitchen",
+      "domain": "magickitchen.com",
+      "title": "20% Off! Subscribe to our newsletter",
+      "offer_url": "https://www.magickitchen.com/",
+      "source_url": "https://www.magickitchen.com/",
+      "fetched_at": "2026-09-11T13:02:12+00:00",
+      "status": "active",
+      "snippet": "20% Off! Subscribe to our newsletter",
+      "benefit": "20% Off",
+      "conditions": "new subscribers only",
+      "valid_until_note": "官方页未标"
+    },
+    {
+      "provider": "Chefs Plate",
+      "domain": "chefsplate.com",
+      "title": "Chefs Plate: Get Up to 20 Free Meals + Free Shipping + $1 menu",
+      "offer_url": "https://www.chefsplate.com/",
+      "source_url": "https://www.chefsplate.com/",
+      "fetched_at": "2026-09-11T13:03:15+00:00",
+      "status": "active",
+      "snippet": "Chefs Plate: Get Up to 20 Free Meals + Free Shipping + $1 menu!",
+      "benefit": "20 Free Meals + Free Shipping",
+      "valid_until_note": "官方页未标"
+    },
+    {
+      "provider": "HelloFresh Canada",
+      "domain": "hellofresh.ca",
+      "title": "Up to 20 Free Meals*+ Free Shipping + Free Sides for Life**",
+      "offer_url": "https://www.hellofresh.ca/",
+      "source_url": "https://www.hellofresh.ca/",
+      "fetched_at": "2026-09-11T13:03:43+00:00",
+      "status": "active",
+      "snippet": "Up to 20 Free Meals*+ Free Shipping + Free Sides for Life**",
+      "benefit": "20 Free Meals + Free Shipping",
+      "conditions": "for Life",
       "valid_until_note": "官方页未标"
     }
   ]

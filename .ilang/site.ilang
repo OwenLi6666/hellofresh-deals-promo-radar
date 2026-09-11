@@ -19,6 +19,21 @@ ILANG
   Mosaic Foods | mosaicfoods.com | https://www.mosaicfoods.com/ | https://www.mosaicfoods.com/robots.txt
   ModifyHealth | modifyhealth.com | https://modifyhealth.com/ | https://modifyhealth.com/robots.txt
   Clean Eatz Kitchen | cleaneatzkitchen.com | https://cleaneatzkitchen.com/ | https://cleaneatzkitchen.com/robots.txt
+  EveryPlate | everyplate.com | https://www.everyplate.com/eat/coupon-codes-and-promotions | https://www.everyplate.com/ | https://www.everyplate.com/robots.txt
+  Green Chef | greenchef.com | https://www.greenchef.com/ | https://www.greenchef.com/robots.txt
+  Dinnerly | dinnerly.com | https://dinnerly.com/ | https://dinnerly.com/robots.txt
+  Sunbasket | sunbasket.com | https://sunbasket.com/ | https://sunbasket.com/robots.txt
+  Purple Carrot | purplecarrot.com | https://www.purplecarrot.com/ | https://www.purplecarrot.com/robots.txt
+  ButcherBox | butcherbox.com | https://www.butcherbox.com/ | https://www.butcherbox.com/robots.txt
+  Trifecta | trifectanutrition.com | https://www.trifectanutrition.com/ | https://www.trifectanutrition.com/robots.txt
+  Epicured | epicured.com | https://www.epicured.com/ | https://epicured.com/ | https://www.epicured.com/robots.txt
+  MamaSezz | mamasezz.com | https://www.mamasezz.com/ | https://www.mamasezz.com/robots.txt
+  Icon Meals | iconmeals.com | https://iconmeals.com/ | https://iconmeals.com/pages/hero | https://iconmeals.com/robots.txt
+  Crowd Cow | crowdcow.com | https://www.crowdcow.com/ | https://www.crowdcow.com/robots.txt
+  Prep Dish | prepdish.com | https://prepdish.com/ | https://prepdish.com/robots.txt
+  Magic Kitchen | magickitchen.com | https://www.magickitchen.com/ | https://www.magickitchen.com/robots.txt
+  Chefs Plate | chefsplate.com | https://www.chefsplate.com/ | https://www.chefsplate.com/robots.txt
+  HelloFresh Canada | hellofresh.ca | https://www.hellofresh.ca/ | https://www.hellofresh.ca/robots.txt
 
 ::MODULE{PUBLISHER|title:站主公开信息 人工填写 不许AI编}
   contact_email | leophdtech@gmail.com
@@ -53,6 +68,21 @@ ILANG
   Mosaic Foods | https://www.mosaicfoods.com/
   ModifyHealth | https://modifyhealth.com/
   Clean Eatz Kitchen | https://cleaneatzkitchen.com/
+  EveryPlate | https://www.everyplate.com/
+  Green Chef | https://www.greenchef.com/
+  Dinnerly | https://dinnerly.com/
+  Sunbasket | https://sunbasket.com/
+  Purple Carrot | https://www.purplecarrot.com/
+  ButcherBox | https://www.butcherbox.com/
+  Trifecta | https://www.trifectanutrition.com/
+  Epicured | https://www.epicured.com/
+  MamaSezz | https://www.mamasezz.com/
+  Icon Meals | https://iconmeals.com/
+  Crowd Cow | https://www.crowdcow.com/
+  Prep Dish | https://prepdish.com/
+  Magic Kitchen | https://www.magickitchen.com/
+  Chefs Plate | https://www.chefsplate.com/
+  HelloFresh Canada | https://www.hellofresh.ca/
 
 ::RULE{抓不到 price⇒这条不写 price 字段 也不写进结构化数据 不许拿估的填}
 ::RULE{valid_until 已过⇒标记过期或下架 不许留着冒充有效}
