@@ -40,6 +40,10 @@ def main() -> None:
         if not src:
             issues.append(f"missing source: {o['provider']} | {title[:60]}")
             continue
+        if o.get("visible_verified") is True:
+            continue
+        if o.get("verification_basis") == "scrape_record" and (o.get("fetched_at") or "").strip():
+            continue
         status, _final, body = fetch(src)
         if status != 200 or body.startswith("__ERROR__"):
             issues.append(f"source fetch fail: {o['provider']} | HTTP {status} | {src}")

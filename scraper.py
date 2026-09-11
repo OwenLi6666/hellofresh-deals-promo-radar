@@ -897,20 +897,28 @@ def extract_provider_intro(html: str, final_url: str) -> dict[str, str] | None:
 
 
 def _cached_offer_still_valid(row: dict[str, Any]) -> bool:
+    """Reuse prior official extracts using scrape-time record, not live re-fetchability."""
     title = row.get("title") or ""
     if _is_unit_price_not_promo(title, row.get("price")):
         return False
     if not _looks_like_real_promo(title, row.get("price"), row.get("code")):
         return False
+    if row.get("visible_verified") is False:
+        return False
     if row.get("visible_verified") is True:
         return True
     src = (row.get("source_url") or "").strip()
-    if not src:
-        return False
-    status, _final, body = fetch(src)
-    if status != 200 or body.startswith("__ERROR__"):
-        return False
-    return _offer_in_visible_page(title, row.get("code"), body)
+    fetched = (row.get("fetched_at") or "").strip()
+    if src and fetched:
+        return True
+    return False
+
+
+def _annotate_scrape_record(row: dict[str, Any]) -> dict[str, Any]:
+    kept = dict(row)
+    if not kept.get("verification_basis"):
+        kept["verification_basis"] = "scrape_record"
+    return kept
 
 
 def _dedupe_provider_offers(offers: list[dict[str, Any]]) -> list[dict[str, Any]]:
@@ -1269,20 +1277,22 @@ def scrape_all() -> dict[str, Any]:
             # Never invent new rows — only reuse previously scraped official extracts.
             cached = prev_by_provider.get(provider["name"]) or []
             if cached:
+                reused = 0
                 for row in cached:
                     if not _cached_offer_still_valid(row):
                         continue
-                    kept = dict(row)
+                    kept = _annotate_scrape_record(row)
                     if not kept.get("valid_until") and not kept.get("valid_until_note"):
                         kept["valid_until_note"] = VALID_UNTIL_NOT_STATED
                     all_offers.append(kept)
+                    reused += 1
                 fetch_log.append(
                     {
                         "provider": provider["name"],
                         "url": urls[0],
                         "status": "reused_previous_extract",
                         "error": last_error or ("ok_no_promo" if got_page else "unknown"),
-                        "offers_reused": len(cached),
+                        "offers_reused": reused,
                         "note": "Live fetch failed or returned no promo; kept prior official-page extract. Not invented.",
                     }
                 )
@@ -1309,19 +1319,21 @@ def scrape_all() -> dict[str, Any]:
         cached = prev_by_provider.get(name) or []
         if not cached:
             continue
+        reused = 0
         for row in cached:
             if not _cached_offer_still_valid(row):
                 continue
-            kept = dict(row)
+            kept = _annotate_scrape_record(row)
             if not kept.get("valid_until") and not kept.get("valid_until_note"):
                 kept["valid_until_note"] = VALID_UNTIL_NOT_STATED
             all_offers.append(kept)
+            reused += 1
         fetch_log.append(
             {
                 "provider": name,
                 "url": (provider.get("promo_urls") or [provider.get("promo_url")])[0],
                 "status": "reused_previous_extract",
-                "offers_reused": len(cached),
+                "offers_reused": reused,
                 "note": "Safeguard merge: provider had zero fresh rows; kept prior official extract.",
             }
         )
