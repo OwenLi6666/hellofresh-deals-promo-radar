@@ -181,9 +181,52 @@ CODE_RE = re.compile(
     re.I,
 )
 DATE_RE = re.compile(
-    r"(expires?|valid through|until|ends?)\s*:?\s*([A-Za-z]+\s+\d{1,2},?\s+\d{4}|\d{1,2}/\d{1,2}/\d{2,4}|\d{4}-\d{2}-\d{2})",
+    r"(expires?|valid through|until|ends?|offer ends|good through)\s*:?\s*"
+    r"([A-Za-z]+\s+\d{1,2},?\s+\d{4}|\d{1,2}/\d{1,2}/\d{2,4}|\d{4}-\d{2}-\d{2})",
     re.I,
 )
+BENEFIT_RE = re.compile(
+    r"(?i)("
+    r"(?:up to\s+)?\d{1,3}%\s*off|"
+    r"\$\d+(?:\.\d{1,2})?\s*off|"
+    r"save\s+\$\d+(?:\.\d{1,2})?(?:\s+off)?|"
+    r"\d+\s*free meals?(?:\s*\+\s*free shipping)?|"
+    r"free breakfast(?: for (?:life|1 year|one year))?|"
+    r"free shipping|"
+    r"free dozen[^.!?]{0,60}|"
+    r"1 free item(?: for life)?|"
+    r"free item for life"
+    r")"
+)
+CONDITION_RES = [
+    re.compile(p, re.I)
+    for p in (
+        r"frontline workers[^.!?]{0,100}",
+        r"(?:on\s+)?(?:your\s+)?first\s+(?:\d+\s+)?(?:orders?|boxes?|weeks?|deliveries?|box)\b",
+        r"applies to boxes?\s+\d+\s*[-–]\s*\d+",
+        r"boxes?\s+\d+\s*[-–]\s*\d+",
+        r"across\s+\d+\s+boxes?",
+        r"spend\s+\$?\d+\+?",
+        r"for\s+(?:1\s+year|one year|life)\b",
+        r"all year round",
+        r"next month",
+        r"upcoming order",
+        r"national wellness month",
+        r"new (?:customers?|subscribers?)\s*only",
+        r"new customers?\b",
+        r"qualifying auto-renewing subscription[^.!?]{0,40}",
+        r"one per box[^.!?]{0,100}",
+        r"varies by plan",
+        r"expires\s+\d+\s+days after[^.!?]{0,80}",
+        r"free meals applied as discount on first box",
+        r"subscription\b[^.!?]{0,40}",
+    )
+]
+NO_CODE_RE = re.compile(
+    r"(?i)\b(?:no code (?:needed|required|necessary)|code not required|"
+    r"automatically applied|auto[- ]?applied|no promo code needed)\b"
+)
+VALID_UNTIL_NOT_STATED = "官方页未标"
 # Words that are not promo codes even if CODE_RE matches
 CODE_STOP = {
     "HERE", "THIS", "THAT", "YOUR", "FROM", "WITH", "WHEN", "WILL", "SHOULD",
@@ -386,6 +429,109 @@ def _looks_like_real_promo(title: str, price: str | None, code: str | None) -> b
     return False
 
 
+def _extract_benefit(text: str) -> str:
+    found: list[str] = []
+    seen: set[str] = set()
+    for m in BENEFIT_RE.finditer(text or ""):
+        chunk = re.sub(r"\s+", " ", m.group(0)).strip(" -–|:;,.")
+        key = chunk.lower()
+        if not chunk or key in seen:
+            continue
+        seen.add(key)
+        found.append(chunk)
+        if len(found) >= 4:
+            break
+    if found:
+        return " + ".join(found)
+    # Fall back to short title only when it already is a promo headline
+    t = re.sub(r"\s+", " ", (text or "")).strip()
+    if t and PROMO_RE.search(t) and len(t) <= 120:
+        return t[:200]
+    return ""
+
+
+def _extract_conditions(text: str, near: str | None = None) -> str:
+    found: list[str] = []
+    seen: set[str] = set()
+    text = text or ""
+    near_positions: list[int] = []
+    if near:
+        nl = near.lower()
+        start = 0
+        tl = text.lower()
+        while True:
+            i = tl.find(nl, start)
+            if i < 0:
+                break
+            near_positions.append(i)
+            start = i + max(1, len(nl))
+    for cre in CONDITION_RES:
+        for m in cre.finditer(text):
+            if near_positions and not any(0 <= (m.start() - p) <= 90 for p in near_positions):
+                continue
+            chunk = re.sub(r"\s+", " ", m.group(0)).strip(" -–|:;,.")
+            key = chunk.lower()
+            if not chunk or key in seen:
+                continue
+            seen.add(key)
+            found.append(chunk)
+            if len(found) >= 5:
+                break
+        if len(found) >= 5:
+            break
+    return "; ".join(found)
+
+
+def _enrich_details(
+    title: str,
+    extra: str,
+    code: str | None,
+    valid_until: str | None,
+) -> dict[str, str]:
+    """Fill structured detail fields from already-extracted official text only."""
+    blob = " ".join(x for x in (title, extra) if x)
+    benefit = _extract_benefit(title) or _extract_benefit(blob)
+    focus = ""
+    pm = PERCENT_RE.search(title) or re.search(r"\$\d+\s*off|\d+\s*free meals?", title, re.I)
+    if pm:
+        focus = pm.group(0)
+    title_conds = _extract_conditions(title)
+    strong_title = bool(
+        re.search(
+            r"(?i)applies to|across\s+\d+|spend\s+\$|first\s+\d+\s+(?:orders?|boxes?|deliveries?|weeks?)",
+            title or "",
+        )
+    )
+    parts: list[str] = []
+    seen_c: set[str] = set()
+    chunks = [title_conds]
+    if not (title_conds and strong_title):
+        chunks.append(_extract_conditions(extra or "", near=focus or None))
+    for chunk in chunks:
+        if not chunk:
+            continue
+        for piece in chunk.split("; "):
+            key = piece.lower().strip()
+            if key and key not in seen_c:
+                seen_c.add(key)
+                parts.append(piece.strip())
+    conditions = "; ".join(parts)
+    out: dict[str, str] = {}
+    if benefit:
+        out["benefit"] = benefit[:240]
+    if conditions:
+        out["conditions"] = conditions[:320]
+    if code:
+        out["code_required"] = "yes"
+    elif NO_CODE_RE.search(blob):
+        out["code_required"] = "no"
+    if valid_until:
+        out["valid_until"] = valid_until
+    else:
+        out["valid_until_note"] = VALID_UNTIL_NOT_STATED
+    return out
+
+
 def _score_offer(title: str, price: str | None, code: str | None) -> int:
     score = 0
     if code:
@@ -422,6 +568,13 @@ def extract_offers(provider: dict[str, str], html: str, final_url: str) -> list[
     now = datetime.now(timezone.utc).replace(microsecond=0).isoformat()
     candidates: list[dict[str, Any]] = []
     seen: set[str] = set()
+
+    # Plain text corpus for condition mining (official page only; never invent)
+    stripped_page = re.sub(r"(?is)<script[^>]*>.*?</script>", " ", html)
+    stripped_page = re.sub(r"(?is)<style[^>]*>.*?</style>", " ", stripped_page)
+    stripped_page = re.sub(r"(?s)<[^>]+>", " ", stripped_page)
+    stripped_page = re.sub(r"\s+", " ", stripped_page)
+    page_terms_blob = stripped_page[:120000]
 
     def add(
         title: str,
@@ -468,10 +621,30 @@ def extract_offers(provider: dict[str, str], html: str, final_url: str) -> list[
             item["code"] = code
             if code.upper() not in title.upper():
                 item["title"] = f"{item['title']} (code {code})"[:200]
-        if valid_until:
-            item["valid_until"] = valid_until
-            if _expired(valid_until):
-                item["status"] = "expired"
+        # Prefer local window; also mine official-page sentences that mention this promo token
+        nearby = extra or ""
+        if promo_token and page_terms_blob:
+            for sent in re.split(r"(?<=[.!*])\s+", page_terms_blob):
+                sl = sent.lower()
+                if promo_token in sl and 20 <= len(sent) <= 500:
+                    nearby = (nearby + " " + sent).strip()
+        elif page_terms_blob and title:
+            # Free-meal / free-breakfast style titles without percent/$ token
+            keys = []
+            for m in re.finditer(
+                r"(?i)\d+\s*free meals?|free breakfast|free shipping|free dozen|free item",
+                title,
+            ):
+                keys.append(m.group(0).lower())
+            for sent in re.split(r"(?<=[.!*])\s+", page_terms_blob):
+                sl = sent.lower()
+                if keys and any(k in sl for k in keys) and 20 <= len(sent) <= 500:
+                    nearby = (nearby + " " + sent).strip()
+        details = _enrich_details(item["title"], nearby[:4000], code, valid_until)
+        item.update(details)
+        if item.get("valid_until") and _expired(str(item["valid_until"])):
+            item["status"] = "expired"
+            item.pop("valid_until_note", None)
         candidates.append(item)
 
     # JSON-LD Offer nodes (real structured data only)
@@ -607,10 +780,22 @@ def scrape_all() -> dict[str, Any]:
     all_offers: list[dict[str, Any]] = []
     fetch_log: list[dict[str, Any]] = []
 
+    prev_by_provider: dict[str, list[dict[str, Any]]] = {}
+    if DATA_PATH.exists():
+        try:
+            prev = json.loads(DATA_PATH.read_text(encoding="utf-8"))
+            for o in prev.get("offers") or []:
+                name = o.get("provider") or ""
+                if name:
+                    prev_by_provider.setdefault(name, []).append(o)
+        except (OSError, json.JSONDecodeError):
+            prev_by_provider = {}
+
     for provider in cfg["providers"]:
         urls = provider.get("promo_urls") or [provider["promo_url"]]
         robots_url = provider.get("robots_url") or f"https://{provider['domain']}/robots.txt"
         got_page = False
+        got_offers = False
         last_error = ""
         for url in urls:
             allowed = robots_allows(robots_url, url)
@@ -646,20 +831,42 @@ def scrape_all() -> dict[str, Any]:
             fetch_log.append(entry)
             all_offers.extend(offers)
             got_page = True
+            if offers:
+                got_offers = True
             time.sleep(1.0)
             # Keep trying next URL if this page had zero real promos
             if offers:
                 break
-        if not got_page:
-            # Record failure in log only — do not invent a fake offer row.
-            fetch_log.append(
-                {
-                    "provider": provider["name"],
-                    "url": urls[0],
-                    "status": "all_urls_failed",
-                    "error": last_error or "unknown",
-                }
-            )
+        if not got_page or not got_offers:
+            # Keep last good extract for this provider when live fetch is blocked (e.g. HTTP 403).
+            # Never invent new rows — only reuse previously scraped official extracts.
+            cached = prev_by_provider.get(provider["name"]) or []
+            if cached and not got_offers:
+                for row in cached:
+                    # Re-stamp valid_until_note if still missing a date
+                    if not row.get("valid_until") and not row.get("valid_until_note"):
+                        row = dict(row)
+                        row["valid_until_note"] = VALID_UNTIL_NOT_STATED
+                    all_offers.append(row)
+                fetch_log.append(
+                    {
+                        "provider": provider["name"],
+                        "url": urls[0],
+                        "status": "reused_previous_extract",
+                        "error": last_error or ("ok_no_promo" if got_page else "unknown"),
+                        "offers_reused": len(cached),
+                        "note": "Live fetch failed or returned no promo; kept prior official-page extract. Not invented.",
+                    }
+                )
+            elif not got_page:
+                fetch_log.append(
+                    {
+                        "provider": provider["name"],
+                        "url": urls[0],
+                        "status": "all_urls_failed",
+                        "error": last_error or "unknown",
+                    }
+                )
 
     payload = {
         "brand": site.get("brand", "mealkitdeals"),

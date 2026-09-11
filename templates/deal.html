@@ -31,14 +31,23 @@
     <article class="panel" style="margin:1rem 0 2rem;">
       <p class="eyebrow">$provider · <span class="pill">$status</span></p>
       <h1>$deal_title</h1>
+      <dl class="offer-details">
+        <dt>What you get</dt>
+        <dd>$benefit</dd>
+        <dt>Conditions</dt>
+        <dd>$conditions</dd>
+        <dt>Code required</dt>
+        <dd>$code_required_html</dd>
+        <dt>Valid until</dt>
+        <dd>$valid_display</dd>
+        <dt>Source page</dt>
+        <dd class="tiny"><a href="$source_url" rel="nofollow noopener">$source_url</a></dd>
+      </dl>
       $price_html
-      $valid_html
-      <p>$snippet</p>
       <p class="meta">Fetched: $fetched_at</p>
-      <p class="tiny">Source: <a href="$source_url">$source_url</a></p>
       <a class="btn" href="$cta_url" rel="nofollow sponsored">View offer</a>
     </article>
-    <p class="note">$affiliate_note Missing price fields mean the public page did not expose a clear price — we do not invent one.</p>
+    <p class="note">$affiliate_note Empty fields mean the official public page did not state that detail — we do not invent offers, conditions, dates, or codes.</p>
   </main>
   <footer class="site-footer">
     <div class="wrap footer-inner">

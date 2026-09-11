@@ -25,7 +25,11 @@ ILANG
   about_operator | 
 
 ::MODULE{FIELDS|title:每条优惠提取什么}
-  title price currency offer_url valid_until source_url fetched_at status
+  title benefit conditions code code_required price currency offer_url valid_until valid_until_note source_url fetched_at status snippet
+
+::RULE{benefit conditions code valid_until⇒只能从官方页原文抽出 抽不出就留空}
+::RULE{valid_until 官方页没写⇒写 valid_until_note=官方页未标 不许估日期}
+::RULE{code_required⇒有码写 yes 官方写明无需码写 no 否则留空}
 
 ::MODULE{RENDER|title:页面渲染规则}
   pages: index provider deal compare

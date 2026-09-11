@@ -123,6 +123,42 @@ def render_tpl(name: str, mapping: dict[str, Any]) -> str:
     return read_tpl(name).safe_substitute(safe)
 
 
+def offer_valid_display(offer: dict[str, Any]) -> str:
+    if offer.get("valid_until"):
+        return str(offer["valid_until"])
+    note = (offer.get("valid_until_note") or "").strip()
+    return note or "官方页未标"
+
+
+def offer_code_required_html(offer: dict[str, Any]) -> str:
+    code = offer.get("code")
+    req = (offer.get("code_required") or "").strip().lower()
+    if code:
+        return f"yes — <strong>{html.escape(str(code))}</strong>"
+    if req == "yes":
+        return "yes"
+    if req == "no":
+        return "no"
+    return ""
+
+
+def offer_card_snip(offer: dict[str, Any]) -> str:
+    bits: list[str] = []
+    benefit = (offer.get("benefit") or "").strip()
+    conditions = (offer.get("conditions") or "").strip()
+    if benefit:
+        bits.append(benefit)
+    if conditions:
+        bits.append(conditions)
+    if offer.get("code"):
+        bits.append(f"Code {offer['code']}")
+    bits.append(f"Valid: {offer_valid_display(offer)}")
+    if bits:
+        return " · ".join(bits)
+    # Last resort: title only (still from official extract), never the old fluff line
+    return (offer.get("title") or "").strip()
+
+
 def normalize_offer_title(title: str) -> str:
     """Display-time cleanup for UI crumbs; never invents new offer claims."""
     from html import unescape
@@ -356,7 +392,9 @@ def render() -> None:
     clean_output_dirs()
 
     month = month_label()
-    generated = data.get("generated_at") or datetime.now(timezone.utc).isoformat()
+    # Homepage "Updated" stamp = build time so deploys are externally verifiable
+    built_at = datetime.now(timezone.utc).replace(microsecond=0).isoformat()
+    generated = built_at
     base_vars = {
         "brand": html.escape(brand),
         "niche": html.escape(niche),
@@ -373,21 +411,17 @@ def render() -> None:
     (SITE_DIR / "assets" / "style.css").write_text(
         (TPL_DIR / "style.css").read_text(encoding="utf-8"), encoding="utf-8"
     )
+    # Cloudflare Pages cache headers (keep homepage from sticking on edge)
+    headers_src = TPL_DIR / "_headers"
+    if headers_src.exists():
+        (SITE_DIR / "_headers").write_text(headers_src.read_text(encoding="utf-8"), encoding="utf-8")
 
     # Index cards — include providers with zero offers (honest empty), skip none from config
     cards = []
     for name in provider_order:
         rows = by_provider.get(name, [])
         top_title = rows[0].get("title", name) if rows else f"{name}: no public promo extracted yet"
-        snip = rows[0].get("snippet") if rows else ""
-        if not snip and rows:
-            # Short meta line — not a second copy of the title
-            bits = []
-            if rows[0].get("code"):
-                bits.append(f"Code {rows[0]['code']}")
-            if rows[0].get("valid_until"):
-                bits.append(f"Until {rows[0]['valid_until']}")
-            snip = " · ".join(bits) if bits else "From official public promo pages."
+        snip = offer_card_snip(rows[0]) if rows else ""
         if not rows:
             snip = "No public promo phrase/code extracted from official pages. We do not invent deals."
         provider_href = page_path("providers", slugify(name))
@@ -492,9 +526,27 @@ def render() -> None:
             did = o["_id"]
             deal_path = page_path("deals", did)
             code_pill = f" code:{html.escape(str(o['code']))}" if o.get("code") else ""
+            detail_bits = []
+            if o.get("benefit"):
+                detail_bits.append(f"What you get: {html.escape(str(o['benefit']))}")
+            if o.get("conditions"):
+                detail_bits.append(f"Conditions: {html.escape(str(o['conditions']))}")
+            cr = offer_code_required_html(o)
+            if cr:
+                detail_bits.append(f"Code required: {cr}")
+            detail_bits.append(f"Valid until: {html.escape(offer_valid_display(o))}")
+            src = o.get("source_url") or ""
+            if src:
+                detail_bits.append(
+                    f'Source: <a href="{html.escape(src)}" rel="nofollow noopener">{html.escape(src)}</a>'
+                )
+            detail_html = (
+                f'<p class="deal-detail">{" · ".join(detail_bits)}</p>' if detail_bits else ""
+            )
             deal_links.append(
                 f"<li><a href=\"{deal_path}\">{html.escape(o.get('title',''))}</a>"
-                f" <span class=\"pill\">{html.escape(o.get('status',''))}{code_pill}</span></li>"
+                f" <span class=\"pill\">{html.escape(o.get('status',''))}{code_pill}</span>"
+                f"{detail_html}</li>"
             )
             page_url = abs_url(domain, deal_path)
             offer_nodes.append(json_ld_offer(o, page_url))
@@ -522,23 +574,24 @@ def render() -> None:
             price_html = ""
             if o.get("price"):
                 price_html = f"<p class=\"price\">{html.escape(o.get('currency','USD'))} {html.escape(str(o['price']))}</p>"
-            if o.get("code"):
-                price_html += f"<p class=\"meta\">Promo code: <strong>{html.escape(str(o['code']))}</strong></p>"
-            valid_html = f"<p class=\"meta\">Valid until {html.escape(o['valid_until'])}</p>" if o.get("valid_until") else ""
+            benefit = (o.get("benefit") or "").strip() or (o.get("title") or "")
+            conditions = (o.get("conditions") or "").strip()
             deal_html = render_tpl(
                 "deal.html",
                 {
                     **base_vars,
                     "title": f"{o.get('title')} — {name} | {brand}",
-                    "description": (o.get("snippet") or o.get("title") or "")[:160],
+                    "description": (o.get("benefit") or o.get("snippet") or o.get("title") or "")[:160],
                     "canonical": page_url,
                     "og_title": html.escape(str(o.get("title"))),
                     "provider": html.escape(name),
                     "provider_link": provider_path,
                     "deal_title": html.escape(str(o.get("title"))),
-                    "snippet": html.escape(o.get("snippet") or ""),
+                    "benefit": html.escape(str(benefit)),
+                    "conditions": html.escape(conditions),
+                    "code_required_html": offer_code_required_html(o),
+                    "valid_display": html.escape(offer_valid_display(o)),
                     "price_html": price_html,
-                    "valid_html": valid_html,
                     "cta_url": html.escape(o.get("_affiliate") or o.get("offer_url") or "#"),
                     "source_url": html.escape(o.get("source_url") or ""),
                     "fetched_at": html.escape(str(o.get("fetched_at") or "")),
