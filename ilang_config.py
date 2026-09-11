@@ -102,6 +102,21 @@ def load_site_config(path: Path | None = None) -> dict[str, Any]:
             if line.startswith("affiliate_note:"):
                 affiliate_note = line.split(":", 1)[1].strip()
 
+    shelved: set[str] = set()
+    shelved_block = re.search(
+        r"::MODULE\{SHELVED[^}]*\}(.*?)(?=::MODULE\{|::RULE\{|::BOUNDARY\{|\Z)",
+        text,
+        re.S,
+    )
+    if shelved_block:
+        for line in shelved_block.group(1).splitlines():
+            line = line.strip()
+            if not line or line.startswith("["):
+                continue
+            parts = [x.strip() for x in line.split("|")]
+            if parts and parts[0]:
+                shelved.add(parts[0])
+
     publisher: dict[str, str] = {}
     pub_block = re.search(
         r"::MODULE\{PUBLISHER[^}]*\}(.*?)(?=::MODULE\{|::RULE\{|::BOUNDARY\{|\Z)",
@@ -125,5 +140,6 @@ def load_site_config(path: Path | None = None) -> dict[str, Any]:
             "Links may be affiliate links. We may earn a commission at no extra cost to you."
         ),
         "publisher": publisher,
+        "shelved": sorted(shelved),
         "source_path": str(p),
     }

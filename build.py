@@ -391,13 +391,20 @@ def render() -> None:
     niche = site.get("niche") or data.get("niche") or "meal kit deals"
     affiliate_note = cfg["affiliate_note"]
     affiliates = cfg["affiliates"]
+    shelved = set(cfg.get("shelved") or [])
     pub = cfg.get("publisher") or {}
     has_contact = bool((pub.get("contact_email") or "").strip() and "@" in (pub.get("contact_email") or ""))
 
     raw_offers = [dict(o) for o in data.get("offers", [])]
     for o in raw_offers:
+        if o.get("provider") in shelved:
+            continue
         sanitize_offer(o)
-    offers = [o for o in raw_offers if is_showable(o)]
+    offers = [
+        o
+        for o in raw_offers
+        if o.get("provider") not in shelved and is_showable(o)
+    ]
     # Drop duplicate cards for the same brand + benefit + code after cleanup
     seen_card: set[tuple[str, str, str]] = set()
     deduped: list[dict[str, Any]] = []
@@ -420,10 +427,10 @@ def render() -> None:
     for o in offers:
         by_provider[o.get("provider", "Unknown")].append(o)
 
-    # Prefer config provider order
-    provider_order = [p["name"] for p in cfg["providers"]]
+    # Prefer config provider order (skip shelved brands — data kept, pages not emitted)
+    provider_order = [p["name"] for p in cfg["providers"] if p["name"] not in shelved]
     for name in by_provider:
-        if name not in provider_order:
+        if name not in provider_order and name not in shelved:
             provider_order.append(name)
 
     SITE_DIR.mkdir(parents=True, exist_ok=True)

@@ -46,6 +46,9 @@ ILANG
 ::RULE{valid_until 官方页没写⇒写 valid_until_note=官方页未标 不许估日期}
 ::RULE{code_required⇒有码写 yes 官方写明无需码写 no 否则留空}
 
+::MODULE{SHELVED|title:抓但暂不展示 数据保留}
+  HelloFresh Canada | hellofresh.ca re-scrape HTTP 403 2026-09-11 titles had social icon junk
+
 ::MODULE{RENDER|title:页面渲染规则}
   pages: index provider deal compare
   update_cron: every_6_hours

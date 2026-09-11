@@ -437,6 +437,17 @@ def _clean_title(title: str) -> str:
         title = tm.group(1)
         title = title[0].upper() + title[1:]
     title = re.sub(r"[\ufffd]+", "", title)
+    # Social / footer icon chrome glued to promo text
+    title = re.sub(
+        r"(?i)(?:facebook|twitter|instagram|linkedin|pinterest|youtube|tiktok|snapchat)+$",
+        "",
+        title,
+    )
+    title = re.sub(
+        r"(?i)^hellofresh(?:®|\u00ae)?\s*canada\s*meal kits:\s*",
+        "",
+        title,
+    )
     title = re.sub(r"\s*\|\s*[A-Za-z][A-Za-z0-9 &'-]{1,40}$", "", title)
     title = _dedupe_repeated_segments(title)
     title = re.sub(r"(?i)\s*get up to\s*$", "", title)
