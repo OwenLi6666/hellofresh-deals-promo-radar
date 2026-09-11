@@ -245,21 +245,35 @@ def provider_sources_html(rows: list[dict[str, Any]]) -> str:
     )
 
 
-def offer_card_snip(offer: dict[str, Any]) -> str:
-    bits: list[str] = []
+def offer_card_conditions_line(offer: dict[str, Any]) -> str:
+    """Homepage card line 2: deduped conditions only (no validity — detail pages keep that)."""
+    title = (offer.get("title") or "").strip()
     benefit = (offer.get("benefit") or "").strip()
     conditions = clean_conditions((offer.get("conditions") or "").strip())
-    if benefit:
-        bits.append(benefit)
+    tl = title.lower()
+    bl = benefit.lower()
+
     if conditions:
-        bits.append(conditions)
-    if offer.get("code"):
-        bits.append(f"Code {offer['code']}")
-    bits.append(f"Valid: {offer_valid_display(offer)}")
-    if bits:
-        return " · ".join(bits)
-    # Last resort: title only (still from official extract), never the old fluff line
-    return (offer.get("title") or "").strip()
+        parts = [p.strip() for p in conditions.split(",") if p.strip()]
+        kept: list[str] = []
+        for part in parts:
+            pl = part.lower()
+            if pl in tl or (bl and pl in bl):
+                continue
+            if bl and len(pl) >= 6 and pl in bl:
+                continue
+            if tl and len(pl) >= 10 and pl in tl:
+                continue
+            kept.append(part)
+        conditions = ", ".join(kept)
+
+    code = (offer.get("code") or "").strip()
+    if code and code.upper() not in title.upper():
+        code_bit = f"Code {code}"
+        if code_bit.lower() not in conditions.lower():
+            conditions = f"{conditions}; {code_bit}" if conditions else code_bit
+
+    return conditions.strip(" ;")
 
 
 def normalize_offer_title(title: str) -> str:
@@ -531,15 +545,21 @@ def render() -> None:
         if not rows:
             continue
         listed_providers.append(name)
-        top_title = rows[0].get("title", name)
-        snip = offer_card_snip(rows[0])
+        top = rows[0]
+        top_title = top.get("title", name)
+        cond_line = offer_card_conditions_line(top)
+        cond_html = (
+            f'<p class="card-conditions">{html.escape(cond_line)}</p>'
+            if cond_line
+            else ""
+        )
         provider_href = page_path("providers", slugify(name))
         cards.append(
             f"""
             <article class="card">
               <p class="eyebrow">{html.escape(name)}</p>
               <h2><a href="{provider_href}">{html.escape(top_title)}</a></h2>
-              <p>{html.escape(snip)}</p>
+              {cond_html}
               <p class="meta">{len(rows)} live listing(s)</p>
               <a class="btn" href="{provider_href}">View {html.escape(name)}</a>
             </article>
