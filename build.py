@@ -261,9 +261,10 @@ def build_static_pages(
 
     if contact_email and "@" in contact_email:
         contact_body = f"""
-        <p>Questions about listings, corrections, or partnership inquiries:</p>
+        <p><strong>{html.escape(brand)}</strong> is a meal-kit promo radar: it lists publicly visible promotions scraped from official brand pages. It does not invent offers, prices, codes, or expiry dates.</p>
+        <p>To reach the publisher about listing corrections, outdated promos, privacy questions, or partnership inquiries, email:</p>
         <p><a href="mailto:{html.escape(contact_email)}">{html.escape(contact_email)}</a></p>
-        <p>Please include the page URL if you are reporting an incorrect or outdated promo listing.</p>
+        <p>Please include the page URL when you report an incorrect or outdated listing. We read messages sent to this address and reply when we can; we do not promise a fixed response time.</p>
         """
         contact_path = page_path("contact")
         contact_html = render_tpl(
