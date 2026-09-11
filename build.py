@@ -25,7 +25,7 @@ from string import Template
 from typing import Any
 
 from ilang_config import ROOT, load_site_config
-from scraper import clean_conditions
+from scraper import VALID_UNTIL_NOT_STATED, clean_conditions
 
 DATA_PATH = ROOT / "data" / "offers.json"
 SITE_DIR = ROOT / "site"
@@ -128,7 +128,9 @@ def offer_valid_display(offer: dict[str, Any]) -> str:
     if offer.get("valid_until"):
         return str(offer["valid_until"])
     note = (offer.get("valid_until_note") or "").strip()
-    return note or "官方页未标"
+    if note == "官方页未标":
+        note = VALID_UNTIL_NOT_STATED
+    return note or VALID_UNTIL_NOT_STATED
 
 
 def offer_code_required_html(offer: dict[str, Any]) -> str:

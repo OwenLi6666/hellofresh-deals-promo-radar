@@ -240,7 +240,7 @@ NO_CODE_RE = re.compile(
     r"(?i)\b(?:no code (?:needed|required|necessary)|code not required|"
     r"automatically applied|auto[- ]?applied|no promo code needed)\b"
 )
-VALID_UNTIL_NOT_STATED = "官方页未标"
+VALID_UNTIL_NOT_STATED = "Not stated on the official page"
 # Words that are not promo codes even if CODE_RE matches
 CODE_STOP = {
     "HERE", "THIS", "THAT", "YOUR", "FROM", "WITH", "WHEN", "WILL", "SHOULD",
