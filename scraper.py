@@ -561,11 +561,12 @@ def _looks_like_real_promo(title: str, price: str | None, code: str | None) -> b
     # Subscription perks like bare "Free Shipping" are not standalone promos
     if re.fullmatch(r"(?i)free\s+shipping(?:\s+on\s+(?:all|every)\s+orders?)?\.?", t):
         return False
+    if _is_unit_price_not_promo(title, price):
+        return False
     has_promo = bool(PROMO_RE.search(title))
     strong = bool(
         PERCENT_RE.search(title)
         or re.search(r"\$\d+\s*off", title, re.I)
-        or re.search(r"\$\d+(?:\.\d{1,2})?\s*/\s*meals?", title, re.I)
         or re.search(r"\d+\s*free meals?", title, re.I)
         or re.search(r"free (?:breakfast|lunch|item|gift|dozen|trial|shipping|protein|favorites|welcome)", title, re.I)
         or re.search(r"free (?:\d+[-\s]?day\s+)?trial", title, re.I)
@@ -759,8 +760,82 @@ _INTRO_PROMO_HEAVY = re.compile(
     r"(?i)(\d{1,3}%\s*off|\$\d+\s*off|use code|coupon code|promo code|limited.?time|save \$\d+)"
 )
 _INTRO_JUNK = re.compile(
-    r"(?i)(cookie policy|privacy policy|terms of service|subscribe to our newsletter|sign up for)"
+    r"(?i)(cookie policy|privacy policy|terms of service|subscribe to our newsletter|sign up for|"
+    r"these statements have not been evaluated|not intended to diagnose|nutritional information|"
+    r"ingredients: pork|serving size \d|calories: \d|get verified and receive your discount)"
 )
+_INTRO_BAD_PATH = re.compile(
+    r"(?i)(/guides/|/blog(?:/|$)|/offer|/lp/|specialty_discount|/pages/hero|/eat/coupon|/limited-time/)"
+)
+_INTRO_ARTICLE = re.compile(
+    r"(?i)(beginning with recipes|written by|what'?s changing|starting august|earlier this year, we asked)"
+)
+_INTRO_NOT_BRAND = re.compile(r"(?i)^explore .+ blog for")
+
+
+def _page_visible_text(html: str) -> str:
+    stripped = re.sub(r"(?is)<script[^>]*>.*?</script>", " ", html or "")
+    stripped = re.sub(r"(?is)<style[^>]*>.*?</style>", " ", stripped)
+    stripped = re.sub(r"(?is)<noscript[^>]*>.*?</noscript>", " ", stripped)
+    stripped = re.sub(r"(?s)<[^>]+>", " ", stripped)
+    return re.sub(r"\s+", " ", stripped).strip()
+
+
+def _is_unit_price_not_promo(title: str, price: str | None = None) -> bool:
+    blob = f"{title} {price or ''}".lower()
+    if re.search(r"(?i)\$\d+(?:\.\d{1,2})?\s*(?:/|\s*per\s*)meal", blob):
+        if not re.search(r"(?i)(?:off|save|discount|\d+%\s*off|free\s+\w)", blob):
+            return True
+    if re.search(r"(?i)\$\d+(?:\.\d{1,2})?\s*/\s*week", blob):
+        if not re.search(r"(?i)(?:off|save|discount|free)", blob):
+            return True
+    if re.search(r"(?i)from \$\d+(?:\.\d{1,2})?\s*each", blob):
+        return True
+    return False
+
+
+def _offer_in_visible_page(title: str, code: str | None, html: str) -> bool:
+    """Promo must appear in visible page text — not only sitewide JSON/script chrome."""
+    text = _page_visible_text(html).lower()
+    if not text:
+        return False
+    if code and code.lower() in text:
+        return True
+    clean = _clean_title(title).lower()
+    if len(clean) >= 12 and clean in text:
+        return True
+    for token in (
+        r"\d{1,3}%\s*off",
+        r"\$\d+\s*off",
+        r"\d+\s*free meals?",
+        r"free dozen",
+        r"free shipping",
+    ):
+        m = re.search(token, title, re.I)
+        if m and m.group(0).lower() in text:
+            return True
+    return False
+
+
+def _intro_is_brand_copy(text: str, source_url: str) -> bool:
+    text = (text or "").strip()
+    if len(text) < 35:
+        return False
+    if (
+        _INTRO_JUNK.search(text)
+        or _INTRO_ARTICLE.search(text)
+        or _INTRO_NOT_BRAND.search(text)
+        or _INTRO_PROMO_HEAVY.search(text)
+    ):
+        return False
+    if len(text) >= 470 and not text.rstrip().endswith((".", "!", "?")):
+        return False
+    if re.search(r"(?i)\bpayin\s*$|\bpayin\b", text) and not text.rstrip().endswith((".", "!", "?")):
+        return False
+    path = urlparse(source_url or "").path
+    if _INTRO_BAD_PATH.search(path):
+        return False
+    return True
 
 
 def _clean_intro(text: str) -> str:
@@ -773,7 +848,11 @@ def _clean_intro(text: str) -> str:
 
 
 def extract_provider_intro(html: str, final_url: str) -> dict[str, str] | None:
-    """Brand description from official meta or non-promo paragraph only."""
+    """Brand description from official homepage meta or body — not blog/promo articles."""
+    path = urlparse(final_url or "").path
+    if _INTRO_BAD_PATH.search(path):
+        return None
+
     parser = _MetaParser()
     try:
         parser.feed(html)
@@ -788,15 +867,15 @@ def extract_provider_intro(html: str, final_url: str) -> dict[str, str] | None:
         score = base
         if _INTRO_PROMO_HEAVY.search(val[:120]):
             score -= 35
-        if _INTRO_JUNK.search(val):
-            score -= 20
+        if _INTRO_JUNK.search(val) or _INTRO_NOT_BRAND.search(val):
+            score -= 40
         ranked.append((score, val))
 
     for p in parser.texts[:20]:
         p = re.sub(r"\s+", " ", p).strip()
         if not (40 <= len(p) <= 700):
             continue
-        if _INTRO_PROMO_HEAVY.search(p[:120]) or _INTRO_JUNK.search(p):
+        if _INTRO_PROMO_HEAVY.search(p[:120]) or _INTRO_JUNK.search(p) or _INTRO_ARTICLE.search(p):
             continue
         ranked.append((28 + min(len(p) // 12, 18), p))
 
@@ -808,8 +887,30 @@ def extract_provider_intro(html: str, final_url: str) -> dict[str, str] | None:
         return None
     if len(best) > 480:
         cut = best.rfind(". ", 0, 480)
-        best = (best[: cut + 1] if cut > 200 else best[:480]).strip()
+        if cut > 200:
+            best = best[: cut + 1].strip()
+        else:
+            return None
+    if not _intro_is_brand_copy(best, final_url):
+        return None
     return {"intro": best, "intro_source_url": final_url}
+
+
+def _cached_offer_still_valid(row: dict[str, Any]) -> bool:
+    title = row.get("title") or ""
+    if _is_unit_price_not_promo(title, row.get("price")):
+        return False
+    if not _looks_like_real_promo(title, row.get("price"), row.get("code")):
+        return False
+    if row.get("visible_verified") is True:
+        return True
+    src = (row.get("source_url") or "").strip()
+    if not src:
+        return False
+    status, _final, body = fetch(src)
+    if status != 200 or body.startswith("__ERROR__"):
+        return False
+    return _offer_in_visible_page(title, row.get("code"), body)
 
 
 def _dedupe_provider_offers(offers: list[dict[str, Any]]) -> list[dict[str, Any]]:
@@ -886,6 +987,8 @@ def extract_offers(provider: dict[str, str], html: str, final_url: str) -> list[
         code = _validate_code(code, title, extra)
         if not _looks_like_real_promo(title, price, code):
             return
+        if not _offer_in_visible_page(title, code, html):
+            return
         # Dedupe by code + core promo token when possible
         promo_token = ""
         pm = PERCENT_RE.search(title) or re.search(r"\$\d+\s*off|\d+\s*free meals?", title, re.I)
@@ -937,6 +1040,7 @@ def extract_offers(provider: dict[str, str], html: str, final_url: str) -> list[
         if item.get("valid_until") and _expired(str(item["valid_until"])):
             item["status"] = "expired"
             item.pop("valid_until_note", None)
+        item["visible_verified"] = True
         candidates.append(item)
 
     # JSON-LD Offer nodes (real structured data only)
@@ -1095,6 +1199,22 @@ def scrape_all() -> dict[str, Any]:
         last_error = ""
         provider_offers: list[dict[str, Any]] = []
         best_intro: dict[str, Any] | None = None
+        home_url = (cfg.get("affiliates") or {}).get(provider["name"], "")
+        if home_url and robots_allows(robots_url, home_url):
+            status, final_url, body = fetch(home_url)
+            if status == 200 and not body.startswith("__ERROR__"):
+                best_intro = extract_provider_intro(body, final_url)
+                fetch_log.append(
+                    {
+                        "provider": provider["name"],
+                        "url": home_url,
+                        "http_status": status,
+                        "final_url": final_url,
+                        "status": "ok_intro_only" if best_intro else "ok_no_intro",
+                        "robots_allowed": True,
+                    }
+                )
+            time.sleep(0.8)
         for url in urls:
             allowed = robots_allows(robots_url, url)
             entry: dict[str, Any] = {
@@ -1128,42 +1248,10 @@ def scrape_all() -> dict[str, Any]:
             entry["offers_extracted"] = len(offers)
             fetch_log.append(entry)
             provider_offers.extend(offers)
-            intro = extract_provider_intro(body, final_url)
-            if intro and (
-                not best_intro or len(intro.get("intro") or "") > len(best_intro.get("intro") or "")
-            ):
-                best_intro = intro
             got_page = True
             if offers:
                 got_offers = True
             time.sleep(1.0)
-
-        # Homepage / official entry for brand copy when promo pages are thin
-        home_url = (cfg.get("affiliates") or {}).get(provider["name"], "")
-        if home_url and home_url not in urls:
-            allowed_home = robots_allows(robots_url, home_url)
-            if allowed_home and (
-                not best_intro or len(best_intro.get("intro") or "") < 80
-            ):
-                status, final_url, body = fetch(home_url)
-                if status == 200 and not body.startswith("__ERROR__"):
-                    intro = extract_provider_intro(body, final_url)
-                    if intro and (
-                        not best_intro
-                        or len(intro.get("intro") or "") > len(best_intro.get("intro") or "")
-                    ):
-                        best_intro = intro
-                    fetch_log.append(
-                        {
-                            "provider": provider["name"],
-                            "url": home_url,
-                            "http_status": status,
-                            "final_url": final_url,
-                            "status": "ok_intro_only",
-                            "robots_allowed": True,
-                        }
-                    )
-                time.sleep(0.8)
 
         merged = _dedupe_provider_offers(provider_offers)[:6]
         if merged:
@@ -1172,7 +1260,9 @@ def scrape_all() -> dict[str, Any]:
             best_intro["fetched_at"] = datetime.now(timezone.utc).replace(microsecond=0).isoformat()
             provider_profiles[provider["name"]] = best_intro
         elif prev_profiles.get(provider["name"]):
-            provider_profiles[provider["name"]] = prev_profiles[provider["name"]]
+            old = prev_profiles[provider["name"]]
+            if _intro_is_brand_copy(old.get("intro") or "", old.get("intro_source_url") or ""):
+                provider_profiles[provider["name"]] = old
 
         if not got_offers:
             # Keep last good extract when live fetch fails, returns zero promos, or robots blocks.
@@ -1180,6 +1270,8 @@ def scrape_all() -> dict[str, Any]:
             cached = prev_by_provider.get(provider["name"]) or []
             if cached:
                 for row in cached:
+                    if not _cached_offer_still_valid(row):
+                        continue
                     kept = dict(row)
                     if not kept.get("valid_until") and not kept.get("valid_until_note"):
                         kept["valid_until_note"] = VALID_UNTIL_NOT_STATED
@@ -1218,6 +1310,8 @@ def scrape_all() -> dict[str, Any]:
         if not cached:
             continue
         for row in cached:
+            if not _cached_offer_still_valid(row):
+                continue
             kept = dict(row)
             if not kept.get("valid_until") and not kept.get("valid_until_note"):
                 kept["valid_until_note"] = VALID_UNTIL_NOT_STATED

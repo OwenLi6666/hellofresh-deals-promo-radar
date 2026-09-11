@@ -28,6 +28,8 @@ from ilang_config import ROOT, load_site_config
 from scraper import (
     VALID_UNTIL_NOT_STATED,
     _clean_title,
+    _intro_is_brand_copy,
+    _is_unit_price_not_promo,
     _looks_like_real_promo,
     _prefer_audience_headline,
     _validate_code,
@@ -141,6 +143,10 @@ def is_showable(offer: dict[str, Any]) -> bool:
     if "check current promotions" in title or "temporarily unreachable" in title:
         return False
     title = (offer.get("title") or "").strip()
+    if _is_unit_price_not_promo(title, offer.get("price")):
+        return False
+    if offer.get("visible_verified") is False:
+        return False
     if _looks_like_real_promo(title, offer.get("price"), offer.get("code")):
         return True
     # Benefit is a fallback headline only when title cleanup left nothing usable.
@@ -193,7 +199,7 @@ def provider_about_html(name: str, profiles: dict[str, Any]) -> str:
     prof = profiles.get(name) or {}
     intro = (prof.get("intro") or "").strip()
     src = (prof.get("intro_source_url") or "").strip()
-    if not intro:
+    if not intro or not _intro_is_brand_copy(intro, src):
         return ""
     src_html = ""
     if src:
