@@ -529,8 +529,17 @@ def clean_conditions(raw: str) -> str:
     parts: list[str] = []
     for piece in str(raw).split(";"):
         piece = _CONDITION_CTA_RE.sub("", piece.strip()).strip(" -–|,." )
-        if piece and _CONDITION_UI_JUNK_RE.search(piece):
+        if not piece:
             continue
+        if _CONDITION_UI_JUNK_RE.search(piece):
+            salvaged: list[str] = []
+            for seg in (x.strip() for x in piece.split(",")):
+                if not seg:
+                    continue
+                seg = _CONDITION_TRAILING_JUNK_RE.sub("", seg).strip(" ,.")
+                if seg and not _CONDITION_UI_JUNK_RE.search(seg):
+                    salvaged.append(seg)
+            piece = ", ".join(salvaged)
         if piece:
             parts.append(piece)
     if not parts:
