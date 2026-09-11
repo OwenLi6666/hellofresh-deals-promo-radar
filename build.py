@@ -97,7 +97,11 @@ def load_offers() -> dict[str, Any]:
 
 def sanitize_offer(offer: dict[str, Any]) -> None:
     """Display-time cleanup: readable titles, no fake codes. Mutates offer in place."""
-    title = _clean_title(offer.get("title") or "")
+    raw_title = (offer.get("title") or "").strip()
+    title = _clean_title(raw_title)
+    # Title cleanup must not erase a valid official extract — keep raw if clean stripped too much.
+    if len(title) < 10 and len(raw_title) >= 10:
+        title = raw_title
     offer["title"] = title
     if offer.get("snippet"):
         sn = _clean_title(offer.get("snippet") or "")
@@ -132,13 +136,14 @@ def is_showable(offer: dict[str, Any]) -> bool:
     title = (offer.get("title") or "").lower()
     if "check current promotions" in title or "temporarily unreachable" in title:
         return False
-    if not _looks_like_real_promo(
-        offer.get("title") or "",
-        offer.get("price"),
-        offer.get("code"),
-    ):
-        return False
-    return True
+    title = (offer.get("title") or "").strip()
+    if _looks_like_real_promo(title, offer.get("price"), offer.get("code")):
+        return True
+    # Benefit is a fallback headline only when title cleanup left nothing usable.
+    benefit = (offer.get("benefit") or "").strip()
+    if not title and benefit and _looks_like_real_promo(benefit, offer.get("price"), offer.get("code")):
+        return True
+    return False
 
 
 def month_label() -> str:
@@ -450,14 +455,16 @@ def render() -> None:
     if headers_src.exists():
         (SITE_DIR / "_headers").write_text(headers_src.read_text(encoding="utf-8"), encoding="utf-8")
 
-    # Index cards — include providers with zero offers (honest empty), skip none from config
+    # Index cards — only brands with at least one showable offer (no empty promo shells).
     cards = []
+    listed_providers: list[str] = []
     for name in provider_order:
         rows = by_provider.get(name, [])
-        top_title = rows[0].get("title", name) if rows else f"{name}: no public promo extracted yet"
-        snip = offer_card_snip(rows[0]) if rows else ""
         if not rows:
-            snip = "No public promo phrase/code extracted from official pages. We do not invent deals."
+            continue
+        listed_providers.append(name)
+        top_title = rows[0].get("title", name)
+        snip = offer_card_snip(rows[0])
         provider_href = page_path("providers", slugify(name))
         cards.append(
             f"""
@@ -481,7 +488,7 @@ def render() -> None:
                 "url": abs_url(domain, page_path("providers", slugify(name))),
                 "name": name,
             }
-            for i, name in enumerate(provider_order)
+            for i, name in enumerate(listed_providers)
         ],
     }
 
@@ -496,7 +503,7 @@ def render() -> None:
             "cards": "\n".join(cards) or "<p>No offers extracted yet. Pipeline will retry.</p>",
             "json_ld": json.dumps(item_list, ensure_ascii=False),
             "offer_count": str(len(offers)),
-            "provider_count": str(len(provider_order)),
+            "provider_count": str(len(listed_providers)),
         },
     )
     write_page("/", index_html)
@@ -546,11 +553,13 @@ def render() -> None:
     )
     write_page(compare_path, compare_html)
 
-    # Provider + deal pages — always emit a provider page for each config brand
+    # Provider + deal pages — only for brands with showable offers
     sitemap_urls: list[tuple[str, str]] = [("/", generated)]
 
     for name in provider_order:
         rows = by_provider.get(name, [])
+        if not rows:
+            continue
         pslug = slugify(name)
         provider_path = page_path("providers", pslug)
         deal_links = []

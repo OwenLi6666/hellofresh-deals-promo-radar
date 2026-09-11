@@ -736,17 +736,6 @@
       "valid_until_note": "Not stated on the official page"
     },
     {
-      "provider": "Icon Meals",
-      "domain": "iconmeals.com",
-      "title": "Click the \"get code\" buttons below to get verified and receive your discount",
-      "offer_url": "https://iconmeals.com/pages/hero",
-      "source_url": "https://iconmeals.com/pages/hero",
-      "fetched_at": "2026-09-11T13:29:37+00:00",
-      "status": "active",
-      "snippet": "",
-      "valid_until_note": "Not stated on the official page"
-    },
-    {
       "provider": "Crowd Cow",
       "domain": "crowdcow.com",
       "title": "Free favorites in every order",
@@ -807,6 +796,84 @@
       "snippet": "Get Up To 20 Free Meals + Free Sides for Life with Canada's Most Popular Meal Kit Service! One free item per box while subscription is active, items may vary",
       "benefit": "One free item per box while subscription is active, items may vary",
       "conditions": "Subscription is active, items may vary, for Life",
+      "valid_until_note": "Not stated on the official page"
+    },
+    {
+      "provider": "Dinnerly",
+      "domain": "dinnerly.com",
+      "title": "Order now and get up to $180 off your first 5 boxes",
+      "offer_url": "https://dinnerly.com/",
+      "source_url": "https://dinnerly.com/",
+      "fetched_at": "2026-09-11T12:50:37+00:00",
+      "status": "active",
+      "snippet": "Order now and get up to $180 off your first 5 boxes",
+      "benefit": "$180 off",
+      "conditions": "your first 5 boxes",
+      "valid_until_note": "Not stated on the official page"
+    },
+    {
+      "provider": "Sunbasket",
+      "domain": "sunbasket.com",
+      "title": "$90 off across 4 boxes",
+      "offer_url": "https://sunbasket.com/",
+      "source_url": "https://sunbasket.com/",
+      "fetched_at": "2026-09-11T12:49:56+00:00",
+      "status": "active",
+      "snippet": "$90 off across 4 boxes",
+      "benefit": "$90 off",
+      "conditions": "across 4 boxes",
+      "valid_until_note": "Not stated on the official page"
+    },
+    {
+      "provider": "Purple Carrot",
+      "domain": "purplecarrot.com",
+      "title": "Get $100 Off Your First Month",
+      "offer_url": "https://www.purplecarrot.com/",
+      "source_url": "https://www.purplecarrot.com/",
+      "fetched_at": "2026-09-11T12:49:25+00:00",
+      "status": "active",
+      "snippet": "Get $100 Off Your First Month",
+      "benefit": "$100 Off",
+      "conditions": "FIRST 4 WEEKS",
+      "valid_until_note": "Not stated on the official page"
+    },
+    {
+      "provider": "Trifecta",
+      "domain": "trifectanutrition.com",
+      "title": "50% OFF YOUR FIRST ORDER + FREE MEAL PREP CHICKEN FOR A MONTH",
+      "offer_url": "https://www.trifectanutrition.com/",
+      "source_url": "https://www.trifectanutrition.com/",
+      "fetched_at": "2026-09-11T12:55:08+00:00",
+      "status": "active",
+      "snippet": "Labor Day Offer! 50% OFF YOUR FIRST ORDER + FREE MEAL PREP CHICKEN FOR A MONTH",
+      "benefit": "50% OFF + FREE MEAL PREP CHICKEN FOR A MONTH",
+      "conditions": "YOUR FIRST ORDER",
+      "valid_until_note": "Not stated on the official page"
+    },
+    {
+      "provider": "Magic Kitchen",
+      "domain": "magickitchen.com",
+      "title": "20% Off! Subscribe to our newsletter",
+      "offer_url": "https://www.magickitchen.com/",
+      "source_url": "https://www.magickitchen.com/",
+      "fetched_at": "2026-09-11T13:02:12+00:00",
+      "status": "active",
+      "snippet": "20% Off! Subscribe to our newsletter",
+      "benefit": "20% Off",
+      "conditions": "new subscribers only",
+      "valid_until_note": "Not stated on the official page"
+    },
+    {
+      "provider": "Icon Meals",
+      "domain": "iconmeals.com",
+      "title": "Military / First Responder? 15% Off!",
+      "offer_url": "https://iconmeals.com/",
+      "source_url": "https://iconmeals.com/",
+      "fetched_at": "2026-09-11T12:59:20+00:00",
+      "status": "active",
+      "snippet": "Military / First Responder? 15% Off!",
+      "benefit": "15% Off",
+      "conditions": "Military / First Responder; for Military and First Responders Click HERE For 15% Off",
       "valid_until_note": "Not stated on the official page"
     }
   ]

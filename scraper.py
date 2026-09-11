@@ -1001,17 +1001,16 @@ def scrape_all() -> dict[str, Any]:
             # Keep trying next URL if this page had zero real promos
             if offers:
                 break
-        if not got_page or not got_offers:
-            # Keep last good extract for this provider when live fetch is blocked (e.g. HTTP 403).
+        if not got_offers:
+            # Keep last good extract when live fetch fails, returns zero promos, or robots blocks.
             # Never invent new rows — only reuse previously scraped official extracts.
             cached = prev_by_provider.get(provider["name"]) or []
-            if cached and not got_offers:
+            if cached:
                 for row in cached:
-                    # Re-stamp valid_until_note if still missing a date
-                    if not row.get("valid_until") and not row.get("valid_until_note"):
-                        row = dict(row)
-                        row["valid_until_note"] = VALID_UNTIL_NOT_STATED
-                    all_offers.append(row)
+                    kept = dict(row)
+                    if not kept.get("valid_until") and not kept.get("valid_until_note"):
+                        kept["valid_until_note"] = VALID_UNTIL_NOT_STATED
+                    all_offers.append(kept)
                 fetch_log.append(
                     {
                         "provider": provider["name"],
@@ -1031,6 +1030,34 @@ def scrape_all() -> dict[str, Any]:
                         "error": last_error or "unknown",
                     }
                 )
+
+    # Final safeguard: never drop a provider that still has a prior official extract.
+    have_by_name: dict[str, list[dict[str, Any]]] = {}
+    for row in all_offers:
+        name = row.get("provider") or ""
+        if name:
+            have_by_name.setdefault(name, []).append(row)
+    for provider in cfg["providers"]:
+        name = provider["name"]
+        if have_by_name.get(name):
+            continue
+        cached = prev_by_provider.get(name) or []
+        if not cached:
+            continue
+        for row in cached:
+            kept = dict(row)
+            if not kept.get("valid_until") and not kept.get("valid_until_note"):
+                kept["valid_until_note"] = VALID_UNTIL_NOT_STATED
+            all_offers.append(kept)
+        fetch_log.append(
+            {
+                "provider": name,
+                "url": (provider.get("promo_urls") or [provider.get("promo_url")])[0],
+                "status": "reused_previous_extract",
+                "offers_reused": len(cached),
+                "note": "Safeguard merge: provider had zero fresh rows; kept prior official extract.",
+            }
+        )
 
     payload = {
         "brand": site.get("brand", "mealkitdeals"),

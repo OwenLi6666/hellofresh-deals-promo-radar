@@ -25,17 +25,17 @@ Only fields present in the scrape are shown. Empty means the official public pag
 | Clean Eatz Kitchen | cleaneatzkitchen.com | 2 | Up to 20% off | https://www.cleaneatzkitchen.com/ |
 | EveryPlate | everyplate.com | 1 | Get $2.99/Meal on Your First Box + Free Lunch for a Month on Us! | https://www.everyplate.com/eat/coupon-codes-and-promotions |
 | Green Chef | greenchef.com | 1 | Get 50% Off Your First Box + Free Staub Mixing Bowls with your third box* | https://www.greenchef.com/ |
-| Dinnerly |  | 0 | (none extracted) |  |
-| Sunbasket |  | 0 | (none extracted) |  |
-| Purple Carrot |  | 0 | (none extracted) |  |
+| Dinnerly | dinnerly.com | 1 | Order now and get up to $180 off your first 5 boxes | https://dinnerly.com/ |
+| Sunbasket | sunbasket.com | 1 | $90 off across 4 boxes | https://sunbasket.com/ |
+| Purple Carrot | purplecarrot.com | 1 | Get $100 Off Your First Month | https://www.purplecarrot.com/ |
 | ButcherBox | butcherbox.com | 1 | Free Shipping | https://www.butcherbox.com/ |
-| Trifecta |  | 0 | (none extracted) |  |
+| Trifecta | trifectanutrition.com | 1 | 50% OFF YOUR FIRST ORDER + FREE MEAL PREP CHICKEN FOR A MONTH | https://www.trifectanutrition.com/ |
 | Epicured | epicured.com | 1 | Use code FALL40 for 40% OFF + Free Shipping* on your first subscription order | https://epicured.com/ |
 | MamaSezz | mamasezz.com | 2 | 10% off your first order | https://www.mamasezz.com/ |
-| Icon Meals | iconmeals.com | 1 | Click the "get code" buttons below to get verified and receive your discount | https://iconmeals.com/pages/hero |
+| Icon Meals | iconmeals.com | 1 | Military / First Responder? 15% Off! | https://iconmeals.com/ |
 | Crowd Cow | crowdcow.com | 1 | Free favorites in every order | https://www.crowdcow.com/ |
 | Prep Dish | prepdish.com | 1 | Free 7-day trial | https://prepdish.com/ |
-| Magic Kitchen |  | 0 | (none extracted) |  |
+| Magic Kitchen | magickitchen.com | 1 | 20% Off! Subscribe to our newsletter | https://www.magickitchen.com/ |
 | Chefs Plate | chefsplate.com | 1 | Get Up to 20 Free Meals + Free Shipping + $1 menu | https://www.chefsplate.com/ |
 | HelloFresh Canada | hellofresh.ca | 2 | HelloFresh® Canada Meal Kits: Up To 20 Free Meals + Free Sides for Lifefacebooktwitterinstagram | https://www.hellofresh.ca/ |
 
