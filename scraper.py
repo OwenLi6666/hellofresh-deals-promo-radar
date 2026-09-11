@@ -514,6 +514,48 @@ def _extract_conditions(text: str, near: str | None = None) -> str:
     return "; ".join(found)
 
 
+# UI chrome mistaken for conditions during extract — strip only, never invent replacements
+_CONDITION_CTA_RE = re.compile(
+    r"(?i)\s*(?:click\s+here\s+for\s+.*|redeem\s+now\s*|get\s+started\s+today!?)\s*$"
+)
+
+
+def clean_conditions(raw: str) -> str:
+    """Dedupe and join condition fragments into one readable line. No new meaning."""
+    if not raw or not str(raw).strip():
+        return ""
+    parts: list[str] = []
+    for piece in str(raw).split(";"):
+        piece = _CONDITION_CTA_RE.sub("", piece.strip()).strip(" -–|,." )
+        if piece:
+            parts.append(piece)
+    if not parts:
+        return ""
+
+    # Exact dedupe (case-insensitive), keep first casing
+    seen: set[str] = set()
+    unique: list[str] = []
+    for p in parts:
+        key = p.lower()
+        if key not in seen:
+            seen.add(key)
+            unique.append(p)
+
+    # Drop shorter fragment when fully contained in a longer one (same source text)
+    kept: list[str] = []
+    lowers = [p.lower() for p in unique]
+    for i, p in enumerate(unique):
+        pl = lowers[i]
+        if any(i != j and len(pl) >= 4 and pl in lowers[j] for j in range(len(unique))):
+            continue
+        kept.append(p)
+
+    out = ", ".join(kept)
+    if out and out[0].islower():
+        out = out[0].upper() + out[1:]
+    return out[:320]
+
+
 def _enrich_details(
     title: str,
     extra: str,
@@ -547,12 +589,12 @@ def _enrich_details(
             if key and key not in seen_c:
                 seen_c.add(key)
                 parts.append(piece.strip())
-    conditions = "; ".join(parts)
+    conditions = clean_conditions("; ".join(parts))
     out: dict[str, str] = {}
     if benefit:
         out["benefit"] = benefit[:240]
     if conditions:
-        out["conditions"] = conditions[:320]
+        out["conditions"] = conditions
     if code:
         out["code_required"] = "yes"
     elif NO_CODE_RE.search(blob):

@@ -25,6 +25,7 @@ from string import Template
 from typing import Any
 
 from ilang_config import ROOT, load_site_config
+from scraper import clean_conditions
 
 DATA_PATH = ROOT / "data" / "offers.json"
 SITE_DIR = ROOT / "site"
@@ -145,7 +146,7 @@ def offer_code_required_html(offer: dict[str, Any]) -> str:
 def offer_card_snip(offer: dict[str, Any]) -> str:
     bits: list[str] = []
     benefit = (offer.get("benefit") or "").strip()
-    conditions = (offer.get("conditions") or "").strip()
+    conditions = clean_conditions((offer.get("conditions") or "").strip())
     if benefit:
         bits.append(benefit)
     if conditions:
@@ -529,8 +530,9 @@ def render() -> None:
             detail_bits = []
             if o.get("benefit"):
                 detail_bits.append(f"What you get: {html.escape(str(o['benefit']))}")
-            if o.get("conditions"):
-                detail_bits.append(f"Conditions: {html.escape(str(o['conditions']))}")
+            cond_display = clean_conditions(str(o.get("conditions") or ""))
+            if cond_display:
+                detail_bits.append(f"Conditions: {html.escape(cond_display)}")
             cr = offer_code_required_html(o)
             if cr:
                 detail_bits.append(f"Code required: {cr}")
@@ -575,7 +577,7 @@ def render() -> None:
             if o.get("price"):
                 price_html = f"<p class=\"price\">{html.escape(o.get('currency','USD'))} {html.escape(str(o['price']))}</p>"
             benefit = (o.get("benefit") or "").strip() or (o.get("title") or "")
-            conditions = (o.get("conditions") or "").strip()
+            conditions = clean_conditions((o.get("conditions") or "").strip())
             deal_html = render_tpl(
                 "deal.html",
                 {
