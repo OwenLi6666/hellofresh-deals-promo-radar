@@ -9,7 +9,7 @@ Live listings: https://mealkitdeals.com/
 | Asset | Path | Notes |
 | --- | --- | --- |
 | Offers CSV | [`public/offers.csv`](public/offers.csv) | One row per extracted offer: benefit, conditions, code, source URL, fetch time |
-| Brand list | [`public/brands.md`](public/brands.md) | 15 tracked brands with listing counts and source URLs |
+| Brand list | [`public/brands.md`](public/brands.md) | 28 tracked brands with listing counts and source URLs |
 | Full JSON | [`data/offers.json`](data/offers.json) | Same data plus scrape log |
 | Compare UI | https://mealkitdeals.com/compare/ | Side-by-side table rendered from the scrape |
 | Print helper | [`public/print_offers.py`](public/print_offers.py) | Prints current offers as TSV |
@@ -50,7 +50,7 @@ Open `site/index.html` locally after `python build.py`. The `site/` folder is **
 
 ## Rules
 
-- Missing price / code / expiry on the official page → field left empty (or `官方页未标` for expiry display). Never invent offers.
+- Missing price / code / expiry on the official page → field left empty (or `Not stated on the official page` for expiry display). Never invent offers.
 - Affiliate destinations live in `AFFILIATE` inside `.ilang/site.ilang`; swap in approved network links only after acceptance.
 
 ## License

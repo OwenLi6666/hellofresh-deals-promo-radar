@@ -26,6 +26,7 @@ RESTORE_PROVIDERS = [
     "Trifecta",
     "Icon Meals",
     "Magic Kitchen",
+    "Splendid Spoon",
 ]
 
 
