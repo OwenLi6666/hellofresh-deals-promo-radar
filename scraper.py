@@ -518,6 +518,8 @@ def _extract_conditions(text: str, near: str | None = None) -> str:
 _CONDITION_CTA_RE = re.compile(
     r"(?i)\s*(?:click\s+here\s+for\s+.*|redeem\s+now\s*|get\s+started\s+today!?)\s*$"
 )
+_CONDITION_UI_JUNK_RE = re.compile(r"(?i)\bwho you are\b|\bregistered dietitians\b|\bmore question")
+_CONDITION_TRAILING_JUNK_RE = re.compile(r"(?i)\s*,?\s*more question.*$")
 
 
 def clean_conditions(raw: str) -> str:
@@ -527,6 +529,8 @@ def clean_conditions(raw: str) -> str:
     parts: list[str] = []
     for piece in str(raw).split(";"):
         piece = _CONDITION_CTA_RE.sub("", piece.strip()).strip(" -–|,." )
+        if piece and _CONDITION_UI_JUNK_RE.search(piece):
+            continue
         if piece:
             parts.append(piece)
     if not parts:
@@ -551,6 +555,11 @@ def clean_conditions(raw: str) -> str:
         kept.append(p)
 
     out = ", ".join(kept)
+    if _CONDITION_UI_JUNK_RE.search(out):
+        out = ", ".join(
+            p for p in (x.strip() for x in out.split(",")) if p and not _CONDITION_UI_JUNK_RE.search(p)
+        )
+    out = _CONDITION_TRAILING_JUNK_RE.sub("", out).strip(" ,.")
     if out and out[0].islower():
         out = out[0].upper() + out[1:]
     return out[:320]
