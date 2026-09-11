@@ -1,6 +1,6 @@
 # Meal kit / meal delivery brands tracked by mealkitdeals
 
-Generated from `data/offers.json` at `2026-09-11T15:36:43+00:00`.
+Generated from `data/offers.json` at `2026-09-11T15:39:41+00:00`.
 
 Live listings: https://mealkitdeals.com/
 
@@ -11,7 +11,7 @@ Only fields present in the scrape are shown. Empty means the official public pag
 | HelloFresh | hellofresh.com | 1 | Get Free Breakfast for Life + 10 Free Meals on Us | https://www.hellofresh.com/eat/coupon-codes-and-promotions |
 | Blue Apron | blueapron.com | 1 | A free dozen organic, pasture-raised eggs (code EGGS) | https://blog.blueapron.com/guides/eggs-your-way-introducing-everyday-essentials |
 | Home Chef | homechef.com | 1 | 18 Free Meals + Free Shipping on your First Box | https://www.homechef.com/ |
-| Factor | factor75.com | 3 | Get 50% Off + Free Breakfast for 1 Year | https://www.factor75.com/ |
+| Factor | factor75.com | 2 | Get 50% Off + Free Breakfast for 1 Year | https://www.factor75.com/ |
 | Marley Spoon | marleyspoon.com | 1 | Up to 50% Off | https://marleyspoon.com/offer/black-friday-rtc-50p |
 | Hungryroot | hungryroot.com | 2 | 40% off your first order plus 1 free item for life | https://eat.hungryroot.com/2025-save-big |
 | CookUnity | cookunity.com | 1 | Get 50% off your first week of chef-made, ready-to-eat meals | https://www.cookunity.com/lp/cookunity-discount-code |
@@ -37,7 +37,7 @@ Only fields present in the scrape are shown. Empty means the official public pag
 | Prep Dish | prepdish.com | 1 | Free 7-day trial | https://prepdish.com/ |
 | Magic Kitchen | magickitchen.com | 1 | 20% Off! Subscribe to our newsletter | https://www.magickitchen.com/ |
 | Chefs Plate | chefsplate.com | 1 | Get Up to 20 Free Meals + Free Shipping + $1 menu | https://www.chefsplate.com/ |
-| HelloFresh Canada |  | 0 | (none extracted) |  |
+| HelloFresh Canada | hellofresh.ca | 2 | Up To 20 Free Meals + Free Sides for Life | https://www.hellofresh.ca/ |
 
 ## Machine-readable offers
 
