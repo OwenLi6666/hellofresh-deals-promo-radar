@@ -25,7 +25,13 @@ from string import Template
 from typing import Any
 
 from ilang_config import ROOT, load_site_config
-from scraper import VALID_UNTIL_NOT_STATED, clean_conditions
+from scraper import (
+    VALID_UNTIL_NOT_STATED,
+    _clean_title,
+    _looks_like_real_promo,
+    _validate_code,
+    clean_conditions,
+)
 
 DATA_PATH = ROOT / "data" / "offers.json"
 SITE_DIR = ROOT / "site"
@@ -89,6 +95,29 @@ def load_offers() -> dict[str, Any]:
     return json.loads(DATA_PATH.read_text(encoding="utf-8"))
 
 
+def sanitize_offer(offer: dict[str, Any]) -> None:
+    """Display-time cleanup: readable titles, no fake codes. Mutates offer in place."""
+    title = _clean_title(offer.get("title") or "")
+    offer["title"] = title
+    if offer.get("snippet"):
+        sn = _clean_title(offer.get("snippet") or "")
+        if sn.lower() == title.lower() or title.lower() in sn.lower():
+            offer["snippet"] = ""
+        else:
+            offer["snippet"] = sn
+    code = _validate_code(offer.get("code"), title, offer.get("snippet") or "")
+    if code:
+        offer["code"] = code
+        offer["code_required"] = "yes"
+    else:
+        offer.pop("code", None)
+        if (offer.get("code_required") or "").lower() == "yes":
+            offer.pop("code_required", None)
+    note = (offer.get("valid_until_note") or "").strip()
+    if note == "官方页未标":
+        offer["valid_until_note"] = VALID_UNTIL_NOT_STATED
+
+
 def is_showable(offer: dict[str, Any]) -> bool:
     # Never surface fluff / unreachable placeholders as deals
     if offer.get("status") in {"expired", "listing", "unreachable", "no_offer"}:
@@ -102,6 +131,12 @@ def is_showable(offer: dict[str, Any]) -> bool:
             pass
     title = (offer.get("title") or "").lower()
     if "check current promotions" in title or "temporarily unreachable" in title:
+        return False
+    if not _looks_like_real_promo(
+        offer.get("title") or "",
+        offer.get("price"),
+        offer.get("code"),
+    ):
         return False
     return True
 
@@ -166,20 +201,7 @@ def normalize_offer_title(title: str) -> str:
     """Display-time cleanup for UI crumbs; never invents new offer claims."""
     from html import unescape
 
-    title = unescape(title or "")
-    title = re.sub(r"\s+", " ", title).strip()
-    if re.search(r"(?i)successfully applied|code successfully", title):
-        m = re.search(
-            r"(?i)(\d+\s*free meals?(?:\s*\+\s*free shipping)?(?:\s+on\s+(?:your\s+)?first\s+box)?)",
-            title,
-        )
-        if m:
-            title = m.group(1).strip()
-            title = title[0].upper() + title[1:]
-    title = re.sub(r"(?i)\s*see\s*t&?\s*cs\.?\s*$", "", title)
-    title = re.sub(r"(?i)\s*see\s*terms(?:\s*(?:and|&)\s*conditions)?\.?\s*$", "", title)
-    title = re.sub(r"[\ufffd]+", "", title)
-    # Drop brand suffix pipes like "| CookUnity"
+    title = _clean_title(unescape(title or ""))
     title = re.sub(r"\s*\|\s*[A-Za-z][A-Za-z0-9 &'-]{1,40}$", "", title)
     return title.strip(" -–|:;,.")
 
@@ -367,16 +389,25 @@ def render() -> None:
     pub = cfg.get("publisher") or {}
     has_contact = bool((pub.get("contact_email") or "").strip() and "@" in (pub.get("contact_email") or ""))
 
-    offers = [o for o in data.get("offers", []) if is_showable(o)]
+    raw_offers = [dict(o) for o in data.get("offers", [])]
+    for o in raw_offers:
+        sanitize_offer(o)
+    offers = [o for o in raw_offers if is_showable(o)]
+    # Drop duplicate cards for the same brand + benefit + code after cleanup
+    seen_card: set[tuple[str, str, str]] = set()
+    deduped: list[dict[str, Any]] = []
     for o in offers:
-        o["title"] = normalize_offer_title(o.get("title") or "")
-        if o.get("snippet"):
-            sn = normalize_offer_title(o.get("snippet") or "")
-            # Avoid repeating the same sentence under the card title
-            if sn.lower() == (o.get("title") or "").lower() or (o.get("title") or "").lower() in sn.lower():
-                o["snippet"] = ""
-            else:
-                o["snippet"] = sn
+        key = (
+            o.get("provider") or "",
+            (o.get("benefit") or o.get("title") or "").strip().lower(),
+            (o.get("code") or "").upper(),
+        )
+        if key in seen_card:
+            continue
+        seen_card.add(key)
+        deduped.append(o)
+    offers = deduped
+    for o in offers:
         o["_id"] = offer_id(o)
         o["_affiliate"] = affiliates.get(o.get("provider", ""), o.get("offer_url", "#"))
 

@@ -253,7 +253,44 @@ CODE_STOP = {
     "TIME", "ITEM", "ITEMS", "GIFT", "TRIAL", "BREAKFAST", "DESSERT", "DOZEN",
     "REQUIRED", "OPTIONAL", "ZIP", "POSTAL",
     "GIVE", "GIVES", "TAKE", "TAKES", "MAKE", "MAKES", "COME", "COMES",
+    "BUTTONS", "BUTTON", "CLICK", "VERIFY", "VERIFIED", "BELOW", "SIGNUP",
+    "LOGIN", "HERO", "TODAY", "START",
 }
+_FAKE_CODE_CONTEXT_RE = re.compile(
+    r"(?i)get\s+code.*button|click.*get\s+code|buttons?\s+below|get\s+verified and receive"
+)
+
+
+def _validate_code(code: str | None, title: str = "", extra: str = "") -> str | None:
+    if not code:
+        return None
+    code = code.upper().strip()
+    if not code or code in CODE_STOP or code.isdigit():
+        return None
+    if len(code) < 4 or len(code) > 16:
+        return None
+    blob = f"{title} {extra}"
+    if _FAKE_CODE_CONTEXT_RE.search(blob):
+        return None
+    return code
+
+
+def _dedupe_repeated_segments(title: str) -> str:
+    """Drop later repeats of the same phrase (duplicate hero copy on official pages)."""
+    for size in range(min(len(title) // 2, 72), 14, -1):
+        for i in range(0, len(title) - size + 1):
+            seg = title[i : i + size].strip()
+            seg_l = seg.lower()
+            if len(seg_l) < 15:
+                continue
+            rest = title[i + size :]
+            idx = rest.lower().find(seg_l)
+            if idx >= 0:
+                rest = (rest[:idx] + rest[idx + len(seg) :]).strip(" ,.*")
+                title = (title[: i + size] + (" " + rest if rest else "")).strip()
+                title = re.sub(r"\s+", " ", title)
+                return _dedupe_repeated_segments(title)
+    return title
 
 
 def _parse_date(raw: str) -> str | None:
@@ -277,17 +314,9 @@ def _expired(valid_until: str | None) -> bool:
 
 def _extract_code(text: str) -> str | None:
     for m in CODE_RE.finditer(text):
-        code = (m.group(1) or "").upper()
-        if not code or code in CODE_STOP or code.isdigit():
-            continue
-        if len(code) < 4 or len(code) > 16:
-            continue
-        if code.isalpha() and code.lower() in {
-            "successfully", "required", "optional", "shipping", "breakfast",
-            "discount", "limited", "current", "official", "subscription",
-        }:
-            continue
-        return code
+        code = _validate_code((m.group(1) or "").upper(), text)
+        if code:
+            return code
     return None
 
 
@@ -371,7 +400,50 @@ def _clean_title(title: str) -> str:
     # Strip legal/UI crumbs that are not offer copy
     title = re.sub(r"(?i)\s*see\s*t&?\s*cs\.?\s*$", "", title)
     title = re.sub(r"(?i)\s*see\s*terms(?:\s*(?:and|&)\s*conditions)?\.?\s*$", "", title)
+    # Coupon hub / brand listing chrome
+    title = re.sub(r"(?i)^[\w\s&'-]{0,48}coupon codes and promos:\s*", "", title)
+    title = re.sub(r"(?i)^coupon codes and promos:\s*", "", title)
+    # Nav / category crumbs before the promo phrase
+    title = re.sub(r"(?i)^dinners,?\s*easy cleanup\s*", "", title)
+    title = re.sub(r"(?i)^meal kits today and get\s+", "", title)
+    # Marketing tails
+    title = re.sub(r"(?i)\s*learn more about .+$", "", title)
+    title = re.sub(r"(?i)\s*get offer\s*\*?\s*.*$", "", title)
+    title = re.sub(r"(?i)\s*\*one free item per box while subscripti.*$", "", title)
+    title = re.sub(r"(?i)\s*licious starts here\s*", "", title)
+    # Brand prefix before the offer sentence
+    title = re.sub(
+        r"(?i)^(?:chefs plate|hellofresh|everyplate|green chef|butcherbox|factor):\s*",
+        "",
+        title,
+    )
+    # Long nav dumps: keep the promo token only
+    if re.search(r"(?i)satisfaction guarantee|third-party certified|animal welfare", title):
+        for pat in (
+            r"(?i)\bfree shipping\b",
+            r"(?i)\bfree ribeyes?\b",
+            r"(?i)\$\d+(?:\.\d{1,2})?\s*off",
+            r"(?i)\d{1,3}%\s*off",
+            r"(?i)\d+\s*free meals?",
+        ):
+            m = re.search(pat, title)
+            if m:
+                chunk = m.group(0).strip()
+                title = chunk[0].upper() + chunk[1:] if chunk and chunk[0].islower() else chunk
+                break
+    # Marketing wrapper around a trial headline
+    tm = re.match(r"(?i)^try our (free \d+[-\s]?day trial)\b", title)
+    if tm:
+        title = tm.group(1)
+        title = title[0].upper() + title[1:]
     title = re.sub(r"[\ufffd]+", "", title)
+    title = _dedupe_repeated_segments(title)
+    title = re.sub(r"(?i)\s*get up to\s*$", "", title)
+    hf = re.search(r"(?i)(?:get up to )?\d+\s*free meals?\s*\+\s*free sides for life\*?", title)
+    if hf and title.lower().count("free meals") > 1:
+        title = hf.group(0).strip()
+        if title and title[0].islower():
+            title = title[0].upper() + title[1:]
     title = re.sub(r"\s+", " ", title).strip(" -–|:;,.")
     if title and title[0].islower() and not title.startswith("use "):
         # Capitalize leading letter for display only when we already validated promo
@@ -428,7 +500,9 @@ def _looks_like_real_promo(title: str, price: str | None, code: str | None) -> b
         # Long nav dump without a code is almost never a clean offer title
         if re.search(r"\b(blog|shop all|gift|affiliate|support|faq)\b", t):
             return False
-    if re.search(r"(?i)^free shipping\.?$", title.strip()):
+    if re.search(r"(?i)click.*get\s+code.*button|get\s+verified and receive your discount", t):
+        return False
+    if re.fullmatch(r"(?i)life\*?\s*(\*one free item per box while subscripti)?", t.strip()):
         return False
     has_promo = bool(PROMO_RE.search(title))
     strong = bool(
@@ -680,10 +754,7 @@ def extract_offers(provider: dict[str, str], html: str, final_url: str) -> list[
         title = _clean_title(title)
         if len(title) < 10:
             return
-        if code:
-            code = code.upper()
-            if code in CODE_STOP:
-                code = None
+        code = _validate_code(code, title, extra)
         if not _looks_like_real_promo(title, price, code):
             return
         # Dedupe by code + core promo token when possible
