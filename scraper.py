@@ -822,6 +822,25 @@ def _offer_in_visible_page(title: str, code: str | None, html: str) -> bool:
     return False
 
 
+def _canonical_intro_source(url: str) -> str:
+    p = urlparse(url or "")
+    if not p.netloc:
+        return (url or "").strip()
+    path = p.path or "/"
+    return f"{p.scheme}://{p.netloc}{path}"
+
+
+def _intro_source_is_official(source_url: str, domain: str) -> bool:
+    src = (source_url or "").strip()
+    if not src or not domain:
+        return False
+    if re.search(r"(?i)(awin|awc=|utm_|affiliate|partnercentric|sv_campaign)", src):
+        return False
+    host = urlparse(src).netloc.lower().replace("www.", "")
+    dom = domain.lower().replace("www.", "")
+    return host == dom or host.endswith("." + dom)
+
+
 def _intro_is_brand_copy(text: str, source_url: str) -> bool:
     text = (text or "").strip()
     if len(text) < 35:
@@ -836,6 +855,8 @@ def _intro_is_brand_copy(text: str, source_url: str) -> bool:
     if len(text) >= 470 and not text.rstrip().endswith((".", "!", "?")):
         return False
     if re.search(r"(?i)\bpayin\s*$|\bpayin\b", text) and not text.rstrip().endswith((".", "!", "?")):
+        return False
+    if re.search(r"(?i)(awin|awc=|utm_|affiliate|partnercentric|sv_campaign)", source_url or ""):
         return False
     path = urlparse(source_url or "").path
     if _INTRO_BAD_PATH.search(path):
@@ -898,7 +919,7 @@ def extract_provider_intro(html: str, final_url: str) -> dict[str, str] | None:
             return None
     if not _intro_is_brand_copy(best, final_url):
         return None
-    return {"intro": best, "intro_source_url": final_url}
+    return {"intro": best, "intro_source_url": _canonical_intro_source(final_url)}
 
 
 def _offer_passes_quality_gate(row: dict[str, Any]) -> bool:
@@ -1229,7 +1250,8 @@ def scrape_all() -> dict[str, Any]:
         last_error = ""
         provider_offers: list[dict[str, Any]] = []
         best_intro: dict[str, Any] | None = None
-        home_url = (cfg.get("affiliates") or {}).get(provider["name"], "")
+        domain = (provider.get("domain") or "").strip()
+        home_url = f"https://www.{domain}/" if domain else (provider.get("promo_url") or "")
         if home_url and robots_allows(robots_url, home_url):
             status, final_url, body = fetch(home_url)
             if status == 200 and not body.startswith("__ERROR__"):
@@ -1286,12 +1308,21 @@ def scrape_all() -> dict[str, Any]:
         merged = _dedupe_provider_offers(provider_offers)[:6]
         if merged:
             all_offers.extend(merged)
-        if best_intro:
+        if best_intro and _intro_source_is_official(
+            best_intro.get("intro_source_url") or "", domain
+        ):
+            best_intro["intro_source_url"] = _canonical_intro_source(
+                best_intro.get("intro_source_url") or ""
+            )
             best_intro["fetched_at"] = datetime.now(timezone.utc).replace(microsecond=0).isoformat()
             provider_profiles[provider["name"]] = best_intro
         elif prev_profiles.get(provider["name"]):
             old = prev_profiles[provider["name"]]
-            if _intro_is_brand_copy(old.get("intro") or "", old.get("intro_source_url") or ""):
+            old_src = _canonical_intro_source(old.get("intro_source_url") or "")
+            if _intro_is_brand_copy(old.get("intro") or "", old_src) and _intro_source_is_official(
+                old_src, domain
+            ):
+                old["intro_source_url"] = old_src
                 provider_profiles[provider["name"]] = old
 
         if not got_offers:
