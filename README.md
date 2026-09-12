@@ -1,20 +1,37 @@
 # mealkitdeals promo radar
 
-Open-source scraper and static site generator that collects **public** meal-kit / meal-delivery promo text from official brand pages (robots-respecting, no invented prices or codes).
+Public, open-source pipeline behind **[mealkitdeals.com](https://mealkitdeals.com/)** — a static meal-kit / meal-delivery promo radar for the United States.
 
-Live listings: https://mealkitdeals.com/
+## What this site does
 
-## What you can reuse
+[mealkitdeals.com](https://mealkitdeals.com/) publishes **live public promo listings** for meal-kit and prepared-meal brands. Each row is scraped from an official brand page. Prices, codes, and expiry dates are shown only when the source page states them; nothing is invented.
 
-| Asset | Path | Notes |
-| --- | --- | --- |
-| Offers CSV | [`public/offers.csv`](public/offers.csv) | One row per extracted offer: benefit, conditions, code, source URL, fetch time |
-| Brand list | [`public/brands.md`](public/brands.md) | 28 tracked brands with listing counts and source URLs |
-| Full JSON | [`data/offers.json`](data/offers.json) | Same data plus scrape log |
-| Compare UI | https://mealkitdeals.com/compare/ | Side-by-side table rendered from the scrape |
-| Print helper | [`public/print_offers.py`](public/print_offers.py) | Prints current offers as TSV |
+Visitors can browse brand pages, compare offers side by side, and follow outbound links to official sites.
 
-Regenerate CSV/MD after a scrape:
+## Where the data comes from
+
+| Source | Location in repo |
+| --- | --- |
+| Brand list & scrape targets | [`.ilang/site.ilang`](.ilang/site.ilang) |
+| Extracted offers (JSON) | [`data/offers.json`](data/offers.json) |
+| Public CSV export | [`public/offers.csv`](public/offers.csv) |
+| Public brand summary | [`public/brands.md`](public/brands.md) |
+
+The scraper (`scraper.py`) reads `.ilang/site.ilang`, fetches public official promo pages (robots-respecting), and writes structured offer records. `build.py` renders the static HTML site from that data.
+
+## How it updates automatically
+
+GitHub Actions workflow [`.github/workflows/update.yml`](.github/workflows/update.yml) runs on a schedule (**every 6 hours**), on pushes to `main` that touch source/data, and on manual dispatch:
+
+1. `python scraper.py` — refresh offers from official pages  
+2. `python tools/export_public_assets.py` — export CSV / brand list  
+3. `python build.py` — render `site/` (not committed; built in CI)  
+4. Commit `data/offers.json` and `public/` when changed  
+5. Deploy `site/` to Cloudflare Pages  
+
+No runtime LLM and no paid API keys are required for the scrape path. Deployment credentials live only in GitHub Actions secrets (never in this repository).
+
+## Local rebuild (optional)
 
 ```bash
 python scraper.py
@@ -22,37 +39,17 @@ python tools/export_public_assets.py
 python build.py
 ```
 
-## Stack
-
-- Pure Python (stdlib) + GitHub Actions + Cloudflare Pages
-- Config truth: [`.ilang/site.ilang`](.ilang/site.ilang)
-- No runtime LLM, no paid API keys required for the scrape path
-
-## Local use
-
-```bash
-python scraper.py
-python tools/export_public_assets.py
-python build.py
-```
-
-Open `site/index.html` locally after `python build.py`. The `site/` folder is **not** committed — CI builds and deploys it.
-
-## Auto update
-
-`.github/workflows/update.yml` runs every 6 hours (and on pushes to source/data): scrape → build → commit `data/offers.json` + `public/` → deploy `site/` to Cloudflare Pages.
-
-## Local workflow
-
-1. Edit source only (`.ilang/`, `templates/`, `scraper.py`, `build.py`, `data/`).
-2. `git pull --rebase origin main` then commit and push to `main`.
-3. GitHub Actions rebuilds and deploys; no need to commit `site/` or run wrangler locally.
+Open `site/index.html` after `build.py`. Push source changes to `main`; CI rebuilds and deploys.
 
 ## Rules
 
-- Missing price / code / expiry on the official page → field left empty (or `Not stated on the official page` for expiry display). Never invent offers.
-- Affiliate destinations live in `AFFILIATE` inside `.ilang/site.ilang`; swap in approved network links only after acceptance.
+- Missing price, code, or expiry on the official page → field left empty (or “Not stated on the official page” for display). Never invent offers.
+- Affiliate outbound URLs are configured in the `AFFILIATE` block of `.ilang/site.ilang`.
 
 ## License
 
 Use and fork freely for research and publishing workflows that cite the official `source_url` on each row.
+
+---
+
+**Live site:** https://mealkitdeals.com
