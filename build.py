@@ -263,6 +263,24 @@ def _split_condition_fragments(conditions: str) -> list[str]:
     return parts
 
 
+# Homepage-only: whole-line fragments that read worse than showing nothing.
+_CARD_CONDITION_UNREADABLE = frozenset(
+    {
+        "upcoming order",
+        "for life",
+        "first 4 weeks",
+    }
+)
+
+
+def _drop_unreadable_card_condition(line: str) -> str:
+    if not line:
+        return ""
+    if line.strip().lower() in _CARD_CONDITION_UNREADABLE:
+        return ""
+    return line.strip()
+
+
 def _format_card_conditions(kept_fragments: list[str], comma_joined: str) -> str:
     """Turn deduped fragments into a short readable line; fall back if not clearer."""
     if not kept_fragments:
@@ -306,7 +324,7 @@ def offer_card_conditions_line(offer: dict[str, Any]) -> str:
         if code_bit.lower() not in conditions.lower():
             conditions = f"{conditions}; {code_bit}" if conditions else code_bit
 
-    return conditions.strip(" ;")
+    return _drop_unreadable_card_condition(conditions.strip(" ;"))
 
 
 def normalize_offer_title(title: str) -> str:
