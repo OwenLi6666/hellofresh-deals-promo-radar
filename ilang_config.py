@@ -131,6 +131,20 @@ def load_site_config(path: Path | None = None) -> dict[str, Any]:
             key, _, val = line.partition("|")
             publisher[key.strip()] = val.strip()
 
+    analytics: dict[str, str] = {}
+    analytics_block = re.search(
+        r"::MODULE\{ANALYTICS[^}]*\}(.*?)(?=::MODULE\{|::RULE\{|::BOUNDARY\{|\Z)",
+        text,
+        re.S,
+    )
+    if analytics_block:
+        for line in analytics_block.group(1).splitlines():
+            line = line.strip()
+            if not line or line.startswith("[") or "|" not in line:
+                continue
+            key, _, val = line.partition("|")
+            analytics[key.strip()] = val.strip()
+
     return {
         "site": site,
         "providers": providers,
@@ -140,6 +154,7 @@ def load_site_config(path: Path | None = None) -> dict[str, Any]:
             "Links may be affiliate links. We may earn a commission at no extra cost to you."
         ),
         "publisher": publisher,
+        "analytics": analytics,
         "shelved": sorted(shelved),
         "source_path": str(p),
     }

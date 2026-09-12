@@ -199,6 +199,14 @@ def render_tpl(name: str, mapping: dict[str, Any]) -> str:
     return read_tpl(name).safe_substitute(safe)
 
 
+def ga4_head_html(ga4_id: str) -> str:
+    """Google Analytics 4 gtag snippet for <head> (empty when ID missing)."""
+    ga4_id = (ga4_id or "").strip()
+    if not ga4_id:
+        return ""
+    return render_tpl("_ga4.html", {"ga4_id": ga4_id})
+
+
 def offer_valid_display(offer: dict[str, Any]) -> str:
     if offer.get("valid_until"):
         return str(offer["valid_until"])
@@ -536,6 +544,9 @@ def render() -> None:
     affiliates = cfg["affiliates"]
     shelved = set(cfg.get("shelved") or [])
     pub = cfg.get("publisher") or {}
+    analytics = cfg.get("analytics") or {}
+    ga4_id = (analytics.get("ga4_id") or "").strip()
+    ga4_head = ga4_head_html(ga4_id)
     has_contact = bool((pub.get("contact_email") or "").strip() and "@" in (pub.get("contact_email") or ""))
 
     provider_profiles: dict[str, Any] = dict(data.get("provider_profiles") or {})
@@ -590,6 +601,7 @@ def render() -> None:
         "niche": html.escape(niche),
         "month": html.escape(month),
         "generated": html.escape(str(generated)),
+        "ga4_head": ga4_head,
         "affiliate_note": html.escape(affiliate_note),
         "canonical_home": abs_url(domain, "/"),
         "year": str(datetime.now(timezone.utc).year),
@@ -901,7 +913,7 @@ def render() -> None:
 
     # 404 page (Cloudflare Pages serves this for missing paths)
     (SITE_DIR / "404.html").write_text(
-        (TPL_DIR / "404.html").read_text(encoding="utf-8"),
+        render_tpl("404.html", {"ga4_head": ga4_head}),
         encoding="utf-8",
     )
 

@@ -35,6 +35,9 @@ ILANG
   Chefs Plate | chefsplate.com | https://www.chefsplate.com/ | https://www.chefsplate.com/robots.txt
   HelloFresh Canada | hellofresh.ca | https://www.hellofresh.ca/ | https://www.hellofresh.ca/robots.txt
 
+::MODULE{ANALYTICS|title:Google Analytics 4}
+  ga4_id | G-Z8XV6HLXXL
+
 ::MODULE{PUBLISHER|title:站主公开信息 人工填写 不许AI编}
   contact_email | leophdtech@gmail.com
   about_operator | 
