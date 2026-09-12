@@ -86,6 +86,24 @@ def slugify(text: str) -> str:
     return s[:80] or "offer"
 
 
+def sitemap_lastmod(value: str | None, fallback: str) -> str:
+    """Normalize a build/scrape timestamp for sitemap lastmod (W3C datetime)."""
+    raw = str(value or fallback or "").strip()
+    if not raw:
+        return fallback[:10]
+    if "T" in raw:
+        normalized = raw.replace("Z", "+00:00")
+        if "+" not in normalized:
+            normalized = normalized[:19] + "+00:00"
+        return normalized[:25]
+    return raw[:10]
+
+
+def latest_offer_timestamp(rows: list[dict[str, Any]], fallback: str) -> str:
+    stamps = [str(o.get("fetched_at") or "").strip() for o in rows if o.get("fetched_at")]
+    return max(stamps, default=fallback)
+
+
 def offer_id(offer: dict[str, Any]) -> str:
     base = f"{offer.get('provider','')}-{offer.get('title','')}-{offer.get('offer_url','')}"
     h = hashlib.sha1(base.encode("utf-8")).hexdigest()[:10]
@@ -872,7 +890,7 @@ def render() -> None:
             },
         )
         write_page(provider_path, provider_html)
-        sitemap_urls.append((provider_path, generated))
+        sitemap_urls.append((provider_path, latest_offer_timestamp(rows, generated)))
 
     sitemap_urls.append((compare_path, generated))
 
@@ -893,7 +911,7 @@ def render() -> None:
         '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
     ]
     for path, lastmod in sitemap_urls:
-        lm = str(lastmod)[:10]
+        lm = sitemap_lastmod(str(lastmod), generated)
         sm.append("  <url>")
         sm.append(f"    <loc>{html.escape(abs_url(domain, path))}</loc>")
         sm.append(f"    <lastmod>{html.escape(lm)}</lastmod>")
