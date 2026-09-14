@@ -28,6 +28,7 @@ from typing import Any
 from ilang_config import ROOT, load_site_config
 
 sys.path.insert(0, str(ROOT / "tools"))
+from card_presentation import card_conditions_line, pick_card_lead_offer  # noqa: E402
 from listing_title import finalize_listing_title, listing_title_passes  # noqa: E402
 from offer_quality import offer_passes_quality  # noqa: E402
 
@@ -634,9 +635,9 @@ def render() -> None:
         if not rows:
             continue
         listed_providers.append(name)
-        top = rows[0]
+        top = pick_card_lead_offer(name, rows)
         top_title = top.get("title", name)
-        cond_line = offer_card_conditions_line(top)
+        cond_line = card_conditions_line(top, offer_card_conditions_line)
         cond_html = (
             f'<p class="card-conditions">{html.escape(cond_line)}</p>'
             if cond_line
@@ -693,7 +694,7 @@ def render() -> None:
         if not rows:
             continue
         pos += 1
-        top = rows[0]
+        top = pick_card_lead_offer(name, rows)
         provider_href = page_path("providers", slugify(name))
         price_cell = f"${html.escape(str(top['price']))}" if top.get("price") else "—"
         code_cell = html.escape(str(top["code"])) if top.get("code") else "—"

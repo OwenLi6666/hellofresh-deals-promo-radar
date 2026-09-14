@@ -21,6 +21,10 @@ _EMOJI_RE = re.compile(
     flags=re.UNICODE,
 )
 
+_AUDIENCE_RE = re.compile(
+    r"(?i)frontline workers|first responders|military|healthcare workers|teachers|students"
+)
+
 _NAV_PHRASES_RE = re.compile(
     r"(?i)\b(?:"
     r"shop(?:\s+all|\s+smoothies)?|login|log\s*in|sign\s*in|cart|menu|learn\s+more|"
@@ -185,6 +189,10 @@ def needs_listing_recompose(title: str) -> bool:
         return True
     if re.search(r"\d+%\s*off\s*\+", t, re.I):
         return True
+    if re.search(r"(?i)\+\s*\$1\b", t):
+        return True
+    if re.search(r"(?i)frontline workers get our best sale price", t):
+        return True
     if t[0].islower() and not re.match(r"(?i)use code", t):
         return True
     return False
@@ -220,16 +228,20 @@ def compose_listing_title(offer: dict[str, Any]) -> str | None:
     if re.search(r"(?i)(?:up to\s+)?\$15\s+off\s+your\s+entire\s+order", blob):
         return "Up to $15 off your entire order"
 
-    if provider == "Huel" and "subscribe" in blob_l:
+    if provider == "Huel":
         ship = re.search(r"(?i)free shipping\s*\$([\d,]+)\+", blob)
-        sub = re.search(r"(?i)subscribe\s+and\s+save\s+(\d{1,3})%", blob)
-        bits: list[str] = []
-        if ship:
-            bits.append(f"Free shipping on orders ${ship.group(1)}+")
-        if sub:
-            bits.append(f"subscribe and save {sub.group(1)}%")
-        if bits:
-            return "; ".join(bits)
+        pct33 = re.search(r"(?i)33%\s*off", blob)
+        if ship and pct33:
+            return f"Free shipping on orders ${ship.group(1)}+ and 33% off"
+        if "subscribe" in blob_l:
+            sub = re.search(r"(?i)subscribe\s+and\s+save\s+(\d{1,3})%", blob)
+            bits: list[str] = []
+            if ship:
+                bits.append(f"Free shipping on orders ${ship.group(1)}+")
+            if sub:
+                bits.append(f"subscribe and save {sub.group(1)}%")
+            if bits:
+                return "; ".join(bits)
 
     if benefit and re.search(r"(?i)15%\s*off", benefit) and provider == "Huel":
         return "15% off your first order"
@@ -253,6 +265,13 @@ def compose_listing_title(offer: dict[str, Any]) -> str | None:
 
     if provider == "ModifyHealth" and code:
         return f"25% off your first order and free shipping with code {code.upper()}"
+
+    if provider == "Chefs Plate" and benefit:
+        if re.search(r"(?i)free meals", benefit) or re.search(r"(?i)20 free meals", benefit):
+            return "Get up to 20 free meals + free shipping"
+
+    if provider == "Thistle" and _AUDIENCE_RE.search(blob):
+        return "Frontline workers: 50% off your first week of Thistle, all year round"
 
     if provider == "Kencko" and benefit and re.search(r"(?i)25%\s*off", benefit):
         if re.search(r"(?i)free bottle", blob):
