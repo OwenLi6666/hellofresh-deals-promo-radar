@@ -266,6 +266,14 @@ def compose_listing_title(offer: dict[str, Any]) -> str | None:
     if provider == "ModifyHealth" and code:
         return f"25% off your first order and free shipping with code {code.upper()}"
 
+    if provider == "Marley Spoon":
+        url_l = (offer.get("source_url") or offer.get("offer_url") or "").lower()
+        benefit_txt = (benefit or "Up to 50% off").strip()
+        if "rtc-50p" in url_l or "rtc50" in url_l:
+            hb = _humanize_benefit(benefit_txt) if benefit_txt else "Up to 50% off"
+            return f"Marley Spoon promo: {hb} on the official rtc50p offer page"
+        return f"Marley Spoon discount: {_humanize_benefit(benefit_txt)}"
+
     if provider == "Chefs Plate" and benefit:
         if re.search(r"(?i)free meals", benefit) or re.search(r"(?i)20 free meals", benefit):
             return "Get up to 20 free meals + free shipping"
@@ -329,6 +337,10 @@ def polish_listing_title(cleaned_raw: str) -> str:
 
 
 def finalize_listing_title(offer: dict[str, Any], cleaned_raw: str) -> str | None:
+    if (offer.get("provider") or "").strip() == "Marley Spoon":
+        composed = compose_listing_title(offer)
+        if composed and not is_bad_listing_title(composed, offer):
+            return composed
     polished = polish_listing_title(cleaned_raw)
     if polished and not needs_listing_recompose(polished) and not is_bad_listing_title(polished, offer):
         return polished

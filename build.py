@@ -797,12 +797,19 @@ def render() -> None:
                 price_html = f"<p class=\"price\">{html.escape(o.get('currency','USD'))} {html.escape(str(o['price']))}</p>"
             benefit = (o.get("benefit") or "").strip() or (o.get("title") or "")
             conditions = clean_conditions((o.get("conditions") or "").strip())
+            deal_desc = (o.get("benefit") or o.get("snippet") or o.get("title") or "")[:160]
+            src_l = (o.get("source_url") or "").lower()
+            if name == "Marley Spoon" and ("rtc-50p" in src_l or "rtc50" in src_l):
+                deal_desc = (
+                    f"Marley Spoon promo code & discount: {deal_desc}. "
+                    "Official rtc50p offer page (public link)."
+                )[:300]
             deal_html = render_tpl(
                 "deal.html",
                 {
                     **base_vars,
                     "title": f"{o.get('title')} — {name} | {brand}",
-                    "description": (o.get("benefit") or o.get("snippet") or o.get("title") or "")[:160],
+                    "description": deal_desc,
                     "canonical": page_url,
                     "og_title": html.escape(str(o.get("title"))),
                     "provider": html.escape(name),
@@ -884,6 +891,12 @@ def render() -> None:
             f"{name} promo codes, coupons, and deals for {month}.",
             intro[:140] if intro else "Public listings scraped from official brand pages.",
         ]
+        if name == "Marley Spoon" and rows:
+            src0 = (rows[0].get("source_url") or "").lower()
+            if "rtc-50p" in src0 or "rtc50" in src0:
+                desc_bits.append(
+                    "Live listing for the official rtc50p discount offer page (up to 50% off)."
+                )
         listing_count = len(rows)
         provider_html = render_tpl(
             "provider.html",
