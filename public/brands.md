@@ -1,6 +1,6 @@
 # Meal kit / meal delivery brands tracked by mealkitdeals
 
-Generated from `data/offers.json` at `2026-09-14T11:33:27+00:00`.
+Generated from `data/offers.json` at `2026-09-14T13:57:21+00:00`.
 
 Live listings: https://mealkitdeals.com/
 
@@ -38,6 +38,14 @@ Only fields present in the scrape are shown. Empty means the official public pag
 | Magic Kitchen | magickitchen.com | 1 | 20% Off! Subscribe to our newsletter | https://www.magickitchen.com/ |
 | Chefs Plate | chefsplate.com | 1 | Get Up to 20 Free Meals + Free Shipping + $1 menu | https://www.chefsplate.com/ |
 | HelloFresh Canada | hellofresh.ca | 2 | Up To 20 Free Meals + Free Sides for Life | https://www.hellofresh.ca/ |
+| The Good Kitchen | thegoodkitchen.com | 1 | Get 20% off your first order | https://www.thegoodkitchen.com/ |
+| Provenance Meals | provenancemeals.com | 1 | Exclusive benefits include 10% off your first order of prepared meals, access to special events and flash sales, h | https://www.provenancemeals.com/ |
+| Silver Cuisine | silvercuisine.com | 2 | AARP Discount First Order: • 25% Off & Free Shipping on O rders $99+ Recurring Orders: • 10 | https://www.bistromd.com/pages/silver-transition/ |
+| Nurture Life | nurturelife.com | 2 | $15 off your entire order: - 6 Meal Plan - 10 Meal Plan = $5 off - 13 Meal Plan = $10 off - 16 Meal Plan = $15 off | https://www.nurturelife.com/ |
+| Once Upon a Farm | onceuponafarmorganics.com | 3 | Up to 26% off | https://onceuponafarmorganics.com/ |
+| Raw Generation | rawgeneration.com | 1 | SUBSCRIBE & SAVE 10% AND GET FREE SHIPPING | https://www.rawgeneration.com/ |
+| Kencko | kencko.com | 3 | START TODAY WITH 25% OFF + FREE SHIPPING + FREE BOTTLE 🎁 shop smoothies login Cart ★★★★★ 4 | https://www.kencko.com/ |
+| Huel | huel.com | 2 | Huel Free shipping $65+ Subscribe and save 25% Student discount boost: 33% off HSA/FSA Eligible: Learn more | https://huel.com/ |
 
 ## Machine-readable offers
 

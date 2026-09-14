@@ -34,6 +34,14 @@ ILANG
   Magic Kitchen | magickitchen.com | https://www.magickitchen.com/ | https://www.magickitchen.com/robots.txt
   Chefs Plate | chefsplate.com | https://www.chefsplate.com/ | https://www.chefsplate.com/robots.txt
   HelloFresh Canada | hellofresh.ca | https://www.hellofresh.ca/ | https://www.hellofresh.ca/robots.txt
+  The Good Kitchen | thegoodkitchen.com | https://www.thegoodkitchen.com/ | https://www.thegoodkitchen.com/robots.txt
+  Provenance Meals | provenancemeals.com | https://www.provenancemeals.com/ | https://www.provenancemeals.com/robots.txt
+  Silver Cuisine | silvercuisine.com | https://www.bistromd.com/pages/silver-transition/ | https://www.silvercuisine.com/robots.txt
+  Nurture Life | nurturelife.com | https://www.nurturelife.com/ | https://www.nurturelife.com/robots.txt
+  Once Upon a Farm | onceuponafarmorganics.com | https://onceuponafarmorganics.com/ | https://onceuponafarmorganics.com/robots.txt
+  Raw Generation | rawgeneration.com | https://www.rawgeneration.com/ | https://www.rawgeneration.com/robots.txt
+  Kencko | kencko.com | https://www.kencko.com/ | https://www.kencko.com/robots.txt
+  Huel | huel.com | https://huel.com/ | https://www.huel.com/robots.txt
 
 ::MODULE{ANALYTICS|title:Google Analytics 4}
   ga4_id | G-Z8XV6HLXXL
@@ -90,6 +98,14 @@ ILANG
   Magic Kitchen | https://www.magickitchen.com/
   Chefs Plate | https://www.chefsplate.com/
   HelloFresh Canada | https://www.hellofresh.ca/
+  The Good Kitchen | https://www.thegoodkitchen.com/
+  Provenance Meals | https://www.provenancemeals.com/
+  Silver Cuisine | https://www.silvercuisine.com/
+  Nurture Life | https://www.nurturelife.com/
+  Once Upon a Farm | https://onceuponafarmorganics.com/
+  Raw Generation | https://www.rawgeneration.com/
+  Kencko | https://www.kencko.com/
+  Huel | https://huel.com/
 
 ::RULE{抓不到 price⇒这条不写 price 字段 也不写进结构化数据 不许拿估的填}
 ::RULE{valid_until 已过⇒标记过期或下架 不许留着冒充有效}
