@@ -28,6 +28,7 @@ from typing import Any
 from ilang_config import ROOT, load_site_config
 
 sys.path.insert(0, str(ROOT / "tools"))
+from listing_title import finalize_listing_title, listing_title_passes  # noqa: E402
 from offer_quality import offer_passes_quality  # noqa: E402
 
 from scraper import (
@@ -149,6 +150,11 @@ def sanitize_offer(offer: dict[str, Any]) -> None:
     note = (offer.get("valid_until_note") or "").strip()
     if note == "官方页未标":
         offer["valid_until_note"] = VALID_UNTIL_NOT_STATED
+    listing = finalize_listing_title(offer, title)
+    if listing:
+        offer["title"] = listing
+    else:
+        offer["title"] = ""
 
 
 def is_showable(offer: dict[str, Any]) -> bool:
@@ -171,6 +177,8 @@ def is_showable(offer: dict[str, Any]) -> bool:
     if not offer_passes_quality(offer):
         return False
     if offer.get("visible_verified") is False:
+        return False
+    if not listing_title_passes(offer):
         return False
     if _looks_like_real_promo(title, offer.get("price"), offer.get("code")):
         return True
