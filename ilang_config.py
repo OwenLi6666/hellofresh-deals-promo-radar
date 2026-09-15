@@ -102,6 +102,21 @@ def load_site_config(path: Path | None = None) -> dict[str, Any]:
             if line.startswith("affiliate_note:"):
                 affiliate_note = line.split(":", 1)[1].strip()
 
+    render_js: set[str] = set()
+    render_js_block = re.search(
+        r"::MODULE\{RENDER_JS[^}]*\}(.*?)(?=::MODULE\{|::RULE\{|::BOUNDARY\{|\Z)",
+        text,
+        re.S,
+    )
+    if render_js_block:
+        for line in render_js_block.group(1).splitlines():
+            line = line.strip()
+            if not line or line.startswith("["):
+                continue
+            name = line.split("|")[0].strip()
+            if name:
+                render_js.add(name)
+
     shelved: set[str] = set()
     shelved_block = re.search(
         r"::MODULE\{SHELVED[^}]*\}(.*?)(?=::MODULE\{|::RULE\{|::BOUNDARY\{|\Z)",
@@ -156,5 +171,6 @@ def load_site_config(path: Path | None = None) -> dict[str, Any]:
         "publisher": publisher,
         "analytics": analytics,
         "shelved": sorted(shelved),
+        "render_js": render_js,
         "source_path": str(p),
     }

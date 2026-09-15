@@ -21,6 +21,7 @@ from typing import Any
 from urllib.parse import urljoin, urlparse
 from urllib.robotparser import RobotFileParser
 
+from browser_render import fetch_rendered
 from ilang_config import ROOT, load_site_config
 
 DATA_PATH = ROOT / "data" / "offers.json"
@@ -1233,6 +1234,8 @@ def scrape_all() -> dict[str, Any]:
     fetch_log: list[dict[str, Any]] = []
     provider_profiles: dict[str, dict[str, Any]] = {}
 
+    render_js: set[str] = set(cfg.get("render_js") or [])
+
     prev_by_provider: dict[str, list[dict[str, Any]]] = {}
     prev_profiles: dict[str, dict[str, Any]] = {}
     if DATA_PATH.exists():
@@ -1293,21 +1296,58 @@ def scrape_all() -> dict[str, Any]:
                 entry["http_status"] = status
                 entry["final_url"] = final_url
                 entry["retried"] = True
-            if status != 200 or body.startswith("__ERROR__"):
+            offers: list[dict[str, Any]] = []
+            if status == 200 and not body.startswith("__ERROR__"):
+                offers = extract_offers(provider, body, final_url)
+                entry["status"] = "ok" if offers else "ok_no_promo"
+                entry["offers_extracted"] = len(offers)
+                fetch_log.append(entry)
+                provider_offers.extend(offers)
+                got_page = True
+                if offers:
+                    got_offers = True
+            else:
                 entry["status"] = "fetch_failed"
                 entry["error"] = body[:200] if body.startswith("__ERROR__") else f"HTTP {status}"
                 last_error = entry["error"]
                 fetch_log.append(entry)
-                time.sleep(0.8)
-                continue
-            offers = extract_offers(provider, body, final_url)
-            entry["status"] = "ok" if offers else "ok_no_promo"
-            entry["offers_extracted"] = len(offers)
-            fetch_log.append(entry)
-            provider_offers.extend(offers)
-            got_page = True
-            if offers:
-                got_offers = True
+
+            # RENDER_JS trial: only for listed brands, only when static path got no offers.
+            if (
+                provider["name"] in render_js
+                and not offers
+                and not got_offers
+                and allowed
+            ):
+                r_status, r_final, r_body = fetch_rendered(url)
+                rentry: dict[str, Any] = {
+                    "provider": provider["name"],
+                    "url": url,
+                    "render_js": True,
+                    "http_status": r_status,
+                    "final_url": r_final,
+                }
+                if r_status == 200 and not r_body.startswith("__ERROR__"):
+                    roffers = extract_offers(provider, r_body, r_final)
+                    rentry["status"] = "ok_rendered" if roffers else "ok_rendered_no_promo"
+                    rentry["offers_extracted"] = len(roffers)
+                    if roffers:
+                        provider_offers.extend(roffers)
+                        got_page = True
+                        got_offers = True
+                        offers = roffers
+                else:
+                    rentry["status"] = "render_failed"
+                    rentry["error"] = (
+                        r_body[:200] if r_body.startswith("__ERROR__") else f"HTTP {r_status}"
+                    )
+                    last_error = rentry.get("error") or last_error
+                fetch_log.append(rentry)
+
+            if status != 200 or body.startswith("__ERROR__"):
+                if not offers:
+                    time.sleep(0.8)
+                    continue
             time.sleep(1.0)
 
         merged = _dedupe_provider_offers(provider_offers)[:6]

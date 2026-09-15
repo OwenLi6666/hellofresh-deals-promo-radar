@@ -57,6 +57,11 @@ ILANG
 ::RULE{valid_until 官方页没写⇒写 valid_until_note=官方页未标 不许估日期}
 ::RULE{code_required⇒有码写 yes 官方写明无需码写 no 否则留空}
 
+::MODULE{RENDER_JS|title:无登录浏览器渲染试用 仅这些品牌静态无优惠或失败时再渲染}
+  Dinnerly
+  Mosaic Foods
+  Sunbasket
+
 ::MODULE{SHELVED|title:抓但暂不展示 数据保留}
   HelloFresh Canada | hellofresh.ca re-scrape HTTP 403 2026-09-11 titles had social icon junk
   ButcherBox | butcherbox.com 2026-09-11 homepage scrape only Free Shipping subscription perk no real promo
