@@ -42,6 +42,7 @@ ILANG
   Raw Generation | rawgeneration.com | https://www.rawgeneration.com/ | https://www.rawgeneration.com/robots.txt
   Kencko | kencko.com | https://www.kencko.com/ | https://www.kencko.com/robots.txt
   Huel | huel.com | https://huel.com/ | https://www.huel.com/robots.txt
+  Shef | shef.com | https://shef.com/ | https://shef.com/robots.txt
 
 ::MODULE{ANALYTICS|title:Google Analytics 4}
   ga4_id | G-Z8XV6HLXXL
@@ -61,6 +62,11 @@ ILANG
   Dinnerly
   Mosaic Foods
   Sunbasket
+  Purple Carrot
+  Splendid Spoon
+  Green Chef
+  Trifecta
+  Shef
 
 ::MODULE{SHELVED|title:抓但暂不展示 数据保留}
   HelloFresh Canada | hellofresh.ca re-scrape HTTP 403 2026-09-11 titles had social icon junk
@@ -111,6 +117,7 @@ ILANG
   Raw Generation | https://www.rawgeneration.com/
   Kencko | https://www.kencko.com/
   Huel | https://huel.com/
+  Shef | https://shef.com/
 
 ::RULE{抓不到 price⇒这条不写 price 字段 也不写进结构化数据 不许拿估的填}
 ::RULE{valid_until 已过⇒标记过期或下架 不许留着冒充有效}

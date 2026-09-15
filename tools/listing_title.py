@@ -243,6 +243,22 @@ def compose_listing_title(offer: dict[str, Any]) -> str | None:
     if provider == "Dinnerly" and re.search(r"(?i)up to\s*\$180\s*off", blob):
         return "Up to $180 off your first 5 boxes"
 
+    if provider == "Purple Carrot" and re.search(r"(?i)\$100\s*off", blob):
+        if "first month" in blob_l:
+            return "Get $100 off your first month"
+
+    if provider == "Splendid Spoon" and re.search(r"(?i)20%\s*off", blob):
+        if "first box" in blob_l or "your first" in blob_l:
+            return "20% off your first box"
+
+    if provider == "Shef" and re.search(r"(?i)40%\s*off", blob):
+        if "first week" in blob_l:
+            return "40% off your first week"
+
+    if provider == "Green Chef" and re.search(r"(?i)50%\s*off", blob):
+        if "first box" in blob_l:
+            return "50% off your first box"
+
     if provider == "Huel":
         ship = re.search(r"(?i)free shipping\s*\$([\d,]+)\+", blob)
         pct33 = re.search(r"(?i)33%\s*off", blob)
