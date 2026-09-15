@@ -232,8 +232,10 @@ def compose_listing_title(offer: dict[str, Any]) -> str | None:
         if "military" in blob_l or "first responder" in blob_l:
             return "15% off for military and first responders"
 
-    if provider == "Mosaic Foods" and re.search(r"(?i)20%\s*off", blob):
-        return "20% off your first order"
+    if provider == "Mosaic Foods":
+        pct = re.search(r"(?i)(\d{1,3})%\s*off", blob)
+        if pct and "first order" in blob_l:
+            return f"{pct.group(1)}% off your first order"
 
     if provider == "Sunbasket" and re.search(r"(?i)\$90\s*off\s+across\s+4\s+boxes", blob):
         return "Get $90 off across 4 boxes"
