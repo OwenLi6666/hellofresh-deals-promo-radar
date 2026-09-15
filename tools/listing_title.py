@@ -228,6 +228,10 @@ def compose_listing_title(offer: dict[str, Any]) -> str | None:
     if re.search(r"(?i)(?:up to\s+)?\$15\s+off\s+your\s+entire\s+order", blob):
         return "Up to $15 off your entire order"
 
+    if provider == "Icon Meals" and re.search(r"(?i)15%\s*off", blob):
+        if "military" in blob_l or "first responder" in blob_l:
+            return "15% off for military and first responders"
+
     if provider == "Huel":
         ship = re.search(r"(?i)free shipping\s*\$([\d,]+)\+", blob)
         pct33 = re.search(r"(?i)33%\s*off", blob)

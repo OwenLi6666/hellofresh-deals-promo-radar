@@ -508,12 +508,13 @@ def _clean_title(title: str) -> str:
 def _looks_like_real_promo(title: str, price: str | None, code: str | None) -> bool:
     """Reject marketing fluff / fallback copy pretending to be an offer."""
     t = title.lower().strip()
-    if len(t) < 8:
+    short_promo = bool(
+        PERCENT_RE.search(title) or re.search(r"\$\d+(?:\.\d{1,2})?\s*off", title, re.I)
+    )
+    if len(t) < 8 and not short_promo:
         return False
     # Short percent / $off headlines like "15% Off" / "$100 off" are valid
-    if len(t) < 10 and not (
-        PERCENT_RE.search(title) or re.search(r"\$\d+(?:\.\d{1,2})?\s*off", title, re.I)
-    ):
+    if len(t) < 10 and not short_promo:
         return False
     if re.search(r"(?i)offer is based on\b", title):
         return False
@@ -555,6 +556,8 @@ def _looks_like_real_promo(title: str, price: str | None, code: str | None) -> b
         if re.search(r"\b(blog|shop all|gift|affiliate|support|faq)\b", t):
             return False
     if re.search(r"(?i)click.*get\s+code.*button|get\s+verified and receive your discount", t):
+        return False
+    if re.search(r"(?i)store tab.*promos|customers enter at checkout|redemption limit", t):
         return False
     if re.fullmatch(r"(?i)life\*?\s*(\*one free item per box while subscripti)?", t.strip()):
         return False
@@ -1031,10 +1034,12 @@ def extract_offers(provider: dict[str, str], html: str, final_url: str) -> list[
         code: str | None = None,
     ) -> None:
         title = _clean_title(title)
-        if len(title) < 10:
-            return
         code = _validate_code(code, title, extra)
         if not _looks_like_real_promo(title, price, code):
+            return
+        if len(title) < 10 and not (
+            PERCENT_RE.search(title) or re.search(r"\$\d+(?:\.\d{1,2})?\s*off", title, re.I)
+        ):
             return
         if not _offer_in_visible_page(title, code, html):
             return
