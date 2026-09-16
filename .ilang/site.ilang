@@ -51,6 +51,16 @@ ILANG
   contact_email | leophdtech@gmail.com
   about_operator | 
 
+::MODULE{CUTOFF_TRACKER|title:Cursor OpenAI 首登单页 公开源}
+  page_slug | cursor-openai-cutoff
+  buttondown_username | mealkitdeals-cursor-cutoff
+  countdown_utc | 2026-11-12T23:59:59+00:00
+
+::MODULE{NEWSLETTER|title:全站促销与条款变更邮件}
+  buttondown_username | mealkitdeals-promo
+  embed_tag | mealkitdeals-promo
+  blurb | Weekly when headline discounts or conditions change on brands we track — same pipeline as this site, no invented prices.
+
 ::MODULE{FIELDS|title:每条优惠提取什么}
   title benefit conditions code code_required price currency offer_url valid_until valid_until_note source_url fetched_at status snippet
 

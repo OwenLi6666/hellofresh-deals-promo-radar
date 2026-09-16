@@ -16,6 +16,7 @@ from __future__ import annotations
 import hashlib
 import html
 import json
+import os
 import re
 import shutil
 import sys
@@ -44,6 +45,9 @@ from scraper import (
 )
 
 DATA_PATH = ROOT / "data" / "offers.json"
+CUTOFF_DATA_PATH = ROOT / "data" / "cursor_openai_cutoff.json"
+CONTENT_LAYERS_PATH = ROOT / "data" / "content_layers.json"
+AUDIENCE_GUIDES_PATH = ROOT / "data" / "audience_guides.json"
 SITE_DIR = ROOT / "site"
 TPL_DIR = ROOT / "templates"
 
@@ -67,6 +71,7 @@ def nav_links_html(include_contact: bool = True) -> str:
     links = [
         '<a href="/">Home</a>',
         '<a href="/compare/">Compare</a>',
+        '<a href="/guides/plant-forward-meal-deals/">Guides</a>',
         '<a href="/about/">About</a>',
     ]
     if include_contact:
@@ -235,6 +240,116 @@ def offer_code_required_html(offer: dict[str, Any]) -> str:
     if req == "no":
         return "no"
     return ""
+
+
+def load_content_layers() -> dict[str, Any]:
+    if not CONTENT_LAYERS_PATH.exists():
+        return {}
+    return json.loads(CONTENT_LAYERS_PATH.read_text(encoding="utf-8"))
+
+
+def provider_content_layer_html(name: str, layers: dict[str, Any]) -> str:
+    block = layers.get(name)
+    if not block or not block.get("sections"):
+        return ""
+    reviewed = html.escape(str(block.get("reviewed_at") or "").strip())
+    parts: list[str] = [
+        '<section class="panel content-layer">',
+        f"<h2>Before you buy: {html.escape(name)}</h2>",
+    ]
+    if reviewed:
+        parts.append(
+            f'<p class="meta">Editorial layer · last reviewed {reviewed} · '
+            "each bullet links to the source we used.</p>"
+        )
+    for section in block.get("sections") or []:
+        title = html.escape(str(section.get("title") or "").strip())
+        if not title:
+            continue
+        parts.append(f"<h3>{title}</h3>")
+        parts.append('<ul class="content-layer-list">')
+        for item in section.get("items") or []:
+            text = html.escape(str(item.get("text") or "").strip())
+            src = html.escape(str(item.get("source_url") or "").strip())
+            label = html.escape(str(item.get("source_label") or "Source").strip())
+            if not text or not src:
+                continue
+            parts.append(
+                "<li>"
+                f"{text} "
+                f'<a href="{src}" rel="nofollow noopener">{label}</a>'
+                "</li>"
+            )
+        parts.append("</ul>")
+    parts.append("</section>")
+    return "\n    ".join(parts)
+
+
+def load_audience_guides() -> dict[str, Any]:
+    if not AUDIENCE_GUIDES_PATH.exists():
+        return {}
+    return json.loads(AUDIENCE_GUIDES_PATH.read_text(encoding="utf-8"))
+
+
+def _audience_guide_list_html(items: list[dict[str, Any]], *, name_key: str = "") -> str:
+    rows: list[str] = []
+    for item in items or []:
+        text = html.escape(str(item.get("text") or "").strip())
+        src = html.escape(str(item.get("source_url") or "").strip())
+        label = html.escape(str(item.get("source_label") or "Source").strip())
+        if not text or not src:
+            continue
+        prefix = ""
+        if name_key:
+            prov = html.escape(str(item.get(name_key) or "").strip())
+            if prov:
+                prefix = f"<strong>{prov}.</strong> "
+        rows.append(
+            f"<li>{prefix}{text} "
+            f'<a href="{src}" rel="nofollow noopener">{label}</a></li>'
+        )
+    return "\n      ".join(rows) if rows else "<li>—</li>"
+
+
+def build_audience_guide_pages(
+    brand: str,
+    domain: str,
+    base_vars: dict[str, Any],
+    guides: dict[str, Any],
+    generated: str,
+) -> list[tuple[str, str]]:
+    written: list[tuple[str, str]] = []
+    for _key, block in guides.items():
+        slug = (block.get("slug") or "").strip().strip("/")
+        if not slug:
+            continue
+        title = str(block.get("title") or "Audience guide").strip()
+        reviewed = html.escape(str(block.get("reviewed_at") or generated).strip())
+        why = html.escape(str(block.get("why_segment") or "").strip())
+        rel_path = page_path("guides", slug)
+        page_html = render_tpl(
+            "audience.html",
+            {
+                **base_vars,
+                "title": f"{title} — {brand}",
+                "description": (why or title)[:300],
+                "canonical": abs_url(domain, rel_path),
+                "og_title": title,
+                "heading": html.escape(title),
+                "lede": why,
+                "crumb_title": html.escape(title),
+                "how_to_pick": _audience_guide_list_html(block.get("how_to_pick") or []),
+                "good_fit": _audience_guide_list_html(block.get("good_fit") or [], name_key="provider"),
+                "consider_skipping": _audience_guide_list_html(
+                    block.get("consider_skipping") or [], name_key="provider"
+                ),
+                "table_judgment": _audience_guide_list_html(block.get("table_judgment") or []),
+                "reviewed_at": reviewed,
+            },
+        )
+        write_page(rel_path, page_html)
+        written.append((rel_path, block.get("reviewed_at") or generated))
+    return written
 
 
 def provider_about_html(name: str, profiles: dict[str, Any]) -> str:
@@ -434,7 +549,15 @@ def json_ld_offer(offer: dict[str, Any], page_url: str) -> dict[str, Any]:
 
 def clean_output_dirs() -> None:
     """Remove prior page trees so leftover .html files cannot leak old URLs."""
-    for name in ("providers", "deals", "compare", "about", "contact", "privacy"):
+    for name in (
+        "providers",
+        "deals",
+        "compare",
+        "about",
+        "contact",
+        "privacy",
+        "cursor-openai-cutoff",
+    ):
         target = SITE_DIR / name
         if target.exists():
             shutil.rmtree(target)
@@ -542,9 +665,160 @@ def build_static_pages(
     return written
 
 
+def load_cursor_cutoff() -> dict[str, Any]:
+    if not CUTOFF_DATA_PATH.exists():
+        return {}
+    return json.loads(CUTOFF_DATA_PATH.read_text(encoding="utf-8"))
+
+
+def buttondown_subscribe_html(
+    buttondown_username: str,
+    *,
+    embed_tag: str,
+    form_id: str,
+    heading: str = "",
+    blurb: str = "",
+    missing_config_note: str = "",
+) -> str:
+    username = (buttondown_username or "").strip()
+    tag = (embed_tag or username or "site").strip()
+    if not username:
+        note = missing_config_note or (
+            "Publisher has not configured <code>buttondown_username</code> in .ilang yet."
+        )
+        return f'<p class="meta">{note}</p>'
+    action = f"https://buttondown.email/api/emails/embed-subscribe/{html.escape(username)}"
+    head = f"<h2>{html.escape(heading)}</h2>" if heading else ""
+    intro = f'<p class="lede subscribe-lede">{html.escape(blurb)}</p>' if blurb else ""
+    return (
+        f'<div class="cutoff-subscribe">{head}{intro}'
+        f'<form class="cutoff-subscribe-form" action="{action}" method="post" rel="noopener">'
+        f'<label for="{html.escape(form_id)}">Email</label>'
+        f'<input id="{html.escape(form_id)}" type="email" name="email" required autocomplete="email" />'
+        f'<input type="hidden" name="tag" value="{html.escape(tag)}" />'
+        '<button type="submit">Subscribe — confirm via email</button>'
+        "</form>"
+        '<p class="meta">Buttondown sends a confirmation link; you are not subscribed until you click it. '
+        "Every email includes an unsubscribe link. We do not display subscriber counts.</p>"
+        "</div>"
+    )
+
+
+def cutoff_subscribe_html(buttondown_username: str) -> str:
+    return buttondown_subscribe_html(
+        buttondown_username,
+        embed_tag="cursor-openai-cutoff",
+        form_id="bd-email-cutoff",
+        heading="Email updates",
+    )
+
+
+def site_newsletter_html(cfg: dict[str, Any]) -> str:
+    nl = cfg.get("newsletter") or {}
+    username = (os.environ.get("BUTTONDOWN_USERNAME") or nl.get("buttondown_username") or "").strip()
+    return buttondown_subscribe_html(
+        username,
+        embed_tag=(nl.get("embed_tag") or username or "mealkitdeals-promo").strip(),
+        form_id="bd-email-home",
+        heading="Weekly promo & term changes",
+        blurb=(nl.get("blurb") or "").strip()
+        or "One email when headline discounts or conditions change on brands we track — same pipeline as this site.",
+        missing_config_note=(
+            "Newsletter embed is not configured yet (.ilang NEWSLETTER → buttondown_username)."
+        ),
+    )
+
+
+def cutoff_timeline_rows_html(timeline: list[dict[str, Any]]) -> str:
+    rows: list[str] = []
+    for row in timeline:
+        event_date = html.escape(str(row.get("event_date") or "—"))
+        quote = html.escape(str(row.get("quote_en") or "").strip() or "—")
+        src = html.escape(str(row.get("source_url") or "#"))
+        reviewed = html.escape(str(row.get("reviewed_at") or "—"))
+        fetch_note = (row.get("fetch_note") or "").strip()
+        note_html = (
+            f' <span class="cutoff-timeline-fetch">{html.escape(fetch_note)}</span>'
+            if fetch_note
+            else ""
+        )
+        rows.append(
+            "<li>"
+            f'<span class="cutoff-timeline-date">{event_date}</span>'
+            f" {quote} "
+            f'<a href="{src}" rel="nofollow noopener">{src}</a> '
+            f"复核 {reviewed}{note_html}"
+            "</li>"
+        )
+    return "\n        ".join(rows) if rows else "<li>暂无公开源条目。</li>"
+
+
+def build_cursor_cutoff_page(
+    brand: str,
+    domain: str,
+    affiliate_note: str,
+    base_vars: dict[str, Any],
+    cfg: dict[str, Any],
+    generated: str,
+) -> tuple[str, str] | None:
+    cutoff_cfg = cfg.get("cutoff_tracker") or {}
+    slug = (cutoff_cfg.get("page_slug") or "cursor-openai-cutoff").strip().strip("/")
+    data = load_cursor_cutoff()
+    if not data:
+        return None
+
+    status = (data.get("status_label") or "提案中").strip()
+    if status not in {"提案中", "已确认", "已提前或已延长"}:
+        status = "提案中"
+
+    countdown_iso = (
+        (cutoff_cfg.get("countdown_utc") or "").strip()
+        or (data.get("countdown_target_utc") or "2026-11-12T23:59:59+00:00").strip()
+    )
+    countdown_label = (data.get("countdown_label_zh") or "距 OpenAI 提出的过渡日（未确认）").strip()
+    status_note = html.escape(
+        (data.get("status_note_en") or "").strip()
+        or "Official termination date not yet confirmed on public OpenAI pages."
+    )
+    next_watch = html.escape(
+        (data.get("next_watch_zh") or "").strip()
+        or "下一项：等待各模型厂商在公开页面上说明 Cursor 集成是否变化。"
+    )
+    timeline = list(data.get("timeline") or [])
+
+    buttondown = (os.environ.get("BUTTONDOWN_USERNAME") or "").strip() or (
+        cutoff_cfg.get("buttondown_username") or ""
+    ).strip()
+
+    rel_path = page_path(slug)
+    page_html = render_tpl(
+        "cursor_cutoff.html",
+        {
+            **base_vars,
+            "title": f"Cursor × OpenAI 模型供应 · 状态与倒计时 — {brand}",
+            "description": (
+                "公开来源追踪：OpenAI 向 Cursor 供应模型的提案中截止日、状态行、倒计时与邮件订阅。"
+            ),
+            "canonical": abs_url(domain, rel_path),
+            "og_title": "Cursor × OpenAI cutoff tracker (public sources)",
+            "status_label": html.escape(status),
+            "status_note": status_note,
+            "countdown_label": html.escape(countdown_label),
+            "countdown_iso": html.escape(countdown_iso),
+            "subscribe_block": cutoff_subscribe_html(buttondown),
+            "timeline_rows": cutoff_timeline_rows_html(timeline),
+            "next_watch": next_watch,
+        },
+    )
+    write_page(rel_path, page_html)
+    return rel_path, page_html
+
+
 def render() -> None:
     cfg = load_site_config()
     data = load_offers()
+    content_layers = load_content_layers()
+    audience_guides = load_audience_guides()
     site = cfg["site"]
     brand = site.get("brand") or data.get("brand") or "mealkitdeals"
     domain = site.get("domain") or data.get("domain") or "localhost"
@@ -681,6 +955,7 @@ def render() -> None:
             "json_ld": json.dumps(item_list, ensure_ascii=False),
             "offer_count": str(len(offers)),
             "provider_count": str(len(listed_providers)),
+            "subscribe_block": site_newsletter_html(cfg),
         },
     )
     write_page("/", index_html)
@@ -913,6 +1188,7 @@ def render() -> None:
                 ),
                 "provider": html.escape(name),
                 "about_section": provider_about_html(name, provider_profiles),
+                "content_layer": provider_content_layer_html(name, content_layers),
                 "listings_heading": html.escape(f"{name} promo codes & coupons ({listing_count})"),
                 "listings_note": html.escape(
                     f"{listing_count} public offer(s) extracted from official {name} pages."
@@ -932,6 +1208,18 @@ def render() -> None:
     static_pages = build_static_pages(brand, domain, affiliate_note, base_vars, cfg)
     for path, _html in static_pages:
         sitemap_urls.append((path, generated))
+
+    for guide_path, guide_lm in build_audience_guide_pages(
+        brand, domain, base_vars, audience_guides, generated
+    ):
+        sitemap_urls.append((guide_path, str(guide_lm)))
+
+    cutoff_meta = load_cursor_cutoff()
+    cutoff_page = build_cursor_cutoff_page(
+        brand, domain, affiliate_note, base_vars, cfg, generated
+    )
+    if cutoff_page:
+        sitemap_urls.append((cutoff_page[0], cutoff_meta.get("generated_at") or generated))
 
     # 404 page (Cloudflare Pages serves this for missing paths)
     (SITE_DIR / "404.html").write_text(

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+$ga4_head
+  <title>$title</title>
+  <meta name="description" content="$description" />
+  <link rel="canonical" href="$canonical" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="$og_title" />
+  <meta property="og:description" content="$description" />
+  <meta property="og:url" content="$canonical" />
+  <link rel="stylesheet" href="/assets/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap nav">
+      <a class="brand" href="/">$brand</a>
+      <nav class="nav-links">$nav_links</nav>
+    </div>
+  </header>
+  <main class="wrap">
+    <p class="breadcrumbs"><a href="/">Home</a> / Guides / $crumb_title</p>
+    <section class="hero hero-provider">
+      <p class="eyebrow">Audience guide</p>
+      <h1>$heading</h1>
+      <p class="lede">$lede</p>
+      <a class="btn secondary" href="/compare/">Open compare table</a>
+    </section>
+    <section class="panel content-layer audience-guide">
+      <h2>How to pick</h2>
+      <ul class="content-layer-list">$how_to_pick</ul>
+      <h2>Usually a better fit on our table</h2>
+      <ul class="content-layer-list">$good_fit</ul>
+      <h2>Often worth skipping for this goal</h2>
+      <ul class="content-layer-list">$consider_skipping</ul>
+      <h2>What our compare table shows right now</h2>
+      <ul class="content-layer-list">$table_judgment</ul>
+      <p class="meta">Reviewed $reviewed_at · Judgment lines tie to mealkitdeals listings and compare rows, not generic diet advice.</p>
+    </section>
+    <p class="note">$affiliate_note</p>
+  </main>
+  <footer class="site-footer">
+    <div class="wrap footer-inner">
+      <p>© $year $brand · Auto-updated from public official promo pages.</p>
+      $footer_links
+    </div>
+  </footer>
+</body>
+</html>

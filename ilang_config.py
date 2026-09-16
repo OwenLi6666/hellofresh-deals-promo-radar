@@ -160,6 +160,34 @@ def load_site_config(path: Path | None = None) -> dict[str, Any]:
             key, _, val = line.partition("|")
             analytics[key.strip()] = val.strip()
 
+    cutoff_tracker: dict[str, str] = {}
+    cutoff_block = re.search(
+        r"::MODULE\{CUTOFF_TRACKER[^}]*\}(.*?)(?=::MODULE\{|::RULE\{|::BOUNDARY\{|\Z)",
+        text,
+        re.S,
+    )
+    if cutoff_block:
+        for line in cutoff_block.group(1).splitlines():
+            line = line.strip()
+            if not line or line.startswith("[") or "|" not in line:
+                continue
+            key, _, val = line.partition("|")
+            cutoff_tracker[key.strip()] = val.strip()
+
+    newsletter: dict[str, str] = {}
+    newsletter_block = re.search(
+        r"::MODULE\{NEWSLETTER[^}]*\}(.*?)(?=::MODULE\{|::RULE\{|::BOUNDARY\{|\Z)",
+        text,
+        re.S,
+    )
+    if newsletter_block:
+        for line in newsletter_block.group(1).splitlines():
+            line = line.strip()
+            if not line or line.startswith("[") or "|" not in line:
+                continue
+            key, _, val = line.partition("|")
+            newsletter[key.strip()] = val.strip()
+
     return {
         "site": site,
         "providers": providers,
@@ -170,6 +198,8 @@ def load_site_config(path: Path | None = None) -> dict[str, Any]:
         ),
         "publisher": publisher,
         "analytics": analytics,
+        "cutoff_tracker": cutoff_tracker,
+        "newsletter": newsletter,
         "shelved": sorted(shelved),
         "render_js": render_js,
         "source_path": str(p),

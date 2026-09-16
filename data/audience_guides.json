@@ -1,0 +1,91 @@
+{
+  "plant_forward": {
+    "slug": "plant-forward-meal-deals",
+    "title": "Plant-forward & vegetarian-leaning promos",
+    "reviewed_at": "2026-09-16",
+    "compare_table_url": "https://mealkitdeals.com/compare/",
+    "why_segment": "We grouped brands whose stored official homepage copy on this site explicitly mentions plant-based, plant-rich, vegan, or vegetarian meals — not brands we label as plant-only without that wording.",
+    "how_to_pick": [
+      {
+        "text": "Start on the compare table and filter mentally for plant/vegan/vegetarian wording in each row’s top listing — we do not rank brands we cannot quote.",
+        "source_url": "https://mealkitdeals.com/compare/",
+        "source_label": "mealkitdeals compare table"
+      },
+      {
+        "text": "When our price column shows a number (not “—”), that price was extracted from the brand page; when it shows “—”, we have no extracted price to compare.",
+        "source_url": "https://mealkitdeals.com/compare/",
+        "source_label": "mealkitdeals compare table (column rules)"
+      }
+    ],
+    "good_fit": [
+      {
+        "provider": "Thistle",
+        "text": "Stored homepage copy: “Healthy, organic, plant-based meals and cold-pressed juices.”",
+        "source_url": "https://try.thistle.co/specialty_discounts/",
+        "source_label": "Thistle promo source on our listing"
+      },
+      {
+        "provider": "MamaSezz",
+        "text": "Stored homepage copy: “whole food plant-based delivery… ready to eat whole food plant-based vegan cookies and snacks.”",
+        "source_url": "https://www.mamasezz.com/",
+        "source_label": "MamaSezz homepage (scraped intro, 2026-09-16)"
+      },
+      {
+        "provider": "Kencko",
+        "text": "Stored homepage copy: “100% organic & vegan, no added sugars.”",
+        "source_url": "https://www.kencko.com/",
+        "source_label": "Kencko homepage (scraped intro, 2026-09-16)"
+      },
+      {
+        "provider": "Once Upon a Farm",
+        "text": "Stored homepage copy: “Cold-pressed pouches & plant-rich meals for babies, toddlers, & big kids.”",
+        "source_url": "https://onceuponafarmorganics.com/",
+        "source_label": "Once Upon a Farm homepage (scraped intro, 2026-09-16)"
+      },
+      {
+        "provider": "Splendid Spoon",
+        "text": "Compare-row listing: “Get 20% off Your First Box” — brand page positions meal plans for “seasonal reset” / weekly rhythm (see provider page intro we store).",
+        "source_url": "https://www.splendidspoon.com/",
+        "source_label": "Splendid Spoon listing + homepage intro on mealkitdeals"
+      },
+      {
+        "provider": "Sunbasket",
+        "text": "Compare-row listing: “Get $90 off across 4 boxes” with conditions “Across 4 boxes”; Gobble’s stored listing snippet on our site also mentions “vegetarian dishes” for a 15-minute kit — use Sunbasket/Gobble rows if you want kits with vegetarian options called out on the official page we scraped.",
+        "source_url": "https://sunbasket.com/",
+        "source_label": "Sunbasket + Gobble listings on mealkitdeals compare table"
+      }
+    ],
+    "consider_skipping": [
+      {
+        "provider": "ButcherBox",
+        "text": "Stored homepage copy on our site describes chicken nuggets — not aligned with plant-forward shopping.",
+        "source_url": "https://www.butcherbox.com/",
+        "source_label": "ButcherBox homepage (scraped intro, 2026-09-16)"
+      },
+      {
+        "provider": "EveryPlate",
+        "text": "Compare table shows an extracted $2.99/meal first-box price, but stored EveryPlate intro emphasizes “dependable prices” and easy kits — it does not describe a plant-only menu on the copy we store.",
+        "source_url": "https://www.everyplate.com/",
+        "source_label": "EveryPlate compare row + homepage intro"
+      },
+      {
+        "provider": "Factor",
+        "text": "Stored Factor intro lists “vegetarian prepared meals” among many meal types — ready-made heat-and-eat, not a plant-only kit line. Skip if you need cook-from-kit plant menus; consider if you want vegetarian heat-and-eat.",
+        "source_url": "https://www.factor75.com/",
+        "source_label": "Factor homepage (scraped intro, 2026-09-15)"
+      }
+    ],
+    "table_judgment": [
+      {
+        "text": "Looser spread discount on our compare table today: Sunbasket “$90 off across 4 boxes” and Gobble “$120 off across 4 boxes” (conditions on each provider page). Purple Carrot shows “$100 Off” on first month but our price column stays “—” — do not treat $100 as a per-meal price.",
+        "source_url": "https://mealkitdeals.com/compare/",
+        "source_label": "mealkitdeals compare table (2026-09-16 build)"
+      },
+      {
+        "text": "Stricter new-subscriber language on HelloFresh’s listing: conditions include “new subscribers only” and “One per box with active subscription” — plant-forward shoppers still hit subscription gates even if the brand is not in this guide’s good-fit list.",
+        "source_url": "https://mealkitdeals.com/providers/hellofresh/",
+        "source_label": "HelloFresh provider listing (mealkitdeals)"
+      }
+    ]
+  }
+}

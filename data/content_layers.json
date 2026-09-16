@@ -1,0 +1,87 @@
+{
+  "HelloFresh": {
+    "sample": true,
+    "reviewed_at": "2026-09-15",
+    "sections": [
+      {
+        "id": "who",
+        "title": "Who it fits",
+        "items": [
+          {
+            "text": "“HelloFresh Meal Kits | One free item per box with active subscription.”",
+            "source_url": "https://www.hellofresh.com/",
+            "source_label": "HelloFresh homepage (scraped intro, 2026-09-15)"
+          },
+          {
+            "text": "“Free meals applied as discount on first box, new subscribers only, varies by plan.”",
+            "source_url": "https://www.hellofresh.com/",
+            "source_label": "HelloFresh homepage (scraped intro, 2026-09-15)"
+          }
+        ]
+      },
+      {
+        "id": "skip",
+        "title": "When to skip",
+        "items": [
+          {
+            "text": "Not a fit if you are outside “new subscribers only” (same homepage copy as above).",
+            "source_url": "https://www.hellofresh.com/",
+            "source_label": "HelloFresh homepage (scraped intro, 2026-09-15)"
+          },
+          {
+            "text": "Not a fit if you will not keep an active subscription — listed conditions: “One per box with active subscription.”",
+            "source_url": "https://www.hellofresh.com/eat/coupon-codes-and-promotions",
+            "source_label": "HelloFresh promo listing (fetched 2026-09-15T20:46:17+00:00)"
+          },
+          {
+            "text": "Not a fit if you require a printed expiry on this promo — our listing: “Not stated on the official page.”",
+            "source_url": "https://www.hellofresh.com/eat/coupon-codes-and-promotions",
+            "source_label": "HelloFresh promo listing (fetched 2026-09-15T20:46:17+00:00)"
+          }
+        ]
+      },
+      {
+        "id": "diff",
+        "title": "How it differs from nearby brands on our compare table",
+        "items": [
+          {
+            "text": "EveryPlate (official homepage copy we store): “Real dinners made doable—meal kits with fresh ingredients, easy-to-cook recipes, and dependable prices every week.”",
+            "source_url": "https://www.everyplate.com/",
+            "source_label": "EveryPlate homepage (scraped intro, 2026-09-15)"
+          },
+          {
+            "text": "Green Chef (official homepage copy we store): “Green Chef delivers meal kits filled with organic produce, responsibly sourced proteins, and nutritionist-approved recipes designed to support a healthy lifestyle.”",
+            "source_url": "https://www.greenchef.com/",
+            "source_label": "Green Chef homepage (scraped intro, 2026-09-15)"
+          },
+          {
+            "text": "Factor (official homepage copy we store): “Factor provides a rotating weekly menu of ready-made, dietitian-approved meals.”",
+            "source_url": "https://www.factor75.com/",
+            "source_label": "Factor homepage (scraped intro, 2026-09-15)"
+          }
+        ]
+      },
+      {
+        "id": "value",
+        "title": "How to judge the deal (no invented prices)",
+        "items": [
+          {
+            "text": "Listing benefit: “Free Breakfast for Life + 10 Free Meals” · Conditions: “For Life, on first box, One per box with active subscription.”",
+            "source_url": "https://www.hellofresh.com/eat/coupon-codes-and-promotions",
+            "source_label": "HelloFresh promo listing (fetched 2026-09-15T20:46:17+00:00)"
+          },
+          {
+            "text": "Use the compare table row for HelloFresh vs other brands — we show extracted listing text only (price column stays “—” when not extracted).",
+            "source_url": "https://mealkitdeals.com/compare/",
+            "source_label": "mealkitdeals compare table (generated 2026-09-16)"
+          },
+          {
+            "text": "Re-open the official promo URL before checkout; valid-through was not stated on the page at last fetch.",
+            "source_url": "https://www.hellofresh.com/eat/coupon-codes-and-promotions",
+            "source_label": "HelloFresh promo listing (fetched 2026-09-15T20:46:17+00:00)"
+          }
+        ]
+      }
+    ]
+  }
+}
