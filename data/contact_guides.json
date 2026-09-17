@@ -229,7 +229,7 @@
         "heading": "Email",
         "items": [
           {
-            "text": "Blue Apron Terms reference email contact at contact@blueapron.com for several product and billing topics; if an address does not display correctly on a third-party mirror, use Customer Support via the official Terms page.",
+            "text": "Blue Apron Terms reference email contact for product and billing topics; use the Customer Support paths linked from blueapron.com/pages/terms rather than copying addresses from mirrors.",
             "source_url": "https://www.blueapron.com/pages/terms",
             "source_label": "Blue Apron Terms"
           }
@@ -404,7 +404,7 @@
         "heading": "Email / Customer Care",
         "items": [
           {
-            "text": "Green Chef Terms say you may contact customer care at greenchef.com/contact or email help@greenchef.com for text-message support (see Communications section).",
+            "text": "Green Chef Terms say you may contact customer care at greenchef.com/contact for text-message and account support (Communications section).",
             "source_url": "https://www.greenchef.com/terms",
             "source_label": "Green Chef Terms"
           }
@@ -452,7 +452,7 @@
         "heading": "Email",
         "items": [
           {
-            "text": "CookUnity Terms footer copy says to contact us at support@cookunity.com (see cookunity.com/terms).",
+            "text": "CookUnity Terms footer directs customers to contact CookUnity via the channels on cookunity.com/terms (use the Help Center request form or in-page contact paths rather than copying an address from mirrors).",
             "source_url": "https://www.cookunity.com/terms",
             "source_label": "CookUnity Terms"
           }
@@ -462,9 +462,9 @@
         "heading": "Phone",
         "items": [
           {
-            "text": "No dedicated customer-service phone number found on CookUnity’s official Terms or Help Center pages we fetched — use Help Center chat or support@cookunity.com per Terms.",
-            "source_url": "https://www.cookunity.com/terms",
-            "source_label": "CookUnity Terms (no phone listed)"
+            "text": "No dedicated customer-service phone number found on CookUnity’s official Terms or Help Center pages we fetched — use Help Center chat or the support request form.",
+            "source_url": "https://support.cookunity.com/hc/en-us",
+            "source_label": "CookUnity Help Center (no phone listed on pages we checked)"
           }
         ]
       }
