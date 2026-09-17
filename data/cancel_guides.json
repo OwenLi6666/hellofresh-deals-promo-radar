@@ -1,0 +1,201 @@
+{
+  "hellofresh": {
+    "slug": "how-to-cancel-hellofresh",
+    "title_primary": "How to Cancel Hello Fresh",
+    "meta_description": "Official HelloFresh FAQ and Terms steps to cancel or pause a subscription, plus where to find cancellation in your account.",
+    "synonym_headings": [
+      "Hello Fresh cancel subscription",
+      "How to cancel HelloFresh on the app"
+    ],
+    "lede": "HelloFresh publishes cancellation through your logged-in account: the FAQ sends you to the on-site cancellation flow, and the Terms describe Account Settings and Customer Care contact options. Pause or cancel before the cutoff shown on My Menu / stated in the FAQ.",
+    "steps": [
+      {
+        "text": "Log in to your account.",
+        "source_url": "https://www.hellofresh.com/about/faq",
+        "source_label": "HelloFresh FAQ — How do I cancel my subscription?"
+      },
+      {
+        "text": "To cancel, use the cancellation flow linked from the FAQ (hellofresh.com/cancellation/) and follow all prompts on the screen to finalize.",
+        "source_url": "https://www.hellofresh.com/about/faq",
+        "source_label": "HelloFresh FAQ — How do I cancel my subscription?"
+      },
+      {
+        "text": "Log on to your account, click your name in the upper right-hand corner, then click Account Settings. On the Plan settings page, scroll down and click Manage (under Subscription Status section). Follow the prompt(s) for your cancellation.",
+        "source_url": "https://www.hellofresh.com/about/termsandconditions",
+        "source_label": "HelloFresh Terms — Section 10.3 Cancellation Procedures"
+      },
+      {
+        "text": "You may also cancel by contacting Customer Care at hellofresh.com/contact-us, or email hello@hellofresh.com, stating that you wish to terminate your Subscription, along with your full name and registered email address.",
+        "source_url": "https://www.hellofresh.com/about/termsandconditions",
+        "source_label": "HelloFresh Terms — Section 10.3 Cancellation Procedures"
+      }
+    ],
+    "timing_conditions": [
+      {
+        "text": "Just be sure to pause/cancel by 11:59 pm PST 5 days prior to your next scheduled delivery so we can alert our suppliers.",
+        "source_url": "https://www.hellofresh.com/about/faq",
+        "source_label": "HelloFresh FAQ — How do I cancel my subscription?"
+      },
+      {
+        "text": "If you wish to cancel your Account subscription and/or cancel or change an order, you must do so before the day and time listed on the My Menu page.",
+        "source_url": "https://www.hellofresh.com/about/termsandconditions",
+        "source_label": "HelloFresh Terms — Section 10.3 Cancellation Procedures"
+      },
+      {
+        "text": "Your plan is weekly, but you can easily skip a week, pause, or cancel your account at any time. Just make sure you do so before your weekly cutoff to stop your next order.",
+        "source_url": "https://www.hellofresh.com/about/faq",
+        "source_label": "HelloFresh FAQ (subscription flexibility copy)"
+      }
+    ],
+    "app_notes": {
+      "text": "HelloFresh’s published FAQ for canceling a subscription does not list separate tap-by-tap steps for the mobile app. The FAQ cancellation answer points logged-in customers to the on-site cancellation flow. For account-level cancellation steps, use the Account Settings path in HelloFresh Terms section 10.3 while signed in (browser or in-app web view).",
+      "source_url": "https://www.hellofresh.com/about/faq",
+      "source_label": "HelloFresh FAQ — How do I cancel my subscription? (no dedicated app-only steps found)"
+    },
+    "before_cancel_links": [
+      {"label": "Factor", "path": "/providers/factor/"},
+      {"label": "Home Chef", "path": "/providers/home-chef/"},
+      {"label": "EveryPlate", "path": "/providers/everyplate/"}
+    ],
+    "reviewed_at": "2026-09-17"
+  },
+  "factor": {
+    "slug": "how-to-cancel-factor-meals",
+    "title_primary": "How to Cancel Factor Meals",
+    "meta_description": "Official Factor Terms and FAQ language on canceling a meal subscription online or via Customer Care.",
+    "synonym_headings": [
+      "How to cancel Factor",
+      "Cancel Factor meals",
+      "How to cancel Factor subscription",
+      "How do I cancel Factor meals"
+    ],
+    "lede": "Factor’s Terms tell you to cancel from your online account (Account Settings → End Meal Subscription) or by contacting Customer Care; checkout terms state you can cancel online from your account menu before the weekly deadline.",
+    "steps": [
+      {
+        "text": "Log on to your account. Click on your name in the upper right-hand corner, then click Account Settings. On the Plan settings page, scroll down and click End Meal Subscription (under Status section). Follow the prompt(s) for your cancellation.",
+        "source_url": "https://www.factor75.com/terms",
+        "source_label": "Factor Terms — cancellation via account (Section 5.2 / account steps)"
+      },
+      {
+        "text": "You may cancel your subscription online from your account menu.",
+        "source_url": "https://www.factor75.com/faq",
+        "source_label": "Factor FAQ / checkout terms excerpt on factor75.com/faq"
+      },
+      {
+        "text": "You may also cancel your account by contacting Customer Care at factor75.com/contact or email help@factor75.com, stating that you wish to terminate your Subscription, along with your full name and registered email address.",
+        "source_url": "https://www.factor75.com/terms",
+        "source_label": "Factor Terms — Customer Care cancellation"
+      }
+    ],
+    "timing_conditions": [
+      {
+        "text": "You can change your menu, skip a delivery, or cancel your plan without incurring further charges at any time before 11:59 p.m. PST 5 days prior to your next scheduled delivery.",
+        "source_url": "https://www.factor75.com/faq",
+        "source_label": "Factor FAQ — checkout / subscription terms excerpt"
+      },
+      {
+        "text": "Your plan is flexible. For future deliveries, you can change, skip, or cancel anytime before the weekly deadline.",
+        "source_url": "https://www.factor75.com/faq",
+        "source_label": "Factor FAQ"
+      },
+      {
+        "text": "If you cancel, you may use your subscription until the end of your then-current subscription week; your subscription will not be renewed after your then-current week expires.",
+        "source_url": "https://www.factor75.com/terms",
+        "source_label": "Factor Terms"
+      }
+    ],
+    "app_notes": null,
+    "before_cancel_links": [
+      {"label": "HelloFresh", "path": "/providers/hellofresh/"},
+      {"label": "Home Chef", "path": "/providers/home-chef/"},
+      {"label": "CookUnity", "path": "/providers/cookunity/"}
+    ],
+    "reviewed_at": "2026-09-17"
+  },
+  "homechef": {
+    "slug": "how-to-cancel-home-chef",
+    "title_primary": "How to Cancel Home Chef",
+    "meta_description": "Steps from Home Chef’s official Help Center article on pausing/canceling a subscription, including web and mobile app paths.",
+    "synonym_headings": [],
+    "lede": "Home Chef’s Help Center says you cancel by pausing your subscription in Account Settings (web or app) and you must reach the confirmation screen and confirmation email for the cancellation to be complete.",
+    "steps": [
+      {
+        "text": "Log in, click Account in the upper right corner of your dashboard, and click on the Account Settings tab. The option to pause your subscription can be found on the bottom of the navigation tabs on the left.",
+        "source_url": "https://support.homechef.com/hc/en-us/articles/210097853-How-do-I-cancel-my-subscription",
+        "source_label": "Home Chef Help Center"
+      },
+      {
+        "text": "If you're using the mobile app, click Account on the bottom right, select My Settings, and then select Pause My Account at the bottom.",
+        "source_url": "https://support.homechef.com/hc/en-us/articles/210097853-How-do-I-cancel-my-subscription",
+        "source_label": "Home Chef Help Center"
+      },
+      {
+        "text": "You'll be asked to share your reason for pausing. Please note that your cancellation is not complete until you reach the cancellation confirmation screen and receive a confirmation email.",
+        "source_url": "https://support.homechef.com/hc/en-us/articles/210097853-How-do-I-cancel-my-subscription",
+        "source_label": "Home Chef Help Center"
+      }
+    ],
+    "timing_conditions": [
+      {
+        "text": "Be sure to cancel your subscription before Friday at 12 PM CST the week preceding your next delivery, as we're unable to cancel orders that have finalized, processed or shipped.",
+        "source_url": "https://support.homechef.com/hc/en-us/articles/210097853-How-do-I-cancel-my-subscription",
+        "source_label": "Home Chef Help Center"
+      },
+      {
+        "text": "When you sign up with Home Chef, your first order is scheduled automatically. Cancelling your subscription will not cancel your first order or an order that's already been processed.",
+        "source_url": "https://support.homechef.com/hc/en-us/articles/210097853-How-do-I-cancel-my-subscription",
+        "source_label": "Home Chef Help Center"
+      }
+    ],
+    "app_notes": null,
+    "before_cancel_links": [
+      {"label": "HelloFresh", "path": "/providers/hellofresh/"},
+      {"label": "Factor", "path": "/providers/factor/"},
+      {"label": "EveryPlate", "path": "/providers/everyplate/"}
+    ],
+    "reviewed_at": "2026-09-17"
+  },
+  "everyplate": {
+    "slug": "cancel-everyplate",
+    "title_primary": "Cancel EveryPlate",
+    "meta_description": "Official EveryPlate FAQ and Terms on subscription cancellation timing and account steps.",
+    "synonym_headings": [],
+    "lede": "EveryPlate’s FAQ states you can cancel before your weekly cutoff; the Terms publish the Account Settings → Manage cancellation clicks and Customer Care contact options.",
+    "steps": [
+      {
+        "text": "Log on to your Account. Click on your name in the upper right-hand corner, then click Account Settings. Scroll down on the Plan settings page and click Manage (under Subscription Status section). Follow the prompt(s) for your cancellation.",
+        "source_url": "https://www.everyplate.com/terms",
+        "source_label": "EveryPlate Terms — Section 10.3 Cancellation Procedures"
+      },
+      {
+        "text": "You may also cancel your Account by contacting EveryPlate Customer Care at everyplate.com/contact or (973) 210-4915, stating that you wish to cancel your Subscription, along with your full name and registered email address.",
+        "source_url": "https://www.everyplate.com/terms",
+        "source_label": "EveryPlate Terms — Section 10.3 Cancellation Procedures"
+      }
+    ],
+    "timing_conditions": [
+      {
+        "text": "You can cancel your subscription at any time before your weekly cutoff (5 days before delivery). If you cancel after the cutoff, you may still be charged and your box may still be delivered, since it has already been prepared.",
+        "source_url": "https://www.everyplate.com/about/faq",
+        "source_label": "EveryPlate FAQ — How do I cancel my subscription?"
+      },
+      {
+        "text": "All changes—such as skipping, updating meals, changing plan settings, or cancelling—must be made 5 days before your delivery by 11:59 PM ET.",
+        "source_url": "https://www.everyplate.com/about/faq",
+        "source_label": "EveryPlate FAQ — What is the weekly cutoff time?"
+      },
+      {
+        "text": "No, you can cancel your plan at any time. Just make sure you do so before your weekly cutoff to stop your next order.",
+        "source_url": "https://www.everyplate.com/about/faq",
+        "source_label": "EveryPlate FAQ"
+      }
+    ],
+    "app_notes": null,
+    "before_cancel_links": [
+      {"label": "HelloFresh", "path": "/providers/hellofresh/"},
+      {"label": "Dinnerly", "path": "/providers/dinnerly/"},
+      {"label": "Home Chef", "path": "/providers/home-chef/"}
+    ],
+    "reviewed_at": "2026-09-17"
+  }
+}

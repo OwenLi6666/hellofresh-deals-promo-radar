@@ -48,6 +48,7 @@ DATA_PATH = ROOT / "data" / "offers.json"
 CUTOFF_DATA_PATH = ROOT / "data" / "cursor_openai_cutoff.json"
 CONTENT_LAYERS_PATH = ROOT / "data" / "content_layers.json"
 AUDIENCE_GUIDES_PATH = ROOT / "data" / "audience_guides.json"
+CANCEL_GUIDES_PATH = ROOT / "data" / "cancel_guides.json"
 SITE_DIR = ROOT / "site"
 TPL_DIR = ROOT / "templates"
 
@@ -289,6 +290,97 @@ def load_audience_guides() -> dict[str, Any]:
     if not AUDIENCE_GUIDES_PATH.exists():
         return {}
     return json.loads(AUDIENCE_GUIDES_PATH.read_text(encoding="utf-8"))
+
+
+def load_cancel_guides() -> dict[str, Any]:
+    if not CANCEL_GUIDES_PATH.exists():
+        return {}
+    return json.loads(CANCEL_GUIDES_PATH.read_text(encoding="utf-8"))
+
+
+def _cancel_sourced_list_html(items: list[dict[str, Any]], *, ordered: bool = False) -> str:
+    tag = "ol" if ordered else "ul"
+    rows: list[str] = []
+    for item in items or []:
+        text = html.escape(str(item.get("text") or "").strip())
+        src = html.escape(str(item.get("source_url") or "").strip())
+        label = html.escape(str(item.get("source_label") or "Official source").strip())
+        if not text or not src:
+            continue
+        rows.append(
+            f"<li>{text} "
+            f'<a href="{src}" rel="nofollow noopener">{label}</a></li>'
+        )
+    inner = "\n      ".join(rows) if rows else "<li>Official steps not extracted — use the brand help or terms page linked below.</li>"
+    if ordered:
+        return inner
+    return inner
+
+
+def build_cancel_guide_pages(
+    brand: str,
+    domain: str,
+    base_vars: dict[str, Any],
+    guides: dict[str, Any],
+    generated: str,
+) -> list[tuple[str, str]]:
+    written: list[tuple[str, str]] = []
+    for _key, block in guides.items():
+        slug = (block.get("slug") or "").strip().strip("/")
+        if not slug:
+            continue
+        primary = str(block.get("title_primary") or "Cancel subscription").strip()
+        reviewed = html.escape(str(block.get("reviewed_at") or generated).strip())
+        lede = html.escape(str(block.get("lede") or "").strip())
+        rel_path = page_path("guides", slug)
+        synonyms = block.get("synonym_headings") or []
+        syn_html = ""
+        if synonyms:
+            syn_html = "<h2>Related searches on this page</h2><ul class=\"content-layer-list\">"
+            syn_html += "".join(
+                f"<li>{html.escape(str(s).strip())}</li>" for s in synonyms if str(s).strip()
+            )
+            syn_html += "</ul>"
+        app = block.get("app_notes")
+        app_html = ""
+        if isinstance(app, dict) and (app.get("text") or "").strip():
+            app_html = (
+                "<h2>How to cancel HelloFresh on the app</h2>"
+                f"<p>{html.escape(str(app.get('text') or '').strip())} "
+                f'<a href="{html.escape(str(app.get("source_url") or ""))}" rel="nofollow noopener">'
+                f'{html.escape(str(app.get("source_label") or "Source"))}</a></p>'
+            )
+        before_rows: list[str] = []
+        for link in block.get("before_cancel_links") or []:
+            label = html.escape(str(link.get("label") or "").strip())
+            path = str(link.get("path") or "").strip()
+            if not label or not path:
+                continue
+            before_rows.append(
+                f'<li><a href="{html.escape(path)}">View {label} promo listings on {html.escape(brand)}</a></li>'
+            )
+        page_html = render_tpl(
+            "cancel_guide.html",
+            {
+                **base_vars,
+                "title": f"{primary} — {brand}",
+                "description": html.escape(str(block.get("meta_description") or lede)[:300]),
+                "canonical": abs_url(domain, rel_path),
+                "og_title": primary,
+                "heading": html.escape(primary),
+                "lede": lede,
+                "crumb_title": html.escape(primary),
+                "synonym_blocks": syn_html,
+                "steps": _cancel_sourced_list_html(block.get("steps") or [], ordered=True),
+                "timing": _cancel_sourced_list_html(block.get("timing_conditions") or []),
+                "app_block": app_html,
+                "before_links": "\n      ".join(before_rows) if before_rows else "<li>—</li>",
+                "reviewed_at": reviewed,
+            },
+        )
+        write_page(rel_path, page_html)
+        written.append((rel_path, block.get("reviewed_at") or generated))
+    return written
 
 
 def _audience_guide_list_html(items: list[dict[str, Any]], *, name_key: str = "") -> str:
@@ -819,6 +911,7 @@ def render() -> None:
     data = load_offers()
     content_layers = load_content_layers()
     audience_guides = load_audience_guides()
+    cancel_guides = load_cancel_guides()
     site = cfg["site"]
     brand = site.get("brand") or data.get("brand") or "mealkitdeals"
     domain = site.get("domain") or data.get("domain") or "localhost"
@@ -1213,6 +1306,11 @@ def render() -> None:
         brand, domain, base_vars, audience_guides, generated
     ):
         sitemap_urls.append((guide_path, str(guide_lm)))
+
+    for cancel_path, cancel_lm in build_cancel_guide_pages(
+        brand, domain, base_vars, cancel_guides, generated
+    ):
+        sitemap_urls.append((cancel_path, str(cancel_lm)))
 
     cutoff_meta = load_cursor_cutoff()
     cutoff_page = build_cursor_cutoff_page(
