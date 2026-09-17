@@ -1,0 +1,475 @@
+{
+  "hellofresh": {
+    "provider_name": "HelloFresh",
+    "provider_link_label": "Need to reach HelloFresh? Customer service options",
+    "cancel_guide_slug": "how-to-cancel-hellofresh",
+    "slug": "hello-fresh-customer-service",
+    "title_primary": "Hello Fresh Customer Service",
+    "meta_description": "Official HelloFresh contact-us page and Terms: phone, web chat, and Help Center paths.",
+    "synonym_headings": [
+      "hello fresh phone number",
+      "HelloFresh customer service phone number"
+    ],
+    "fastest_path": {
+      "text": "HelloFresh’s contact-us page offers web chat (“Have a question?”) and lists a phone line to call the team.",
+      "source_url": "https://www.hellofresh.com/contact-us",
+      "source_label": "HelloFresh — contact us"
+    },
+    "channels": [
+      {
+        "heading": "Phone",
+        "items": [
+          {
+            "text": "Call our team 1 (646) 846-3663 (published on HelloFresh’s contact-us page).",
+            "source_url": "https://www.hellofresh.com/contact-us",
+            "source_label": "HelloFresh — contact us"
+          }
+        ]
+      },
+      {
+        "heading": "Online chat",
+        "items": [
+          {
+            "text": "Use the web chat on hellofresh.com/contact-us (HelloFresh loads chat on that contact page).",
+            "source_url": "https://www.hellofresh.com/contact-us",
+            "source_label": "HelloFresh — contact us"
+          }
+        ]
+      },
+      {
+        "heading": "Help center",
+        "items": [
+          {
+            "text": "Browse HelloFresh’s Help Center & FAQ at hellofresh.com/about/faq.",
+            "source_url": "https://www.hellofresh.com/about/faq",
+            "source_label": "HelloFresh FAQ"
+          }
+        ]
+      },
+      {
+        "heading": "Email / account contact",
+        "items": [
+          {
+            "text": "For account questions, HelloFresh Terms also reference reaching Customer Care via hellofresh.com/contact-us (see Section 10.3 cancellation / Customer Care wording).",
+            "source_url": "https://www.hellofresh.com/about/termsandconditions",
+            "source_label": "HelloFresh Terms"
+          }
+        ]
+      }
+    ],
+    "hours": [],
+    "reviewed_at": "2026-09-17"
+  },
+  "factor": {
+    "provider_name": "Factor",
+    "provider_link_label": "Need to reach Factor? Customer service options",
+    "cancel_guide_slug": "how-to-cancel-factor-meals",
+    "slug": "factor-customer-service",
+    "title_primary": "Factor Customer Service",
+    "meta_description": "Official Factor contact page phone and chat, plus Terms Customer Care paths.",
+    "synonym_headings": [
+      "Factor meals customer service",
+      "Factor 75 customer service",
+      "Factor customer service number"
+    ],
+    "fastest_path": {
+      "text": "Factor’s contact page lists web chat and a phone number to call the team.",
+      "source_url": "https://www.factor75.com/contact",
+      "source_label": "Factor — contact"
+    },
+    "channels": [
+      {
+        "heading": "Phone",
+        "items": [
+          {
+            "text": "Call our team +1 888-573-5727 (published on factor75.com/contact).",
+            "source_url": "https://www.factor75.com/contact",
+            "source_label": "Factor — contact"
+          },
+          {
+            "text": "Factor Terms also list 1-(888) 573-5727 for account security notifications (Section 4.3).",
+            "source_url": "https://www.factor75.com/terms",
+            "source_label": "Factor Terms — Section 4.3"
+          }
+        ]
+      },
+      {
+        "heading": "Online chat",
+        "items": [
+          {
+            "text": "Use web chat on factor75.com/contact (Factor loads chat on the contact page).",
+            "source_url": "https://www.factor75.com/contact",
+            "source_label": "Factor — contact"
+          }
+        ]
+      },
+      {
+        "heading": "Help center",
+        "items": [
+          {
+            "text": "Factor publishes Help & FAQ at factor75.com/faq.",
+            "source_url": "https://www.factor75.com/faq",
+            "source_label": "Factor FAQ"
+          }
+        ]
+      },
+      {
+        "heading": "Email / Customer Care",
+        "items": [
+          {
+            "text": "Factor Terms reference contacting Customer Care via factor75.com/contact for subscription termination (Section 5.2). Use that official contact page rather than third-party lists.",
+            "source_url": "https://www.factor75.com/terms",
+            "source_label": "Factor Terms — Customer Care"
+          }
+        ]
+      }
+    ],
+    "hours": [],
+    "reviewed_at": "2026-09-17"
+  },
+  "homechef": {
+    "provider_name": "Home Chef",
+    "provider_link_label": "Need to reach Home Chef? Customer service options",
+    "cancel_guide_slug": "how-to-cancel-home-chef",
+    "slug": "home-chef-customer-service",
+    "title_primary": "Home Chef Customer Service",
+    "meta_description": "Home Chef Help Center article on phone hours and the support request form.",
+    "synonym_headings": [],
+    "fastest_path": {
+      "text": "Home Chef says the best way to reach them is by sending a message through their Help Center request form.",
+      "source_url": "https://support.homechef.com/hc/en-us/articles/208561936-Who-can-I-contact-with-additional-questions",
+      "source_label": "Home Chef Help Center"
+    },
+    "channels": [
+      {
+        "heading": "Message form (Help Center)",
+        "items": [
+          {
+            "text": "Send a message via support.homechef.com/hc/en-us/requests/new (linked from Home Chef’s “Who can I contact…” article).",
+            "source_url": "https://support.homechef.com/hc/en-us/articles/208561936-Who-can-I-contact-with-additional-questions",
+            "source_label": "Home Chef Help Center"
+          }
+        ]
+      },
+      {
+        "heading": "Phone",
+        "items": [
+          {
+            "text": "Phone: (872)-225-2433.",
+            "source_url": "https://support.homechef.com/hc/en-us/articles/208561936-Who-can-I-contact-with-additional-questions",
+            "source_label": "Home Chef Help Center"
+          }
+        ]
+      },
+      {
+        "heading": "Help center",
+        "items": [
+          {
+            "text": "Home Chef Help Center home: support.homechef.com/hc/en-us.",
+            "source_url": "https://support.homechef.com/hc/en-us",
+            "source_label": "Home Chef Help Center"
+          }
+        ]
+      }
+    ],
+    "hours": [
+      {
+        "text": "Phone hours published by Home Chef: 9 AM to 6 PM CT Monday–Friday and Saturday 10 AM to 2 PM CT; phone lines not open Sunday (send a message instead).",
+        "source_url": "https://support.homechef.com/hc/en-us/articles/208561936-Who-can-I-contact-with-additional-questions",
+        "source_label": "Home Chef Help Center"
+      }
+    ],
+    "reviewed_at": "2026-09-17"
+  },
+  "blueapron": {
+    "provider_name": "Blue Apron",
+    "provider_link_label": "Need to reach Blue Apron? Customer service options",
+    "cancel_guide_slug": "how-to-cancel-blue-apron",
+    "slug": "blue-apron-customer-service",
+    "title_primary": "Blue Apron Customer Service",
+    "meta_description": "Blue Apron Terms list Customer Support contact paths and a published phone number.",
+    "synonym_headings": [],
+    "fastest_path": {
+      "text": "Blue Apron Terms tell customers to contact Customer Support (linked from the Terms) for subscription and order issues.",
+      "source_url": "https://www.blueapron.com/pages/terms",
+      "source_label": "Blue Apron Terms"
+    },
+    "channels": [
+      {
+        "heading": "Phone",
+        "items": [
+          {
+            "text": "Phone: 888-278-4349 (published in Blue Apron Terms contact block).",
+            "source_url": "https://www.blueapron.com/pages/terms",
+            "source_label": "Blue Apron Terms"
+          }
+        ]
+      },
+      {
+        "heading": "Customer Support (online)",
+        "items": [
+          {
+            "text": "Blue Apron Terms reference contacting Customer Support for cancellations, credits, and product issues (see Cancellation Policy and related sections).",
+            "source_url": "https://www.blueapron.com/pages/terms",
+            "source_label": "Blue Apron Terms — Customer Support"
+          }
+        ]
+      },
+      {
+        "heading": "Help center",
+        "items": [
+          {
+            "text": "Blue Apron publishes Help Center & FAQ from its site footer (support.blueapron.com/hc/en-us).",
+            "source_url": "https://www.blueapron.com/pages/terms",
+            "source_label": "Blue Apron Terms (footer link text)"
+          }
+        ]
+      },
+      {
+        "heading": "Email",
+        "items": [
+          {
+            "text": "Blue Apron Terms reference email contact at contact@blueapron.com for several product and billing topics; if an address does not display correctly on a third-party mirror, use Customer Support via the official Terms page.",
+            "source_url": "https://www.blueapron.com/pages/terms",
+            "source_label": "Blue Apron Terms"
+          }
+        ]
+      }
+    ],
+    "hours": [],
+    "reviewed_at": "2026-09-17"
+  },
+  "hungryroot": {
+    "provider_name": "Hungryroot",
+    "provider_link_label": "Need to reach Hungryroot? Customer service options",
+    "cancel_guide_slug": "how-to-cancel-hungryroot",
+    "slug": "hungryroot-customer-service",
+    "title_primary": "Hungryroot Customer Service",
+    "meta_description": "Hungryroot Help Center: chatbot, text line, and published human support hours.",
+    "synonym_headings": [],
+    "fastest_path": {
+      "text": "Hungryroot’s Help Center says the fastest service is to start with their chatbot using the icon in the bottom-right corner.",
+      "source_url": "https://support.hungryroot.com/hc/en-us/articles/115015334547-How-do-I-contact-Hungryroot-",
+      "source_label": "Hungryroot Help Center"
+    },
+    "channels": [
+      {
+        "heading": "Chatbot",
+        "items": [
+          {
+            "text": "Start with the chatbot anytime using the icon in the bottom-right corner on Hungryroot’s Help Center pages.",
+            "source_url": "https://support.hungryroot.com/hc/en-us/articles/115015334547-How-do-I-contact-Hungryroot-",
+            "source_label": "Hungryroot Help Center"
+          }
+        ]
+      },
+      {
+        "heading": "Text (SMS)",
+        "items": [
+          {
+            "text": "Text a human directly at 855-222-5704 (published on Hungryroot’s contact article).",
+            "source_url": "https://support.hungryroot.com/hc/en-us/articles/115015334547-How-do-I-contact-Hungryroot-",
+            "source_label": "Hungryroot Help Center"
+          }
+        ]
+      },
+      {
+        "heading": "Help center",
+        "items": [
+          {
+            "text": "Hungryroot Help Center: support.hungryroot.com/hc/en-us.",
+            "source_url": "https://support.hungryroot.com/hc/en-us/articles/115015334547-How-do-I-contact-Hungryroot-",
+            "source_label": "Hungryroot Help Center"
+          }
+        ]
+      }
+    ],
+    "hours": [
+      {
+        "text": "Human support hours published by Hungryroot: 10am–6pm ET every day except July 4th, Thanksgiving Day, Christmas Day, and New Year’s Day.",
+        "source_url": "https://support.hungryroot.com/hc/en-us/articles/115015334547-How-do-I-contact-Hungryroot-",
+        "source_label": "Hungryroot Help Center"
+      }
+    ],
+    "reviewed_at": "2026-09-17"
+  },
+  "everyplate": {
+    "provider_name": "EveryPlate",
+    "provider_link_label": "Need to reach EveryPlate? Customer service options",
+    "cancel_guide_slug": "cancel-everyplate",
+    "slug": "everyplate-customer-service",
+    "title_primary": "EveryPlate Customer Service",
+    "meta_description": "EveryPlate contact page phone and chat, plus Terms Customer Care phone.",
+    "synonym_headings": [],
+    "fastest_path": {
+      "text": "EveryPlate’s contact page offers web chat and a published phone number.",
+      "source_url": "https://www.everyplate.com/contact",
+      "source_label": "EveryPlate — contact"
+    },
+    "channels": [
+      {
+        "heading": "Phone",
+        "items": [
+          {
+            "text": "Call our team +1 (973) 210-4915 (everyplate.com/contact).",
+            "source_url": "https://www.everyplate.com/contact",
+            "source_label": "EveryPlate — contact"
+          },
+          {
+            "text": "EveryPlate Terms also list EveryPlate Customer Care at (973) 210-4915 for subscription cancellation by phone (Section 10.3).",
+            "source_url": "https://www.everyplate.com/terms",
+            "source_label": "EveryPlate Terms — Section 10.3"
+          }
+        ]
+      },
+      {
+        "heading": "Online chat",
+        "items": [
+          {
+            "text": "Use web chat on everyplate.com/contact.",
+            "source_url": "https://www.everyplate.com/contact",
+            "source_label": "EveryPlate — contact"
+          }
+        ]
+      },
+      {
+        "heading": "Help center",
+        "items": [
+          {
+            "text": "EveryPlate FAQ: everyplate.com/about/faq.",
+            "source_url": "https://www.everyplate.com/about/faq",
+            "source_label": "EveryPlate FAQ"
+          }
+        ]
+      },
+      {
+        "heading": "Email / Customer Care",
+        "items": [
+          {
+            "text": "EveryPlate Terms reference EveryPlate Customer Care at everyplate.com/contact for written cancellation requests (Section 10.3).",
+            "source_url": "https://www.everyplate.com/terms",
+            "source_label": "EveryPlate Terms"
+          }
+        ]
+      }
+    ],
+    "hours": [],
+    "reviewed_at": "2026-09-17"
+  },
+  "greenchef": {
+    "provider_name": "Green Chef",
+    "provider_link_label": "Need to reach Green Chef? Customer service options",
+    "cancel_guide_slug": "cancel-green-chef",
+    "slug": "green-chef-customer-service",
+    "title_primary": "Green Chef Customer Service",
+    "meta_description": "Green Chef Terms and contact paths: phone, chat, and Customer Care contact page.",
+    "synonym_headings": [],
+    "fastest_path": {
+      "text": "Green Chef Terms reference customer care at greenchef.com/contact and web chat on Green Chef contact pages.",
+      "source_url": "https://www.greenchef.com/terms",
+      "source_label": "Green Chef Terms"
+    },
+    "channels": [
+      {
+        "heading": "Phone",
+        "items": [
+          {
+            "text": "Green Chef Terms list 888-236-7295 for account security notifications (Section 4.3).",
+            "source_url": "https://www.greenchef.com/terms",
+            "source_label": "Green Chef Terms — Section 4.3"
+          }
+        ]
+      },
+      {
+        "heading": "Web contact page",
+        "items": [
+          {
+            "text": "Green Chef Terms reference customer care at greenchef.com/contact (including text-message support options).",
+            "source_url": "https://www.greenchef.com/terms",
+            "source_label": "Green Chef Terms"
+          }
+        ]
+      },
+      {
+        "heading": "Help center",
+        "items": [
+          {
+            "text": "Green Chef publishes Help center and FAQ links in its site footer (see Terms page footer).",
+            "source_url": "https://www.greenchef.com/terms",
+            "source_label": "Green Chef Terms / site footer"
+          }
+        ]
+      },
+      {
+        "heading": "Email / Customer Care",
+        "items": [
+          {
+            "text": "Green Chef Terms say you may contact customer care at greenchef.com/contact or email help@greenchef.com for text-message support (see Communications section).",
+            "source_url": "https://www.greenchef.com/terms",
+            "source_label": "Green Chef Terms"
+          }
+        ]
+      }
+    ],
+    "hours": [],
+    "reviewed_at": "2026-09-17"
+  },
+  "cookunity": {
+    "provider_name": "CookUnity",
+    "provider_link_label": "Need to reach CookUnity? Customer service options",
+    "cancel_guide_slug": "cancel-cookunity",
+    "slug": "cookunity-customer-service",
+    "title_primary": "CookUnity Customer Service",
+    "meta_description": "CookUnity Help Center, support request form, and Terms contact email.",
+    "synonym_headings": [],
+    "fastest_path": {
+      "text": "CookUnity’s Terms and Help Center direct customers to support.cookunity.com and the Help Center request form.",
+      "source_url": "https://www.cookunity.com/terms",
+      "source_label": "CookUnity Terms"
+    },
+    "channels": [
+      {
+        "heading": "Help center",
+        "items": [
+          {
+            "text": "CookUnity Help Center: support.cookunity.com/hc/en-us (includes in-page virtual assistant chat on articles).",
+            "source_url": "https://support.cookunity.com/hc/en-us",
+            "source_label": "CookUnity Help Center"
+          }
+        ]
+      },
+      {
+        "heading": "Support request form",
+        "items": [
+          {
+            "text": "Submit a request at support.cookunity.com/hc/en-us/requests/new (CookUnity Zendesk sign-in may be required).",
+            "source_url": "https://support.cookunity.com/hc/en-us/requests/new",
+            "source_label": "CookUnity Help Center — Submit a request"
+          }
+        ]
+      },
+      {
+        "heading": "Email",
+        "items": [
+          {
+            "text": "CookUnity Terms footer copy says to contact us at support@cookunity.com (see cookunity.com/terms).",
+            "source_url": "https://www.cookunity.com/terms",
+            "source_label": "CookUnity Terms"
+          }
+        ]
+      },
+      {
+        "heading": "Phone",
+        "items": [
+          {
+            "text": "No dedicated customer-service phone number found on CookUnity’s official Terms or Help Center pages we fetched — use Help Center chat or support@cookunity.com per Terms.",
+            "source_url": "https://www.cookunity.com/terms",
+            "source_label": "CookUnity Terms (no phone listed)"
+          }
+        ]
+      }
+    ],
+    "hours": [],
+    "reviewed_at": "2026-09-17"
+  }
+}

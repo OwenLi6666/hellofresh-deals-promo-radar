@@ -49,6 +49,7 @@ CUTOFF_DATA_PATH = ROOT / "data" / "cursor_openai_cutoff.json"
 CONTENT_LAYERS_PATH = ROOT / "data" / "content_layers.json"
 AUDIENCE_GUIDES_PATH = ROOT / "data" / "audience_guides.json"
 CANCEL_GUIDES_PATH = ROOT / "data" / "cancel_guides.json"
+CONTACT_GUIDES_PATH = ROOT / "data" / "contact_guides.json"
 SITE_DIR = ROOT / "site"
 TPL_DIR = ROOT / "templates"
 
@@ -298,6 +299,12 @@ def load_cancel_guides() -> dict[str, Any]:
     return json.loads(CANCEL_GUIDES_PATH.read_text(encoding="utf-8"))
 
 
+def load_contact_guides() -> dict[str, Any]:
+    if not CONTACT_GUIDES_PATH.exists():
+        return {}
+    return json.loads(CONTACT_GUIDES_PATH.read_text(encoding="utf-8"))
+
+
 def cancel_guides_by_provider(guides: dict[str, Any]) -> dict[str, dict[str, Any]]:
     out: dict[str, dict[str, Any]] = {}
     for block in guides.values():
@@ -332,6 +339,181 @@ def cancel_guides_index_list_html(guides: dict[str, Any]) -> str:
         title = html.escape(str(block.get("title_primary") or slug))
         rows.append(f'<li><a href="{html.escape(href)}">{title}</a></li>')
     return "\n      ".join(rows) if rows else "<li>—</li>"
+
+
+def contact_guides_by_provider(guides: dict[str, Any]) -> dict[str, dict[str, Any]]:
+    out: dict[str, dict[str, Any]] = {}
+    for block in guides.values():
+        name = (block.get("provider_name") or "").strip()
+        if name:
+            out[name] = block
+    return out
+
+
+def provider_contact_guide_link_html(name: str, guides: dict[str, Any]) -> str:
+    block = contact_guides_by_provider(guides).get(name)
+    if not block:
+        return ""
+    slug = (block.get("slug") or "").strip().strip("/")
+    if not slug:
+        return ""
+    href = page_path("guides", slug)
+    label = (block.get("provider_link_label") or f"Customer service — {name}").strip()
+    return (
+        f'<p class="meta provider-contact-link">'
+        f'<a href="{html.escape(href)}">{html.escape(label)}</a></p>'
+    )
+
+
+def contact_guides_index_list_html(guides: dict[str, Any]) -> str:
+    rows: list[str] = []
+    for block in sorted(guides.values(), key=lambda b: str(b.get("title_primary") or "")):
+        slug = (block.get("slug") or "").strip().strip("/")
+        if not slug:
+            continue
+        href = page_path("guides", slug)
+        title = html.escape(str(block.get("title_primary") or slug))
+        rows.append(f'<li><a href="{html.escape(href)}">{title}</a></li>')
+    return "\n      ".join(rows) if rows else "<li>—</li>"
+
+
+def contact_cluster_links_html(current_slug: str, guides: dict[str, Any]) -> str:
+    rows: list[str] = []
+    for block in sorted(guides.values(), key=lambda b: str(b.get("title_primary") or "")):
+        slug = (block.get("slug") or "").strip().strip("/")
+        if not slug or slug == current_slug:
+            continue
+        href = page_path("guides", slug)
+        title = html.escape(str(block.get("title_primary") or slug))
+        rows.append(f"<li><a href=\"{html.escape(href)}\">{title}</a></li>")
+    if not rows:
+        return ""
+    return (
+        "<h2>Other customer service guides on this site</h2>"
+        "<ul class=\"content-layer-list\">"
+        + "\n      ".join(rows)
+        + "</ul>"
+    )
+
+
+def contact_cancel_cross_link_html(block: dict[str, Any], cancel_guides: dict[str, Any]) -> str:
+    cancel_slug = (block.get("cancel_guide_slug") or "").strip().strip("/")
+    if not cancel_slug:
+        name = (block.get("provider_name") or "").strip()
+        cancel_block = cancel_guides_by_provider(cancel_guides).get(name)
+        if cancel_block:
+            cancel_slug = (cancel_block.get("slug") or "").strip().strip("/")
+    if not cancel_slug:
+        return ""
+    href = page_path("guides", cancel_slug)
+    prov = html.escape(str(block.get("provider_name") or "this brand"))
+    return (
+        f"<h2>Pause or cancel your subscription</h2>"
+        f'<p class="meta">For official cancellation steps on {prov}, see our '
+        f'<a href="{html.escape(href)}">subscription cancellation guide</a> '
+        f"(sourced from the brand's help or terms pages).</p>"
+    )
+
+
+def cancel_contact_cross_link_html(block: dict[str, Any], contact_guides: dict[str, Any]) -> str:
+    name = (block.get("provider_name") or "").strip()
+    contact_block = contact_guides_by_provider(contact_guides).get(name)
+    if not contact_block:
+        return ""
+    slug = (contact_block.get("slug") or "").strip().strip("/")
+    if not slug:
+        return ""
+    href = page_path("guides", slug)
+    prov = html.escape(name)
+    return (
+        f"<h2>Need {prov} customer service?</h2>"
+        f'<p class="meta">Phone, chat, and help-center paths we quoted from official pages: '
+        f'<a href="{html.escape(href)}">{prov} customer service guide</a>.</p>'
+    )
+
+
+def _contact_fastest_path_html(block: dict[str, Any]) -> str:
+    fp = block.get("fastest_path") or {}
+    text = html.escape(str(fp.get("text") or "").strip())
+    src = html.escape(str(fp.get("source_url") or "").strip())
+    label = html.escape(str(fp.get("source_label") or "Official source").strip())
+    if not text:
+        return "Official fastest-contact wording not extracted — use the brand contact page linked below."
+    if not src:
+        return text
+    return f"{text} <a href=\"{src}\" rel=\"nofollow noopener\">{label}</a>"
+
+
+def _contact_channel_blocks_html(block: dict[str, Any]) -> str:
+    parts: list[str] = []
+    for ch in block.get("channels") or []:
+        heading = html.escape(str(ch.get("heading") or "").strip())
+        if heading:
+            parts.append(f"<h2>{heading}</h2>")
+        inner = _cancel_sourced_list_html(ch.get("items") or [])
+        parts.append(f'<ul class="content-layer-list">{inner}</ul>')
+    return "\n      ".join(parts)
+
+
+def _contact_hours_block_html(block: dict[str, Any]) -> str:
+    items = block.get("hours") or []
+    if not items:
+        return ""
+    inner = _cancel_sourced_list_html(items)
+    return (
+        "<h2>Hours (from the brand)</h2>"
+        f'<ul class="content-layer-list">{inner}</ul>'
+    )
+
+
+def build_contact_guide_pages(
+    brand: str,
+    domain: str,
+    base_vars: dict[str, Any],
+    guides: dict[str, Any],
+    cancel_guides: dict[str, Any],
+    generated: str,
+) -> list[tuple[str, str]]:
+    written: list[tuple[str, str]] = []
+    for _key, block in guides.items():
+        slug = (block.get("slug") or "").strip().strip("/")
+        if not slug:
+            continue
+        primary = str(block.get("title_primary") or "Customer service").strip()
+        reviewed = html.escape(str(block.get("reviewed_at") or generated).strip())
+        lede = html.escape(str(block.get("meta_description") or "").strip())
+        rel_path = page_path("guides", slug)
+        synonyms = block.get("synonym_headings") or []
+        syn_html = ""
+        if synonyms:
+            syn_html = "<h2>Related searches on this page</h2><ul class=\"content-layer-list\">"
+            syn_html += "".join(
+                f"<li>{html.escape(str(s).strip())}</li>" for s in synonyms if str(s).strip()
+            )
+            syn_html += "</ul>"
+        page_html = render_tpl(
+            "contact_guide.html",
+            {
+                **base_vars,
+                "title": f"{primary} — {brand}",
+                "description": lede[:300],
+                "canonical": abs_url(domain, rel_path),
+                "og_title": primary,
+                "heading": html.escape(primary),
+                "lede": lede,
+                "crumb_title": html.escape(primary),
+                "synonym_blocks": syn_html,
+                "fastest_path": _contact_fastest_path_html(block),
+                "channel_blocks": _contact_channel_blocks_html(block),
+                "hours_block": _contact_hours_block_html(block),
+                "cancel_cross_link": contact_cancel_cross_link_html(block, cancel_guides),
+                "cluster_links": contact_cluster_links_html(slug, guides),
+                "reviewed_at": reviewed,
+            },
+        )
+        write_page(rel_path, page_html)
+        written.append((rel_path, block.get("reviewed_at") or generated))
+    return written
 
 
 def cancel_cluster_links_html(current_slug: str, guides: dict[str, Any]) -> str:
@@ -399,6 +581,7 @@ def build_cancel_guide_pages(
     domain: str,
     base_vars: dict[str, Any],
     guides: dict[str, Any],
+    contact_guides: dict[str, Any],
     generated: str,
 ) -> list[tuple[str, str]]:
     written: list[tuple[str, str]] = []
@@ -453,6 +636,7 @@ def build_cancel_guide_pages(
                 "app_block": app_html,
                 "append_block": _cancel_append_sections_html(block),
                 "cluster_links": cancel_cluster_links_html(slug, guides),
+                "contact_cross_link": cancel_contact_cross_link_html(block, contact_guides),
                 "before_links": "\n      ".join(before_rows) if before_rows else "<li>—</li>",
                 "reviewed_at": reviewed,
             },
@@ -991,6 +1175,7 @@ def render() -> None:
     content_layers = load_content_layers()
     audience_guides = load_audience_guides()
     cancel_guides = load_cancel_guides()
+    contact_guides = load_contact_guides()
     site = cfg["site"]
     brand = site.get("brand") or data.get("brand") or "mealkitdeals"
     domain = site.get("domain") or data.get("domain") or "localhost"
@@ -1174,6 +1359,7 @@ def render() -> None:
             "rows": "\n".join(compare_rows) or "<tr><td colspan=\"6\">No public promo offers extracted yet.</td></tr>",
             "json_ld": json.dumps(compare_ld, ensure_ascii=False),
             "cancel_guides_list": cancel_guides_index_list_html(cancel_guides),
+            "contact_guides_list": contact_guides_index_list_html(contact_guides),
         },
     )
     write_page(compare_path, compare_html)
@@ -1371,6 +1557,7 @@ def render() -> None:
                 "json_ld": json.dumps([product_ld, faq_ld], ensure_ascii=False),
                 "official": html.escape(affiliates.get(name, rows[0].get("source_url", "#") if rows else "#")),
                 "cancel_guide_link": provider_cancel_guide_link_html(name, cancel_guides),
+                "contact_guide_link": provider_contact_guide_link_html(name, contact_guides),
             },
         )
         write_page(provider_path, provider_html)
@@ -1389,9 +1576,14 @@ def render() -> None:
         sitemap_urls.append((guide_path, str(guide_lm)))
 
     for cancel_path, cancel_lm in build_cancel_guide_pages(
-        brand, domain, base_vars, cancel_guides, generated
+        brand, domain, base_vars, cancel_guides, contact_guides, generated
     ):
         sitemap_urls.append((cancel_path, str(cancel_lm)))
+
+    for contact_path, contact_lm in build_contact_guide_pages(
+        brand, domain, base_vars, contact_guides, cancel_guides, generated
+    ):
+        sitemap_urls.append((contact_path, str(contact_lm)))
 
     cutoff_meta = load_cursor_cutoff()
     cutoff_page = build_cursor_cutoff_page(
