@@ -50,6 +50,7 @@ CONTENT_LAYERS_PATH = ROOT / "data" / "content_layers.json"
 AUDIENCE_GUIDES_PATH = ROOT / "data" / "audience_guides.json"
 CANCEL_GUIDES_PATH = ROOT / "data" / "cancel_guides.json"
 CONTACT_GUIDES_PATH = ROOT / "data" / "contact_guides.json"
+BUYER_COMPARISONS_PATH = ROOT / "data" / "buyer_comparisons.json"
 SITE_DIR = ROOT / "site"
 TPL_DIR = ROOT / "templates"
 
@@ -303,6 +304,151 @@ def load_contact_guides() -> dict[str, Any]:
     if not CONTACT_GUIDES_PATH.exists():
         return {}
     return json.loads(CONTACT_GUIDES_PATH.read_text(encoding="utf-8"))
+
+
+def load_buyer_comparisons() -> dict[str, Any]:
+    if not BUYER_COMPARISONS_PATH.exists():
+        return {}
+    return json.loads(BUYER_COMPARISONS_PATH.read_text(encoding="utf-8"))
+
+
+def buyer_comparisons_by_provider(comparisons: dict[str, Any]) -> dict[str, list[dict[str, Any]]]:
+    out: dict[str, list[dict[str, Any]]] = defaultdict(list)
+    for block in comparisons.values():
+        for brand in block.get("brands") or []:
+            name = str(brand).strip()
+            if name:
+                out[name].append(block)
+    return out
+
+
+def buyer_comparisons_index_list_html(comparisons: dict[str, Any]) -> str:
+    rows: list[str] = []
+    for block in sorted(comparisons.values(), key=lambda b: str(b.get("title_primary") or "")):
+        slug = (block.get("slug") or "").strip().strip("/")
+        if not slug:
+            continue
+        href = page_path("guides", slug)
+        title = html.escape(str(block.get("title_primary") or slug))
+        rows.append(f'<li><a href="{html.escape(href)}">{title}</a></li>')
+    return "\n      ".join(rows) if rows else ""
+
+
+def provider_buyer_comparison_links_html(name: str, comparisons: dict[str, Any]) -> str:
+    blocks = buyer_comparisons_by_provider(comparisons).get(name) or []
+    if not blocks:
+        return ""
+    links: list[str] = []
+    for block in sorted(blocks, key=lambda b: str(b.get("title_primary") or "")):
+        slug = (block.get("slug") or "").strip().strip("/")
+        if not slug:
+            continue
+        href = page_path("guides", slug)
+        label = html.escape(str(block.get("title_primary") or slug))
+        links.append(f'<a href="{html.escape(href)}">{label}</a>')
+    if not links:
+        return ""
+    joined = " · ".join(links)
+    return f'<p class="meta provider-buyer-compare-link">Buyer comparison: {joined}</p>'
+
+
+def _buyer_compare_cell_html(cell: dict[str, Any]) -> str:
+    display = html.escape(str(cell.get("display") or "").strip())
+    captured = html.escape(str(cell.get("captured_at") or "").strip())
+    internal = str(cell.get("internal_path") or "").strip()
+    src = html.escape(str(cell.get("source_url") or "").strip())
+    label = html.escape(str(cell.get("source_label") or "Official source").strip())
+    parts = [f"<p>{display}</p>"]
+    if internal:
+        ih = html.escape(internal)
+        parts.append(
+            f'<p class="meta"><a href="{ih}">Open guide on this site</a>'
+            + (f" · Captured {captured}" if captured else "")
+            + "</p>"
+        )
+    elif src:
+        meta = f'Captured {captured} · <a href="{src}" rel="nofollow noopener">{label}</a>'
+        parts.append(f'<p class="meta">{meta}</p>')
+    elif captured:
+        parts.append(f'<p class="meta">Captured {captured}</p>')
+    return "\n".join(parts)
+
+
+def build_buyer_comparison_pages(
+    brand: str,
+    domain: str,
+    base_vars: dict[str, Any],
+    comparisons: dict[str, Any],
+    generated: str,
+) -> list[tuple[str, str]]:
+    written: list[tuple[str, str]] = []
+    for _key, block in comparisons.items():
+        slug = (block.get("slug") or "").strip().strip("/")
+        if not slug:
+            continue
+        brands = [str(b).strip() for b in (block.get("brands") or []) if str(b).strip()]
+        primary = str(block.get("title_primary") or slug).strip()
+        reviewed = html.escape(str(block.get("reviewed_at") or generated).strip())
+        lede = html.escape(
+            str(block.get("meta_description") or "").strip()
+            or "Official-brand facts only; each figure links to the page we captured it from."
+        )
+        rel_path = page_path("guides", slug)
+        header_cells = "".join(f"<th>{html.escape(b)}</th>" for b in brands)
+        comp_rows: list[str] = []
+        for dim in block.get("comparison_dimensions") or []:
+            label = html.escape(str(dim.get("label") or "").strip())
+            cells = dim.get("cells") or {}
+            tds = "".join(
+                f"<td>{_buyer_compare_cell_html(cells.get(b) or {})}</td>" for b in brands
+            )
+            comp_rows.append(f"<tr><th scope=\"row\">{label}</th>{tds}</tr>")
+        terms_sorted = sorted(
+            block.get("terms_rows") or [],
+            key=lambda r: (str(r.get("captured_at") or ""), str(r.get("brand") or "")),
+        )
+        term_rows: list[str] = []
+        for row in terms_sorted:
+            cap = html.escape(str(row.get("captured_at") or ""))
+            bname = html.escape(str(row.get("brand") or ""))
+            topic = html.escape(str(row.get("topic") or ""))
+            summary = html.escape(str(row.get("summary") or ""))
+            src = html.escape(str(row.get("source_url") or ""))
+            slabel = html.escape(str(row.get("source_label") or "Official source"))
+            src_cell = (
+                f'<a href="{src}" rel="nofollow noopener">{slabel}</a>' if src else "—"
+            )
+            term_rows.append(
+                f"<tr><td>{cap}</td><td>{bname}</td><td>{topic}</td>"
+                f"<td>{summary}</td><td>{src_cell}</td></tr>"
+            )
+        persona_parts: list[str] = []
+        for persona in block.get("personas") or []:
+            heading = html.escape(str(persona.get("heading") or "").strip())
+            body = html.escape(str(persona.get("body") or "").strip())
+            if heading and body:
+                persona_parts.append(f"<h3>{heading}</h3><p>{body}</p>")
+        page_html = render_tpl(
+            "buyer_comparison.html",
+            {
+                **base_vars,
+                "title": f"{primary} — {brand}",
+                "description": lede[:300],
+                "canonical": abs_url(domain, rel_path),
+                "og_title": primary,
+                "heading": html.escape(primary),
+                "lede": lede,
+                "crumb_title": html.escape(primary),
+                "brand_header_cells": header_cells,
+                "comparison_rows": "\n            ".join(comp_rows) or "<tr><td colspan=\"3\">—</td></tr>",
+                "terms_rows": "\n            ".join(term_rows) or "<tr><td colspan=\"5\">—</td></tr>",
+                "persona_blocks": "\n      ".join(persona_parts),
+                "reviewed_at": reviewed,
+            },
+        )
+        write_page(rel_path, page_html)
+        written.append((rel_path, block.get("reviewed_at") or generated))
+    return written
 
 
 def cancel_guides_by_provider(guides: dict[str, Any]) -> dict[str, dict[str, Any]]:
@@ -1176,6 +1322,7 @@ def render() -> None:
     audience_guides = load_audience_guides()
     cancel_guides = load_cancel_guides()
     contact_guides = load_contact_guides()
+    buyer_comparisons = load_buyer_comparisons()
     site = cfg["site"]
     brand = site.get("brand") or data.get("brand") or "mealkitdeals"
     domain = site.get("domain") or data.get("domain") or "localhost"
@@ -1360,6 +1507,7 @@ def render() -> None:
             "json_ld": json.dumps(compare_ld, ensure_ascii=False),
             "cancel_guides_list": cancel_guides_index_list_html(cancel_guides),
             "contact_guides_list": contact_guides_index_list_html(contact_guides),
+            "buyer_comparisons_list": buyer_comparisons_index_list_html(buyer_comparisons),
         },
     )
     write_page(compare_path, compare_html)
@@ -1558,6 +1706,9 @@ def render() -> None:
                 "official": html.escape(affiliates.get(name, rows[0].get("source_url", "#") if rows else "#")),
                 "cancel_guide_link": provider_cancel_guide_link_html(name, cancel_guides),
                 "contact_guide_link": provider_contact_guide_link_html(name, contact_guides),
+                "buyer_comparison_links": provider_buyer_comparison_links_html(
+                    name, buyer_comparisons
+                ),
             },
         )
         write_page(provider_path, provider_html)
@@ -1584,6 +1735,11 @@ def render() -> None:
         brand, domain, base_vars, contact_guides, cancel_guides, generated
     ):
         sitemap_urls.append((contact_path, str(contact_lm)))
+
+    for buyer_path, buyer_lm in build_buyer_comparison_pages(
+        brand, domain, base_vars, buyer_comparisons, generated
+    ):
+        sitemap_urls.append((buyer_path, str(buyer_lm)))
 
     cutoff_meta = load_cursor_cutoff()
     cutoff_page = build_cursor_cutoff_page(

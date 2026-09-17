@@ -1,0 +1,359 @@
+{
+  "hello_fresh_vs_everyplate": {
+    "slug": "hello-fresh-vs-everyplate",
+    "title_primary": "hello fresh vs everyplate",
+    "meta_description": "Side-by-side HelloFresh and EveryPlate terms from official pages only: promos, cutoffs, cancel and support paths, with capture dates and sources.",
+    "brands": ["HelloFresh", "EveryPlate"],
+    "comparison_dimensions": [
+      {
+        "id": "first_box_promo",
+        "label": "First-box promo (official listing)",
+        "cells": {
+          "HelloFresh": {
+            "display": "Get Free Breakfast for Life + 10 Free Meals on Us! Conditions on page: For Life, on first box, One per box with active subscription.",
+            "source_url": "https://www.hellofresh.com/eat/coupon-codes-and-promotions",
+            "source_label": "HelloFresh coupon codes & promotions",
+            "captured_at": "2026-09-17"
+          },
+          "EveryPlate": {
+            "display": "Get $2.99/Meal on Your First Box + Free Lunch for a Month on Us! (also lists 10% off terms for boxes 2–5 on the same page).",
+            "source_url": "https://www.everyplate.com/eat/coupon-codes-and-promotions",
+            "source_label": "EveryPlate coupon codes & promotions",
+            "captured_at": "2026-09-17"
+          }
+        }
+      },
+      {
+        "id": "new_customer_restrictions",
+        "label": "New-customer / voucher restrictions",
+        "cells": {
+          "HelloFresh": {
+            "display": "Vouchers are only for first-time users of HelloFresh, unless the Voucher states otherwise.",
+            "source_url": "https://www.hellofresh.com/about/termsandconditions",
+            "source_label": "HelloFresh Terms — Section 9 (Vouchers)",
+            "captured_at": "2026-09-17"
+          },
+          "EveryPlate": {
+            "display": "Vouchers are only for first-time users of EveryPlate, unless the Voucher states otherwise.",
+            "source_url": "https://www.everyplate.com/terms",
+            "source_label": "EveryPlate Terms — Section 9 (Vouchers)",
+            "captured_at": "2026-09-17"
+          }
+        }
+      },
+      {
+        "id": "weekly_cutoff",
+        "label": "Weekly change / cancel cutoff",
+        "cells": {
+          "HelloFresh": {
+            "display": "Pause/cancel by 11:59 pm PST 5 days prior to your next scheduled delivery (FAQ). Account changes must be before the day and time listed on My Menu (Terms §10.3).",
+            "source_url": "https://www.hellofresh.com/about/faq",
+            "source_label": "HelloFresh FAQ — cancel / skip timing",
+            "captured_at": "2026-09-17"
+          },
+          "EveryPlate": {
+            "display": "All changes (skip, meals, plan, cancel) must be made 5 days before delivery by 11:59 PM ET. Cancel before weekly cutoff (5 days before delivery) to avoid charge for a prepared box.",
+            "source_url": "https://www.everyplate.com/about/faq",
+            "source_label": "EveryPlate FAQ — cutoff & cancellation",
+            "captured_at": "2026-09-17"
+          }
+        }
+      },
+      {
+        "id": "cancel_path",
+        "label": "Cancel path (this site → official steps)",
+        "cells": {
+          "HelloFresh": {
+            "display": "See our HelloFresh cancellation guide (Account Settings / FAQ flow; sources linked there).",
+            "internal_path": "/guides/how-to-cancel-hellofresh/",
+            "captured_at": "2026-09-17"
+          },
+          "EveryPlate": {
+            "display": "See our EveryPlate cancellation guide (Account Settings → Manage; sources linked there).",
+            "internal_path": "/guides/cancel-everyplate/",
+            "captured_at": "2026-09-17"
+          }
+        }
+      },
+      {
+        "id": "customer_service_path",
+        "label": "Customer service path (this site → official contacts)",
+        "cells": {
+          "HelloFresh": {
+            "display": "See our HelloFresh customer service guide (phone/chat paths quoted from hellofresh.com/contact-us).",
+            "internal_path": "/guides/hello-fresh-customer-service/",
+            "captured_at": "2026-09-17"
+          },
+          "EveryPlate": {
+            "display": "See our EveryPlate customer service guide (phone/chat paths quoted from everyplate.com/contact).",
+            "internal_path": "/guides/everyplate-customer-service/",
+            "captured_at": "2026-09-17"
+          }
+        }
+      },
+      {
+        "id": "price_published",
+        "label": "Standard box price on official promo pages",
+        "cells": {
+          "HelloFresh": {
+            "display": "Not published — no dollar price for a standard weekly box was extracted from the official coupon/promotions page on this capture date.",
+            "source_url": "https://www.hellofresh.com/eat/coupon-codes-and-promotions",
+            "source_label": "HelloFresh coupon codes & promotions",
+            "captured_at": "2026-09-17",
+            "not_published": true
+          },
+          "EveryPlate": {
+            "display": "Published first-box headline price: $2.99/meal on your first box (USD) on the official coupon/promotions page.",
+            "source_url": "https://www.everyplate.com/eat/coupon-codes-and-promotions",
+            "source_label": "EveryPlate coupon codes & promotions",
+            "captured_at": "2026-09-17"
+          }
+        }
+      }
+    ],
+    "terms_rows": [
+      {
+        "captured_at": "2026-09-17",
+        "brand": "HelloFresh",
+        "topic": "First-box promo",
+        "summary": "Free Breakfast for Life + 10 Free Meals on Us; conditions include on first box and one per box with active subscription.",
+        "source_url": "https://www.hellofresh.com/eat/coupon-codes-and-promotions",
+        "source_label": "HelloFresh coupon codes & promotions"
+      },
+      {
+        "captured_at": "2026-09-17",
+        "brand": "HelloFresh",
+        "topic": "Voucher eligibility",
+        "summary": "Vouchers are only for first-time users of HelloFresh, unless the Voucher states otherwise.",
+        "source_url": "https://www.hellofresh.com/about/termsandconditions",
+        "source_label": "HelloFresh Terms — Section 9"
+      },
+      {
+        "captured_at": "2026-09-17",
+        "brand": "HelloFresh",
+        "topic": "Weekly cutoff",
+        "summary": "Pause/cancel by 11:59 pm PST 5 days prior to next scheduled delivery.",
+        "source_url": "https://www.hellofresh.com/about/faq",
+        "source_label": "HelloFresh FAQ"
+      },
+      {
+        "captured_at": "2026-09-17",
+        "brand": "EveryPlate",
+        "topic": "First-box promo",
+        "summary": "$2.99/meal on first box + Free Lunch for a Month; separate 10% off line for boxes 2–5 on promotions page.",
+        "source_url": "https://www.everyplate.com/eat/coupon-codes-and-promotions",
+        "source_label": "EveryPlate coupon codes & promotions"
+      },
+      {
+        "captured_at": "2026-09-17",
+        "brand": "EveryPlate",
+        "topic": "Voucher eligibility",
+        "summary": "Vouchers are only for first-time users of EveryPlate, unless the Voucher states otherwise.",
+        "source_url": "https://www.everyplate.com/terms",
+        "source_label": "EveryPlate Terms — Section 9"
+      },
+      {
+        "captured_at": "2026-09-17",
+        "brand": "EveryPlate",
+        "topic": "Weekly cutoff",
+        "summary": "Changes must be made 5 days before delivery by 11:59 PM ET.",
+        "source_url": "https://www.everyplate.com/about/faq",
+        "source_label": "EveryPlate FAQ"
+      }
+    ],
+    "personas": [
+      {
+        "heading": "You need a published per-meal dollar headline for the first box",
+        "body": "On 2026-09-17, EveryPlate’s official coupon page published $2.99/meal on the first box; HelloFresh’s official coupon page published meal-count benefits without a per-meal dollar price on the same capture run."
+      },
+      {
+        "heading": "Your schedule depends on cutoff timezone wording",
+        "body": "HelloFresh’s FAQ uses 11:59 pm PST five days before delivery; EveryPlate’s FAQ uses 11:59 PM ET five days before delivery. Use the weekly cutoff row above and each brand’s linked official page for your delivery week."
+      },
+      {
+        "heading": "You are comparing cancel or support steps before you subscribe",
+        "body": "Use the cancel-path and customer-service rows to open this site’s guides for each brand; those pages quote only linked HelloFresh or EveryPlate official help, FAQ, or terms sources."
+      }
+    ],
+    "reviewed_at": "2026-09-17"
+  },
+  "factor_vs_cookunity": {
+    "slug": "factor-vs-cookunity",
+    "title_primary": "factor vs cookunity",
+    "meta_description": "Factor vs CookUnity from official pages only: first-box promos, cutoffs, voucher rules, cancel and support links, with capture dates.",
+    "brands": ["Factor", "CookUnity"],
+    "comparison_dimensions": [
+      {
+        "id": "first_box_promo",
+        "label": "First-box promo (official listing)",
+        "cells": {
+          "Factor": {
+            "display": "Get 50% Off + Free Breakfast for 1 Year (homepage banner). Separate line: 20% off applies to boxes 2–5.",
+            "source_url": "https://www.factor75.com/",
+            "source_label": "Factor homepage",
+            "captured_at": "2026-09-17"
+          },
+          "CookUnity": {
+            "display": "Get 50% off your first week of chef-made, ready-to-eat meals (discount landing page).",
+            "source_url": "https://www.cookunity.com/lp/cookunity-discount-code",
+            "source_label": "CookUnity discount code LP",
+            "captured_at": "2026-09-17"
+          }
+        }
+      },
+      {
+        "id": "new_customer_restrictions",
+        "label": "New-customer / voucher restrictions",
+        "cells": {
+          "Factor": {
+            "display": "Vouchers are only for first-time users of Factor, unless the Voucher states otherwise.",
+            "source_url": "https://www.factor75.com/terms",
+            "source_label": "Factor Terms — Section 9 (Vouchers)",
+            "captured_at": "2026-09-17"
+          },
+          "CookUnity": {
+            "display": "Vouchers are only for first-time users of CookUnity, unless the Voucher states otherwise. Referral credits: valid for new customers only; limited to one per household address.",
+            "source_url": "https://www.cookunity.com/terms",
+            "source_label": "CookUnity Terms — vouchers & referrals",
+            "captured_at": "2026-09-17"
+          }
+        }
+      },
+      {
+        "id": "weekly_cutoff",
+        "label": "Weekly change / cancel cutoff",
+        "cells": {
+          "Factor": {
+            "display": "Change menu, skip, or cancel before 11:59 p.m. PST 5 days prior to your next scheduled delivery.",
+            "source_url": "https://www.factor75.com/faq",
+            "source_label": "Factor FAQ — subscription flexibility",
+            "captured_at": "2026-09-17"
+          },
+          "CookUnity": {
+            "display": "Strict cutoff for modifications: four to six days before your delivery day at noon (Terms). Canceling stops future weeks but not orders already processed/billed (Help Center).",
+            "source_url": "https://www.cookunity.com/terms",
+            "source_label": "CookUnity Terms — modifications cutoff",
+            "captured_at": "2026-09-17"
+          }
+        }
+      },
+      {
+        "id": "cancel_path",
+        "label": "Cancel path (this site → official steps)",
+        "cells": {
+          "Factor": {
+            "display": "See our Factor cancellation guide (Account Settings → End Meal Subscription; sources linked there).",
+            "internal_path": "/guides/how-to-cancel-factor-meals/",
+            "captured_at": "2026-09-17"
+          },
+          "CookUnity": {
+            "display": "See our CookUnity cancellation guide (Settings → Cancel Subscription on web/app; sources linked there).",
+            "internal_path": "/guides/cancel-cookunity/",
+            "captured_at": "2026-09-17"
+          }
+        }
+      },
+      {
+        "id": "customer_service_path",
+        "label": "Customer service path (this site → official contacts)",
+        "cells": {
+          "Factor": {
+            "display": "See our Factor customer service guide (phone/chat from factor75.com/contact).",
+            "internal_path": "/guides/factor-customer-service/",
+            "captured_at": "2026-09-17"
+          },
+          "CookUnity": {
+            "display": "See our CookUnity customer service guide (Help Center paths quoted from official articles).",
+            "internal_path": "/guides/cookunity-customer-service/",
+            "captured_at": "2026-09-17"
+          }
+        }
+      },
+      {
+        "id": "price_published",
+        "label": "Standard box price on official promo pages",
+        "cells": {
+          "Factor": {
+            "display": "Not published — no dollar price for a standard weekly box was extracted from the official homepage or plans page on this capture date.",
+            "source_url": "https://www.factor75.com/plans",
+            "source_label": "Factor plans page (no price extracted)",
+            "captured_at": "2026-09-17",
+            "not_published": true
+          },
+          "CookUnity": {
+            "display": "Not published — the official discount LP states a first-week percentage off, not a post-discount dollar total for a standard box on this capture date.",
+            "source_url": "https://www.cookunity.com/lp/cookunity-discount-code",
+            "source_label": "CookUnity discount code LP",
+            "captured_at": "2026-09-17",
+            "not_published": true
+          }
+        }
+      }
+    ],
+    "terms_rows": [
+      {
+        "captured_at": "2026-09-17",
+        "brand": "Factor",
+        "topic": "First-box promo",
+        "summary": "50% off + Free Breakfast for 1 Year; 20% off applies to boxes 2–5 (homepage capture).",
+        "source_url": "https://www.factor75.com/",
+        "source_label": "Factor homepage"
+      },
+      {
+        "captured_at": "2026-09-17",
+        "brand": "Factor",
+        "topic": "Voucher eligibility",
+        "summary": "Vouchers are only for first-time users of Factor, unless the Voucher states otherwise.",
+        "source_url": "https://www.factor75.com/terms",
+        "source_label": "Factor Terms — Section 9"
+      },
+      {
+        "captured_at": "2026-09-17",
+        "brand": "Factor",
+        "topic": "Weekly cutoff",
+        "summary": "Changes/cancel before 11:59 p.m. PST 5 days prior to next scheduled delivery.",
+        "source_url": "https://www.factor75.com/faq",
+        "source_label": "Factor FAQ"
+      },
+      {
+        "captured_at": "2026-09-17",
+        "brand": "CookUnity",
+        "topic": "First-box promo",
+        "summary": "50% off your first week (discount LP).",
+        "source_url": "https://www.cookunity.com/lp/cookunity-discount-code",
+        "source_label": "CookUnity discount LP"
+      },
+      {
+        "captured_at": "2026-09-17",
+        "brand": "CookUnity",
+        "topic": "Voucher eligibility",
+        "summary": "Vouchers only for first-time users; referral credits for new customers only, one per household address.",
+        "source_url": "https://www.cookunity.com/terms",
+        "source_label": "CookUnity Terms"
+      },
+      {
+        "captured_at": "2026-09-17",
+        "brand": "CookUnity",
+        "topic": "Weekly cutoff",
+        "summary": "Modifications cutoff four to six days before delivery day at noon.",
+        "source_url": "https://www.cookunity.com/terms",
+        "source_label": "CookUnity Terms"
+      }
+    ],
+    "personas": [
+      {
+        "heading": "You want ready-to-eat meals with a published first-box percent-off banner",
+        "body": "Both brands published 50%-style first-order messaging on 2026-09-17 (Factor homepage; CookUnity discount LP). Neither published a full standard-box dollar price on those same official pages—see the price row."
+      },
+      {
+        "heading": "Cutoff rules are your deciding paperwork",
+        "body": "Factor’s FAQ states 11:59 p.m. PST five days before delivery. CookUnity’s Terms state a four-to-six-day window before delivery day at noon. Neither row replaces checking My Menu / account timing for your zip."
+      },
+      {
+        "heading": "You need chef-marketplace referral rules in writing",
+        "body": "CookUnity’s Terms publish first-time voucher language plus referral new-customer-only and one-per-household limits. Factor’s Terms publish first-time voucher language without those referral sentences on the same Section 9 capture."
+      }
+    ],
+    "reviewed_at": "2026-09-17"
+  }
+}

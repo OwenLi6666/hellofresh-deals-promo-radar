@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+$ga4_head
+  <title>$title</title>
+  <meta name="description" content="$description" />
+  <link rel="canonical" href="$canonical" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="$og_title" />
+  <meta property="og:description" content="$description" />
+  <meta property="og:url" content="$canonical" />
+  <link rel="stylesheet" href="/assets/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap nav">
+      <a class="brand" href="/">$brand</a>
+      <nav class="nav-links">$nav_links</nav>
+    </div>
+  </header>
+  <main class="wrap">
+    <p class="breadcrumbs"><a href="/">Home</a> / Guides / $crumb_title</p>
+    <section class="hero hero-provider">
+      <p class="eyebrow">Buyer comparison</p>
+      <h1>$heading</h1>
+      <p class="lede">$lede</p>
+    </section>
+    <section class="panel content-layer audience-guide buyer-comparison">
+      <h2>Comparison table (official sources only)</h2>
+      <p class="meta">Each cell shows what we captured from the brand’s own pages. Empty official fields are labeled not published.</p>
+      <div style="overflow-x:auto;">
+        <table>
+          <thead>
+            <tr><th>Dimension</th>$brand_header_cells</tr>
+          </thead>
+          <tbody>
+            $comparison_rows
+          </tbody>
+        </table>
+      </div>
+      <h2>Terms captured by date (page skeleton)</h2>
+      <p class="meta">Rows sorted by capture date, then brand. Every line links to the official page we quoted.</p>
+      <div style="overflow-x:auto;">
+        <table>
+          <thead>
+            <tr><th>Captured</th><th>Brand</th><th>Topic</th><th>Summary</th><th>Official source</th></tr>
+          </thead>
+          <tbody>
+            $terms_rows
+          </tbody>
+        </table>
+      </div>
+      <h2>Who each set of facts may fit</h2>
+      <p class="meta">No overall “winner”—only which published facts matter for different shoppers.</p>
+      $persona_blocks
+      <p class="meta">Reviewed $reviewed_at · Data quoted from linked official pages only; not published = not on the cited official page at capture time.</p>
+    </section>
+    <p class="note">$affiliate_note</p>
+  </main>
+  <footer class="site-footer">
+    <div class="wrap footer-inner">
+      <p>© $year $brand · Verified comparison from public official brand pages.</p>
+      $footer_links
+    </div>
+  </footer>
+</body>
+</html>
