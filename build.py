@@ -298,6 +298,83 @@ def load_cancel_guides() -> dict[str, Any]:
     return json.loads(CANCEL_GUIDES_PATH.read_text(encoding="utf-8"))
 
 
+def cancel_guides_by_provider(guides: dict[str, Any]) -> dict[str, dict[str, Any]]:
+    out: dict[str, dict[str, Any]] = {}
+    for block in guides.values():
+        name = (block.get("provider_name") or "").strip()
+        if name:
+            out[name] = block
+    return out
+
+
+def provider_cancel_guide_link_html(name: str, guides: dict[str, Any]) -> str:
+    block = cancel_guides_by_provider(guides).get(name)
+    if not block:
+        return ""
+    slug = (block.get("slug") or "").strip().strip("/")
+    if not slug:
+        return ""
+    href = page_path("guides", slug)
+    label = (block.get("provider_link_label") or f"See how to cancel {name}").strip()
+    return (
+        f'<p class="meta provider-cancel-link">'
+        f'<a href="{html.escape(href)}">{html.escape(label)}</a></p>'
+    )
+
+
+def cancel_guides_index_list_html(guides: dict[str, Any]) -> str:
+    rows: list[str] = []
+    for block in sorted(guides.values(), key=lambda b: str(b.get("title_primary") or "")):
+        slug = (block.get("slug") or "").strip().strip("/")
+        if not slug:
+            continue
+        href = page_path("guides", slug)
+        title = html.escape(str(block.get("title_primary") or slug))
+        rows.append(f'<li><a href="{html.escape(href)}">{title}</a></li>')
+    return "\n      ".join(rows) if rows else "<li>—</li>"
+
+
+def cancel_cluster_links_html(current_slug: str, guides: dict[str, Any]) -> str:
+    rows: list[str] = []
+    for block in sorted(guides.values(), key=lambda b: str(b.get("title_primary") or "")):
+        slug = (block.get("slug") or "").strip().strip("/")
+        if not slug or slug == current_slug:
+            continue
+        href = page_path("guides", slug)
+        title = html.escape(str(block.get("title_primary") or slug))
+        rows.append(f"<li><a href=\"{html.escape(href)}\">{title}</a></li>")
+    if not rows:
+        return ""
+    return (
+        "<h2>Other subscription cancellation guides on this site</h2>"
+        "<ul class=\"content-layer-list\">"
+        + "\n      ".join(rows)
+        + "</ul>"
+    )
+
+
+def _cancel_append_sections_html(block: dict[str, Any]) -> str:
+    parts: list[str] = []
+    for sec in block.get("append_sections") or []:
+        heading = html.escape(str(sec.get("heading") or "").strip())
+        if heading:
+            parts.append(f"<h2>{heading}</h2>")
+        phrases = sec.get("related_phrases") or []
+        if phrases:
+            parts.append('<ul class="content-layer-list">')
+            parts.extend(
+                f"<li>{html.escape(str(p).strip())}</li>" for p in phrases if str(p).strip()
+            )
+            parts.append("</ul>")
+        steps = _cancel_sourced_list_html(sec.get("steps") or [], ordered=True)
+        if steps:
+            parts.append(f'<ol class="content-layer-list cancel-steps">{steps}</ol>')
+        timing = _cancel_sourced_list_html(sec.get("timing_conditions") or [])
+        if timing:
+            parts.append(f'<ul class="content-layer-list">{timing}</ul>')
+    return "\n      ".join(parts)
+
+
 def _cancel_sourced_list_html(items: list[dict[str, Any]], *, ordered: bool = False) -> str:
     tag = "ol" if ordered else "ul"
     rows: list[str] = []
@@ -374,6 +451,8 @@ def build_cancel_guide_pages(
                 "steps": _cancel_sourced_list_html(block.get("steps") or [], ordered=True),
                 "timing": _cancel_sourced_list_html(block.get("timing_conditions") or []),
                 "app_block": app_html,
+                "append_block": _cancel_append_sections_html(block),
+                "cluster_links": cancel_cluster_links_html(slug, guides),
                 "before_links": "\n      ".join(before_rows) if before_rows else "<li>—</li>",
                 "reviewed_at": reviewed,
             },
@@ -1094,6 +1173,7 @@ def render() -> None:
             "og_title": f"Compare meal kit deals — {month}",
             "rows": "\n".join(compare_rows) or "<tr><td colspan=\"6\">No public promo offers extracted yet.</td></tr>",
             "json_ld": json.dumps(compare_ld, ensure_ascii=False),
+            "cancel_guides_list": cancel_guides_index_list_html(cancel_guides),
         },
     )
     write_page(compare_path, compare_html)
@@ -1290,6 +1370,7 @@ def render() -> None:
                 "source_section": provider_sources_html(rows),
                 "json_ld": json.dumps([product_ld, faq_ld], ensure_ascii=False),
                 "official": html.escape(affiliates.get(name, rows[0].get("source_url", "#") if rows else "#")),
+                "cancel_guide_link": provider_cancel_guide_link_html(name, cancel_guides),
             },
         )
         write_page(provider_path, provider_html)

@@ -230,6 +230,9 @@ a:hover { color: var(--accent-2); }
   margin-top: 1.25rem;
   font-weight: 600;
 }
+.provider-cancel-link {
+  margin-top: 0.75rem;
+}
 .stats {
   display: flex; gap: 1.5rem; flex-wrap: wrap; margin: 1.5rem 0 0;
   color: var(--muted); font-weight: 600;

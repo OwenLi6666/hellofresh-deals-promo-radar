@@ -1,5 +1,7 @@
 {
   "hellofresh": {
+    "provider_name": "HelloFresh",
+    "provider_link_label": "Trouble with your subscription? See how to cancel HelloFresh",
     "slug": "how-to-cancel-hellofresh",
     "title_primary": "How to Cancel Hello Fresh",
     "meta_description": "Official HelloFresh FAQ and Terms steps to cancel or pause a subscription, plus where to find cancellation in your account.",
@@ -25,9 +27,42 @@
         "source_label": "HelloFresh Terms — Section 10.3 Cancellation Procedures"
       },
       {
-        "text": "You may also cancel by contacting Customer Care at hellofresh.com/contact-us, or email hello@hellofresh.com, stating that you wish to terminate your Subscription, along with your full name and registered email address.",
+        "text": "You may also cancel by contacting Customer Care at hellofresh.com/contact-us, stating that you wish to terminate your Subscription, along with your full name and registered email address (see HelloFresh Terms for contact options).",
         "source_url": "https://www.hellofresh.com/about/termsandconditions",
         "source_label": "HelloFresh Terms — Section 10.3 Cancellation Procedures"
+      }
+    ],
+    "append_sections": [
+      {
+        "heading": "How to pause HelloFresh before you cancel",
+        "related_phrases": [
+          "how to pause hellofresh",
+          "how to pause hello fresh"
+        ],
+        "steps": [
+          {
+            "text": "Log in to your account, click on My Menu, select the delivery day of the week you'd like to skip, then click Edit Delivery, and when the banner appears, click Skip This Week.",
+            "source_url": "https://www.hellofresh.com/about/faq",
+            "source_label": "HelloFresh FAQ — How do I cancel my subscription? (skip-a-week steps)"
+          },
+          {
+            "text": "Log on to your Account page on the Site or App, select a particular week (by clicking on the delivery day highlighted) and then click on the Pause Week button.",
+            "source_url": "https://www.hellofresh.com/about/termsandconditions",
+            "source_label": "HelloFresh Terms — Section 10.4 Pausing Your Order"
+          }
+        ],
+        "timing_conditions": [
+          {
+            "text": "Just be sure to pause/cancel by 11:59 pm PST 5 days prior to your next scheduled delivery so we can alert our suppliers.",
+            "source_url": "https://www.hellofresh.com/about/faq",
+            "source_label": "HelloFresh FAQ — How do I cancel my subscription?"
+          },
+          {
+            "text": "You will not be charged for any week in which your order is paused. This action cannot be taken for any scheduled order which has already locked, pursuant to Section 10.2.",
+            "source_url": "https://www.hellofresh.com/about/termsandconditions",
+            "source_label": "HelloFresh Terms — Section 10.4 Pausing Your Order"
+          }
+        ]
       }
     ],
     "timing_conditions": [
@@ -60,6 +95,8 @@
     "reviewed_at": "2026-09-17"
   },
   "factor": {
+    "provider_name": "Factor",
+    "provider_link_label": "Trouble with your subscription? See how to cancel Factor meals",
     "slug": "how-to-cancel-factor-meals",
     "title_primary": "How to Cancel Factor Meals",
     "meta_description": "Official Factor Terms and FAQ language on canceling a meal subscription online or via Customer Care.",
@@ -82,7 +119,7 @@
         "source_label": "Factor FAQ / checkout terms excerpt on factor75.com/faq"
       },
       {
-        "text": "You may also cancel your account by contacting Customer Care at factor75.com/contact or email help@factor75.com, stating that you wish to terminate your Subscription, along with your full name and registered email address.",
+        "text": "You may also cancel your account by contacting Customer Care at factor75.com/contact, stating that you wish to terminate your Subscription, along with your full name and registered email address.",
         "source_url": "https://www.factor75.com/terms",
         "source_label": "Factor Terms — Customer Care cancellation"
       }
@@ -113,6 +150,8 @@
     "reviewed_at": "2026-09-17"
   },
   "homechef": {
+    "provider_name": "Home Chef",
+    "provider_link_label": "Trouble with your subscription? See how to cancel Home Chef",
     "slug": "how-to-cancel-home-chef",
     "title_primary": "How to Cancel Home Chef",
     "meta_description": "Steps from Home Chef’s official Help Center article on pausing/canceling a subscription, including web and mobile app paths.",
@@ -156,6 +195,8 @@
     "reviewed_at": "2026-09-17"
   },
   "everyplate": {
+    "provider_name": "EveryPlate",
+    "provider_link_label": "Trouble with your subscription? See how to cancel EveryPlate",
     "slug": "cancel-everyplate",
     "title_primary": "Cancel EveryPlate",
     "meta_description": "Official EveryPlate FAQ and Terms on subscription cancellation timing and account steps.",
@@ -195,6 +236,171 @@
       {"label": "HelloFresh", "path": "/providers/hellofresh/"},
       {"label": "Dinnerly", "path": "/providers/dinnerly/"},
       {"label": "Home Chef", "path": "/providers/home-chef/"}
+    ],
+    "reviewed_at": "2026-09-17"
+  },
+  "hungryroot": {
+    "provider_name": "Hungryroot",
+    "provider_link_label": "Trouble with your subscription? See how to cancel Hungryroot",
+    "slug": "how-to-cancel-hungryroot",
+    "title_primary": "How to Cancel Hungryroot",
+    "meta_description": "Official Hungryroot Help Center steps to cancel before your shopping window closes.",
+    "synonym_headings": [],
+    "lede": "Hungryroot’s Help Center says you can cancel before your shopping window closes using the linked cancellation flow, and you should receive a confirmation email.",
+    "steps": [
+      {
+        "text": "To cancel before your shopping window closes, follow the link on Hungryroot’s cancellation page (hungryroot.com/cancel/) to cancel your subscription.",
+        "source_url": "https://support.hungryroot.com/hc/en-us/articles/115010091108-How-do-I-cancel-my-subscription",
+        "source_label": "Hungryroot Help Center — How do I cancel my subscription?"
+      },
+      {
+        "text": "You'll get a confirmation email.",
+        "source_url": "https://support.hungryroot.com/hc/en-us/articles/115010091108-How-do-I-cancel-my-subscription",
+        "source_label": "Hungryroot Help Center"
+      }
+    ],
+    "timing_conditions": [
+      {
+        "text": "If you just need a break, you can pause for up to 8 weeks instead of canceling (see Hungryroot’s pause link on the same Help Center article).",
+        "source_url": "https://support.hungryroot.com/hc/en-us/articles/115010091108-How-do-I-cancel-my-subscription",
+        "source_label": "Hungryroot Help Center"
+      },
+      {
+        "text": "New customer? Contact us via text at 855-222-5704 before your shopping window closes.",
+        "source_url": "https://support.hungryroot.com/hc/en-us/articles/115010091108-How-do-I-cancel-my-subscription",
+        "source_label": "Hungryroot Help Center"
+      }
+    ],
+    "app_notes": null,
+    "before_cancel_links": [
+      {"label": "HelloFresh", "path": "/providers/hellofresh/"},
+      {"label": "Factor", "path": "/providers/factor/"},
+      {"label": "CookUnity", "path": "/providers/cookunity/"}
+    ],
+    "reviewed_at": "2026-09-17"
+  },
+  "cookunity": {
+    "provider_name": "CookUnity",
+    "provider_link_label": "Trouble with your subscription? See how to cancel CookUnity",
+    "slug": "cancel-cookunity",
+    "title_primary": "Cancel CookUnity",
+    "meta_description": "Official CookUnity Help Center steps to cancel from Settings on web or in the app.",
+    "synonym_headings": [],
+    "lede": "CookUnity’s Help Center publishes Settings-based cancellation on web and Account Settings in the app; confirm with the confirmation email.",
+    "steps": [
+      {
+        "text": "Log in to your CookUnity account and go to your Home Page. Click your Account icon, select Settings, scroll to Cancel Subscription, and click Cancel Subscription to open the cancellation flow.",
+        "source_url": "https://support.cookunity.com/hc/en-us/articles/45456252924827-How-do-I-cancel-my-subscription",
+        "source_label": "CookUnity Help Center — Cancel From Settings (Website)"
+      },
+      {
+        "text": "Select a reason, check the box confirming you agree with the subscription cancellation, and click Cancel my subscription to confirm.",
+        "source_url": "https://support.cookunity.com/hc/en-us/articles/45456252924827-How-do-I-cancel-my-subscription",
+        "source_label": "CookUnity Help Center — Cancel From Settings (Website)"
+      },
+      {
+        "text": "Open the CookUnity app, tap Account, tap Account Settings, scroll down and tap Cancel Subscription (this step may open a browser window), then select a reason, confirm the checkbox, and tap Cancel my subscription.",
+        "source_url": "https://support.cookunity.com/hc/en-us/articles/45456252924827-How-do-I-cancel-my-subscription",
+        "source_label": "CookUnity Help Center — Cancel From the App/Mobile Experience"
+      }
+    ],
+    "timing_conditions": [
+      {
+        "text": "Canceling your subscription stops future weeks, but it doesn't automatically cancel orders that were already processed/billed.",
+        "source_url": "https://support.cookunity.com/hc/en-us/articles/45456252924827-How-do-I-cancel-my-subscription",
+        "source_label": "CookUnity Help Center"
+      },
+      {
+        "text": "You may cancel or modify a subscription at any time online by managing your account in the app, at CookUnity.com, or by contacting CookUnity through the channels listed on their Help Center. CookUnity has a strict cutoff for modifications, four to six days before your delivery day at noon.",
+        "source_url": "https://www.cookunity.com/terms",
+        "source_label": "CookUnity Terms and Conditions"
+      }
+    ],
+    "app_notes": null,
+    "before_cancel_links": [
+      {"label": "Factor", "path": "/providers/factor/"},
+      {"label": "Home Chef", "path": "/providers/home-chef/"},
+      {"label": "HelloFresh", "path": "/providers/hellofresh/"}
+    ],
+    "reviewed_at": "2026-09-17"
+  },
+  "blueapron": {
+    "provider_name": "Blue Apron",
+    "provider_link_label": "Trouble with your subscription? See how to cancel Blue Apron",
+    "slug": "how-to-cancel-blue-apron",
+    "title_primary": "How to Cancel Blue Apron",
+    "meta_description": "Blue Apron Terms Cancellation Policy: online via Autoship or Blue Apron+ pages, or Customer Support.",
+    "synonym_headings": [],
+    "lede": "Blue Apron’s Terms say you may cancel Blue Apron subscriptions online following the “How do I cancel…” instructions on the Autoship or Blue Apron+ information pages, or by contacting Customer Support.",
+    "steps": [
+      {
+        "text": "You may cancel any of your Blue Apron subscriptions online at any time by following the instructions under the heading “How do I cancel…” in the FAQs on the Autoship information page or the Blue Apron+ information page.",
+        "source_url": "https://www.blueapron.com/pages/terms",
+        "source_label": "Blue Apron Terms — Cancellation Policy (Section 4.2)"
+      },
+      {
+        "text": "You may also cancel by contacting Customer Support as linked from Blue Apron’s Terms Cancellation Policy section.",
+        "source_url": "https://www.blueapron.com/pages/terms",
+        "source_label": "Blue Apron Terms — Cancellation Policy"
+      }
+    ],
+    "timing_conditions": [
+      {
+        "text": "To avoid being charged for the next monthly or annual period, you must cancel your Blue Apron+ subscription prior to your scheduled billing date.",
+        "source_url": "https://www.blueapron.com/pages/terms",
+        "source_label": "Blue Apron Terms — Cancellation Policy"
+      },
+      {
+        "text": "Any Autoship order(s) identified as “Processing” or “Shipped” on your Upcoming page cannot be cancelled; you will be responsible for all charges incurred with respect to those orders prior to cancellation of your Autoship subscription.",
+        "source_url": "https://www.blueapron.com/pages/terms",
+        "source_label": "Blue Apron Terms — Cancellation Policy"
+      }
+    ],
+    "app_notes": null,
+    "before_cancel_links": [
+      {"label": "HelloFresh", "path": "/providers/hellofresh/"},
+      {"label": "Home Chef", "path": "/providers/home-chef/"},
+      {"label": "Hungryroot", "path": "/providers/hungryroot/"}
+    ],
+    "reviewed_at": "2026-09-17"
+  },
+  "greenchef": {
+    "provider_name": "Green Chef",
+    "provider_link_label": "Trouble with your subscription? See how to cancel Green Chef",
+    "slug": "cancel-green-chef",
+    "title_primary": "Cancel Green Chef",
+    "meta_description": "Official Green Chef Terms section 10.3 account cancellation steps and timing on My Menu.",
+    "synonym_headings": [],
+    "lede": "Green Chef’s Terms section 10.3 describes canceling from Account Settings → Manage before the deadline on My Menu, or via Customer Care contact options on Green Chef’s site.",
+    "steps": [
+      {
+        "text": "Log on to your Account. Click on your name in the upper right-hand corner, then click Account Settings. Scroll down on the Plan settings page and click Manage (under Subscription Status section). Follow the prompt(s) for your cancellation.",
+        "source_url": "https://www.greenchef.com/terms",
+        "source_label": "Green Chef Terms — Section 10.3 Cancellation Procedures"
+      },
+      {
+        "text": "You may also cancel your Account by contacting Green Chef Customer Care using the contact options on Green Chef’s official site, stating that you wish to cancel your Subscription, along with your full name and registered email address.",
+        "source_url": "https://www.greenchef.com/terms",
+        "source_label": "Green Chef Terms — Section 10.3 Cancellation Procedures"
+      }
+    ],
+    "timing_conditions": [
+      {
+        "text": "If you wish to cancel your Account subscription and/or cancel or change an order, you must do so before the day and time listed on the My Menu page (for example, five days prior to your next scheduled delivery for a Tuesday delivery).",
+        "source_url": "https://www.greenchef.com/terms",
+        "source_label": "Green Chef Terms — Section 10.3 Cancellation Procedures"
+      },
+      {
+        "text": "If you do so after the time listed for your delivery day, you will be charged and receive your Meal Box for that week, and the cancellation will take effect for the following Delivery Week.",
+        "source_url": "https://www.greenchef.com/terms",
+        "source_label": "Green Chef Terms — Section 10.3 Cancellation Procedures"
+      }
+    ],
+    "app_notes": null,
+    "before_cancel_links": [
+      {"label": "HelloFresh", "path": "/providers/hellofresh/"},
+      {"label": "EveryPlate", "path": "/providers/everyplate/"},
+      {"label": "Sunbasket", "path": "/providers/sunbasket/"}
     ],
     "reviewed_at": "2026-09-17"
   }
